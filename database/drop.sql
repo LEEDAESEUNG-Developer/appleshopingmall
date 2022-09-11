@@ -1,0 +1,3 @@
+use appleShopingMall;
+
+show tables;

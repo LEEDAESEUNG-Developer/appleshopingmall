@@ -1,0 +1,10 @@
+# 마이바티스 사용하기 전 셋팅
+1. 라이브러리 다운로드
+2. Application.properties 마이바티스 datasource 작성
+3. mybatis configuration 생성 or application.properties 될까?
+4. mapper.xml 작성
+
+================
+
+Mapper인터페이스에 @Mapper 어노테이션을 붙이고 @Select를 사용할 경우는 사용할 수 있음.
+현재 xml 방식만 오류가 나는 상황
