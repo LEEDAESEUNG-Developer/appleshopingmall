@@ -1,6 +1,4 @@
-package com.appleshopingmall.product;
-
-import com.appleshopingmall.member.MemberEntity;
+package com.appleshopingmall.shop;
 
 import java.util.List;
 
@@ -13,6 +11,9 @@ public interface ProductService {
     ProductEntity getProduct(int productID);
 
     // 회원 번호로 카트에 담긴 제품을 가져오기
-    List<ProductEntity> findMemberProduct(Long memberID);
+    List<CartEntity> findMemberProductID(Long memberID);
+
+    // 회원 아이디로 장바구니 수량 가져옴
+    int getMemberCartCount(Long memberID);
 
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.appleshopingmall.shop.ProductMapper">
+    <resultMap id="productMapper" type="com.appleshopingmall.shop.ProductEntity">
+        <result column="product_id" property="productID"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_price" property="productPrice"/>
+        <result column="product_data" property="productData"/>
+        <result column="product_category" property="productCategory"/>
+        <result column="product_ap" property="productAP"/>
+        <result column="product_ram" property="productRam"/>
+        <result column="product_storage" property="productStorage"/>
+        <result column="product_img01" property="productImg01"/>
+        <result column="product_img02" property="productImg02"/>
+        <result column="product_img03" property="productImg03"/>
+        <result column="product_img04" property="productImg04"/>
+        <result column="product_img05" property="productImg05"/>
+    </resultMap>
+    
+    <resultMap id="cartMapper" type="com.appleshopingmall.shop.CartEntity">
+        <result column="product_id" property="productID"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_price" property="productPrice"/>
+        <result column="product_data" property="productData"/>
+        <result column="product_category" property="productCategory"/>
+        <result column="product_ap" property="productAP"/>
+        <result column="product_ram" property="productRam"/>
+        <result column="product_storage" property="productStorage"/>
+        <result column="product_img01" property="productImg01"/>
+        <result column="product_img02" property="productImg02"/>
+        <result column="product_img03" property="productImg03"/>
+        <result column="product_img04" property="productImg04"/>
+        <result column="product_img05" property="productImg05"/>
+        <result column="cart_id" property="cartID"/>
+        <result column="member_id" property="memberID"/>
+        <result column="product_count" property="productCount"/>
+    </resultMap>
+
+    <!-- 전제 제품 가져옴-->
+    <select id="getProductAll" resultMap="productMapper" resultType="com.appleshopingmall.shop.ProductEntity">
+        select * from product
+    </select>
+
+    <!-- 재품번호로 제품을 가져오기-->
+    <select id="getProduct" resultMap="productMapper" resultType="com.appleshopingmall.shop.ProductEntity">
+        select * from product where product_id = #{productID}
+    </select>
+
+    <!-- 회원 번호로 카트에 담긴 제품을 가져오기-->
+    <select id="findMemberProduct" resultMap="productMapper" resultType="com.appleshopingmall.shop.ProductEntity">
+        select * from product where product.product_id in (select product_id from product_cart where member_id = #{memberEntity.memberID})
+    </select>
+
+    
+    <!-- 카트 테이블, 제품 테이블 조인 쿼리 -->
+    <select id="findMemberProductID" resultMap="cartMapper" resultType="com.appleshopingmall.shop.ProductEntity">
+        select * from product p, product_cart c where p.product_id = c.product_id and c.member_id = #{memberID}
+    </select>
+    
+    <!-- 회원번호로 장바구니에 담긴 제품 수량 가져옴-->
+    <select id="getMemberCartCount" resultType="int">
+        select sum(product_count) from product_cart where member_id = ${memberID}
+    </select>
+</mapper>

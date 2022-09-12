@@ -1,4 +1,4 @@
-package com.appleshopingmall.product;
+package com.appleshopingmall.shop;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductEntity> findMemberProduct(Long memberID) {
-        return productMapper.findMemberProduct(memberID);
+    public List<CartEntity> findMemberProductID(Long memberID) {
+        return productMapper.findMemberProductID(memberID);
+    }
+
+    @Override
+    public int getMemberCartCount(Long memberID) {
+        return productMapper.getMemberCartCount(memberID);
     }
 }

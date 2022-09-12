@@ -1,4 +1,4 @@
-package com.appleshopingmall.product;
+package com.appleshopingmall.shop;
 
 import com.appleshopingmall.sessionUtill.SessionUtill;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("product")
+@RequestMapping("shop")
 public class ProductController {
 
     private final ProductService productService;
@@ -29,16 +29,17 @@ public class ProductController {
 
         if (SessionUtill.getSessionUtill().isSession(httpSession)) {
             url = "cart";
-            model.addAttribute("cart", (List<ProductEntity>) productService.findMemberProduct((Long)httpSession.getAttribute("memberID")));
+            model.addAttribute("cartCount", productService.getMemberCartCount((Long) httpSession.getAttribute("memberID")));
+            model.addAttribute("cart", (List<CartEntity>)productService.findMemberProductID((Long)httpSession.getAttribute("memberID")));
         }
         return url;
     }
 
     @ResponseBody
     @GetMapping("test")
-    public List<ProductEntity> test(HttpSession httpSession){
+    public List<CartEntity> test(HttpSession httpSession){
         System.out.println(httpSession.getAttribute("memberID"));
 //        return productService.getAllProduct();
-        return productService.findMemberProduct((Long) httpSession.getAttribute("memberID"));
+        return productService.findMemberProductID((Long) httpSession.getAttribute("memberID"));
     }
 }

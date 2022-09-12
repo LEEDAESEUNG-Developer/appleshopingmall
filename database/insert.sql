@@ -8,10 +8,6 @@ values ('test', '경기도 수원시', now(), 'test', '1234', '000-0000-0000');
 
 select * from member;
 
-select * from product;
-
-desc product;
-
 /* product_catagory table */
 select * from product_catagory;
 
