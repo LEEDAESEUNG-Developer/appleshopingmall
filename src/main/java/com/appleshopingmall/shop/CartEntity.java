@@ -15,10 +15,6 @@ public class CartEntity {
     private String productRam;
     private String productStorage;
     private String productImg01;
-    private String productImg02;
-    private String productImg03;
-    private String productImg04;
-    private String productImg05;
     private Long cartID;
     private Long memberID;
     private int productCount;

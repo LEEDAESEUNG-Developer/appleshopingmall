@@ -28,10 +28,6 @@
         <result column="product_ram" property="productRam"/>
         <result column="product_storage" property="productStorage"/>
         <result column="product_img01" property="productImg01"/>
-        <result column="product_img02" property="productImg02"/>
-        <result column="product_img03" property="productImg03"/>
-        <result column="product_img04" property="productImg04"/>
-        <result column="product_img05" property="productImg05"/>
         <result column="cart_id" property="cartID"/>
         <result column="member_id" property="memberID"/>
         <result column="product_count" property="productCount"/>
@@ -55,11 +51,41 @@
     
     <!-- 카트 테이블, 제품 테이블 조인 쿼리 -->
     <select id="findMemberProductID" resultMap="cartMapper" resultType="com.appleshopingmall.shop.ProductEntity">
-        select * from product p, product_cart c where p.product_id = c.product_id and c.member_id = #{memberID}
+        select p.product_id,
+               product_name,
+               product_data,
+               product_category,
+               product_ap,
+               product_ram,
+               product_storage,
+               product_img01,
+               cart_id,
+               member_id,
+               p.product_price,
+               product_count
+        from product p,
+             product_cart c
+        where p.product_id = c.product_id
+          and c.member_id = #{memberID}
     </select>
     
-    <!-- 회원번호로 장바구니에 담긴 제품 수량 가져옴-->
+    <!-- 회원번호로 장바구니에 담긴 제품 수량 가져옴 DB 함수 처리-->
     <select id="getMemberCartCount" resultType="int">
         select sum(product_count) from product_cart where member_id = ${memberID}
     </select>
+
+    <!-- 회원번호로 장바구니에 담긴 총 금액 DB 함수 처리-->
+    <select id="getCartTotalPrice" resultType="int">
+        select sum(product_price * product_count) from product_cart where member_id = ${memberID}
+    </select>
+
+    <!-- 카트 아이디로 회원 번호 가지고 오기-->
+    <select id="getMemberIDFindCardID" resultType="Long">
+        select member_id from product_cart where cart_id = #{cartID}
+    </select>
+
+    <!-- 카트 아이디로 카트 삭제 -->
+    <delete id="deleteCartID">
+        delete from product_cart where cart_id = #{cartID}
+    </delete>
 </mapper>

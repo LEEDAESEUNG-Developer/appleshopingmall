@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,10 +30,28 @@ public class ProductController {
 
         if (SessionUtill.getSessionUtill().isSession(httpSession)) {
             url = "cart";
-            model.addAttribute("cartCount", productService.getMemberCartCount((Long) httpSession.getAttribute("memberID")));
-            model.addAttribute("cart", (List<CartEntity>)productService.findMemberProductID((Long)httpSession.getAttribute("memberID")));
+            Long memberID = (Long) httpSession.getAttribute("memberID");
+
+            model.addAttribute("cartCount", productService.getMemberCartCount(memberID));
+            model.addAttribute("cartTotal", productService.getCartTotalPrice(memberID));
+            model.addAttribute("cart", productService.findMemberProductID(memberID));
         }
         return url;
+    }
+
+    /*
+    * < 카트 제품 삭제 >
+    * 1. url 파라미터로 cart_id를 가지고 온다
+    * 2. 가져온 card_id로 member_id랑 일치 한지 확인
+    * */
+
+    @GetMapping(value = "remove/{cartID}")
+    public String remove(HttpSession httpSession, @PathVariable Long cartID){
+        try {
+            if ((Long) httpSession.getAttribute("memberID") == productService.getMemberIDFindCardID(cartID)) {
+                productService.deleteCartID(cartID);
+            } } catch (NullPointerException e){ System.out.println(e.getMessage());}
+        return "redirect:/shop/cart";
     }
 
     @ResponseBody

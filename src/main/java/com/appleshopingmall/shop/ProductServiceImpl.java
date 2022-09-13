@@ -30,4 +30,19 @@ public class ProductServiceImpl implements ProductService {
     public int getMemberCartCount(Long memberID) {
         return productMapper.getMemberCartCount(memberID);
     }
+
+    @Override
+    public int getCartTotalPrice(Long memberID) {
+        return productMapper.getCartTotalPrice(memberID);
+    }
+
+    @Override
+    public Long getMemberIDFindCardID(Long cartID) {
+        return productMapper.getMemberIDFindCardID(cartID);
+    }
+
+    @Override
+    public Long deleteCartID(Long cardID) {
+        return productMapper.deleteCartID(cardID);
+    }
 }

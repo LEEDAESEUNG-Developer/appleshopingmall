@@ -43,7 +43,7 @@
                                     </p>
 
                                     <div class="m-t-sm">
-                                        <a href="#" class="text-muted"><i class="fa fa-trash"></i> Remove item</a>
+                                        <a href="#" th:href="@{/shop/remove/{cartID}(cartID=${product.cartID})}" class="text-muted"><i class="fa fa-trash"></i> 삭제</a>
                                     </div>
                                 </td>
 
@@ -74,13 +74,13 @@
         <div class="col-md-3">
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>Cart Summary</h5>
+                    <h5>장바구니</h5>
                 </div>
                 <div class="ibox-content">
                     <span>
-                        Total
+                        총 결제 금액
                     </span>
-                    <h2 class="font-bold">
+                    <h2 class="font-bold" th:text="|${#numbers.formatInteger(cartTotal, 3, 'COMMA')}₩|">
                         $390,00
                     </h2>
 
