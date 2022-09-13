@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
 
-    private final MemberMapper memberMapper;
+    private final MemberRepository memberRepository;
 
     @Override
     public MemberEntity findMember(MemberEntity memberEntity) {
-        return memberMapper.findMember(memberEntity);
+        return memberRepository.findMember(memberEntity);
     }
 }

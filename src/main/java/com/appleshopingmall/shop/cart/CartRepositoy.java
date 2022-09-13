@@ -1,18 +1,8 @@
-package com.appleshopingmall.shop;
-
-import org.apache.ibatis.annotations.Mapper;
+package com.appleshopingmall.shop.cart;
 
 import java.util.List;
 
-@Mapper
-public interface ProductMapper {
-
-    // 전체 제품 보기
-    List<ProductEntity> getProductAll();
-
-    // 제품 번호로 제품 가져오기
-    ProductEntity getProduct(int productID);
-
+public interface CartRepositoy {
     // 회원 번호로 장바구니 가지고 오기
     List<CartEntity> findMemberProductID(Long productID);
 

@@ -1,4 +1,4 @@
-package com.appleshopingmall.shop;
+package com.appleshopingmall.shop.cart;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.appleshopingmall.shop;
+package com.appleshopingmall.shop.cart;
 
 import com.appleshopingmall.sessionUtill.SessionUtill;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("shop")
-public class ProductController {
+public class CartController {
 
-    private final ProductService productService;
+    private final CartService cartService;
 
     /*
     * < 회원 카트 조회 코드 >
@@ -32,9 +32,9 @@ public class ProductController {
             url = "cart";
             Long memberID = (Long) httpSession.getAttribute("memberID");
 
-            model.addAttribute("cartCount", productService.getMemberCartCount(memberID));
-            model.addAttribute("cartTotal", productService.getCartTotalPrice(memberID));
-            model.addAttribute("cart", productService.findMemberProductID(memberID));
+            model.addAttribute("cartCount", cartService.getMemberCartCount(memberID));
+            model.addAttribute("cartTotal", cartService.getCartTotalPrice(memberID));
+            model.addAttribute("cart", cartService.findMemberProductID(memberID));
         }
         return url;
     }
@@ -48,8 +48,8 @@ public class ProductController {
     @GetMapping(value = "remove/{cartID}")
     public String remove(HttpSession httpSession, @PathVariable Long cartID){
         try {
-            if ((Long) httpSession.getAttribute("memberID") == productService.getMemberIDFindCardID(cartID)) {
-                productService.deleteCartID(cartID);
+            if ((Long) httpSession.getAttribute("memberID") == cartService.getMemberIDFindCardID(cartID)) {
+                cartService.deleteCartID(cartID);
             } } catch (NullPointerException e){ System.out.println(e.getMessage());}
         return "redirect:/shop/cart";
     }
@@ -59,6 +59,6 @@ public class ProductController {
     public List<CartEntity> test(HttpSession httpSession){
         System.out.println(httpSession.getAttribute("memberID"));
 //        return productService.getAllProduct();
-        return productService.findMemberProductID((Long) httpSession.getAttribute("memberID"));
+        return cartService.findMemberProductID((Long) httpSession.getAttribute("memberID"));
     }
 }

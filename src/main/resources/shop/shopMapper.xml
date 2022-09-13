@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.appleshopingmall.shop.ProductMapper">
+<mapper namespace="com.appleshopingmall.shop.cart.CartMapper">
     <resultMap id="productMapper" type="com.appleshopingmall.shop.ProductEntity">
         <result column="product_id" property="productID"/>
         <result column="product_name" property="productName"/>
@@ -18,7 +18,7 @@
         <result column="product_img05" property="productImg05"/>
     </resultMap>
     
-    <resultMap id="cartMapper" type="com.appleshopingmall.shop.CartEntity">
+    <resultMap id="cartMapper" type="com.appleshopingmall.shop.cart.CartEntity">
         <result column="product_id" property="productID"/>
         <result column="product_name" property="productName"/>
         <result column="product_price" property="productPrice"/>
@@ -34,23 +34,23 @@
     </resultMap>
 
     <!-- 전제 제품 가져옴-->
-    <select id="getProductAll" resultMap="productMapper" resultType="com.appleshopingmall.shop.ProductEntity">
+    <select id="getProductAll" resultMap="productMapper">
         select * from product
     </select>
 
     <!-- 재품번호로 제품을 가져오기-->
-    <select id="getProduct" resultMap="productMapper" resultType="com.appleshopingmall.shop.ProductEntity">
+    <select id="getProduct" resultMap="productMapper">
         select * from product where product_id = #{productID}
     </select>
 
     <!-- 회원 번호로 카트에 담긴 제품을 가져오기-->
-    <select id="findMemberProduct" resultMap="productMapper" resultType="com.appleshopingmall.shop.ProductEntity">
+    <select id="findMemberProduct" resultMap="productMapper">
         select * from product where product.product_id in (select product_id from product_cart where member_id = #{memberEntity.memberID})
     </select>
 
     
     <!-- 카트 테이블, 제품 테이블 조인 쿼리 -->
-    <select id="findMemberProductID" resultMap="cartMapper" resultType="com.appleshopingmall.shop.ProductEntity">
+    <select id="findMemberProductID" resultMap="cartMapper">
         select p.product_id,
                product_name,
                product_data,

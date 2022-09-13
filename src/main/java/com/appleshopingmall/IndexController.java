@@ -1,7 +1,7 @@
 package com.appleshopingmall;
 
 import com.appleshopingmall.sessionUtill.SessionUtill;
-import com.appleshopingmall.shop.ProductService;
+import com.appleshopingmall.shop.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +13,13 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class IndexController {
 
-    private final ProductService productService;
+    private final CartService cartService;
 
     @GetMapping(value = {"/"})
     public String index(HttpSession httpSession, Model model) {
 
         if(SessionUtill.getSessionUtill().isSession(httpSession)) {
-            model.addAttribute("cartCount", productService.getMemberCartCount(SessionUtill.getSessionUtill().getMemberID(httpSession)));
+            model.addAttribute("cartCount", cartService.getMemberCartCount(SessionUtill.getSessionUtill().getMemberID(httpSession)));
         }
         return "index";
     }
