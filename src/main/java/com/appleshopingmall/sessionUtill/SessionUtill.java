@@ -1,11 +1,12 @@
 package com.appleshopingmall.sessionUtill;
 
 import com.appleshopingmall.member.MemberEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpSession;
 
-@Controller
+@Component
 public class SessionUtill {
 
     private static SessionUtill sessionUtill = new SessionUtill();
@@ -24,6 +25,11 @@ public class SessionUtill {
     // 현재 접속자가 세션이 있는 사람인지?
     public boolean isSession(HttpSession httpSession) {
         return (httpSession.getAttribute("memberID") != null);
+    }
+
+    // memberID 세션을 가져옴
+    public Long getMemberID(HttpSession httpSession) {
+        return (Long)httpSession.getAttribute("memberID");
     }
 
 }
