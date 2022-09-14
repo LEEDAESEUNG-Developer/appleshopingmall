@@ -19,4 +19,5 @@ public class ProductEntity {
     private String productImg03;
     private String productImg04;
     private String productImg05;
+    private String productContentImg01;
 }

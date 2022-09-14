@@ -46,3 +46,8 @@ update product_cart set product_price = (select product.product_price from produ
 select * from product_cart;
 
 update product_cart set product_count = 1 where cart_id = 1;
+
+alter table product add product_Content_img01 varchar(50);
+alter table product add product_Color varchar(50) after product_category;
+
+alter table product drop product_Color;
