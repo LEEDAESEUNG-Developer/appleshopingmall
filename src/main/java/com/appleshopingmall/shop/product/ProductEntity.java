@@ -14,9 +14,11 @@ public class ProductEntity {
     private String productColor;
     private String productAP;
     private String productRam;
+    private String productOperatingSystem;
     private String productStorage;
     private String productImg01;
     private String productImg02;
     private String productImg03;
     private String productImg04;
+    private String productContentImg01;
 }

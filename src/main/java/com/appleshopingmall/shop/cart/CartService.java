@@ -1,7 +1,5 @@
 package com.appleshopingmall.shop.cart;
 
-import com.appleshopingmall.shop.cart.CartEntity;
-
 import java.util.List;
 
 public interface CartService {

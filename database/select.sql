@@ -19,3 +19,5 @@ alter table product_cart drop column product_price;
 
 /* 총 토탈 계산 */
 select sum(product_price * product_count) from product_cart where member_id = 2;
+
+select * from color;

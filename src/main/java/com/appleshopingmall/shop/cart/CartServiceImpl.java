@@ -1,5 +1,6 @@
 package com.appleshopingmall.shop.cart;
 
+import com.appleshopingmall.shop.product.ColorRepositoy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
 
     private final CartRepositoy cartRepositoy;
+    private final ColorRepositoy colorRepositoy;
 
     @Override
     public List<CartEntity> findMemberProductID(Long memberID) {

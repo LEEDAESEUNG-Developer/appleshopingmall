@@ -205,15 +205,20 @@ https://templatemo.com/tm-559-zay-shop
                     <div class="card">
                         <div class="card-body">
                             <h1 class="h2" th:text="${product.productName}">Active Wear</h1>
+                            <hr>
                             <p class="h3 py-2" th:text="|${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">$25.00</p>
-                            <h6>Description:</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse. Donec condimentum elementum convallis. Nunc sed orci a diam ultrices aliquet interdum quis nulla.</p>
+                            <hr>
+                            <p>
+                            <ul>
+                                <li th:text="|CPU: ${product.productAP}|">CPU</li>
+                                <li th:text="|RAM: ${product.productRam}|">RAM</li>
+                                <li th:text="|OS: ${product.productOperatingSystem}|">OS</li>
+                                <li th:text="|Storage: ${product.productStorage}|">Storage</li>
+                            </ul>
+                            </p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
-                                    <h6>Avaliable Color :</h6>
-                                </li>
-                                <li class="list-inline-item">
-                                    <p class="text-muted"><strong>White / Black</strong></p>
+                                    <span class="text-muted" th:each="productColor: ${color}" th:text="|${productColor.productColor} |"><strong>White / Black</strong></span>
                                 </li>
                             </ul>
 

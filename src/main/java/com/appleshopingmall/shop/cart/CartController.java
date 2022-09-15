@@ -35,6 +35,7 @@ public class CartController {
             model.addAttribute("cartCount", cartService.getMemberCartCount(memberID));
             model.addAttribute("cartTotal", cartService.getCartTotalPrice(memberID));
             model.addAttribute("cart", cartService.findMemberProductID(memberID));
+
         }
         return url;
     }

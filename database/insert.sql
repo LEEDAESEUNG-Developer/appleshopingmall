@@ -41,13 +41,10 @@ show tables;
 
 select * from product where product.product_id in (select product_id from product_cart where member_id = 2);
 
-update product_cart set product_price = (select product.product_price from product where product_id = 2) where cart_id = 3;
-
 select * from product_cart;
 
-update product_cart set product_count = 1 where cart_id = 1;
+insert into color(product_id, product_color) value(2,'space-gray');
 
-alter table product add product_Content_img01 varchar(50);
-alter table product add product_Color varchar(50) after product_category;
+select * from product;
 
-alter table product drop product_Color;
+select * from color;

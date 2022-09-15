@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.appleshopingmall.shop.product.ProductMapper">
-    <resultMap id="productMapper" type="com.appleshopingmall.shop.ProductEntity">
+    <resultMap id="productMapper" type="com.appleshopingmall.shop.product.ProductEntity">
         <result column="product_id" property="productID"/>
         <result column="product_name" property="productName"/>
         <result column="product_price" property="productPrice"/>
@@ -10,6 +10,7 @@
         <result column="product_category" property="productCategory"/>
         <result column="product_ap" property="productAP"/>
         <result column="product_ram" property="productRam"/>
+        <result column="product_operating_system" property="productOperatingSystem"/>
         <result column="product_storage" property="productStorage"/>
         <result column="product_img01" property="productImg01"/>
         <result column="product_img02" property="productImg02"/>
