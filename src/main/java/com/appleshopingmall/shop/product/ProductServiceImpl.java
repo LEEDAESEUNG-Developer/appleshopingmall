@@ -1,6 +1,5 @@
 package com.appleshopingmall.shop.product;
 
-import com.appleshopingmall.shop.product.ProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,6 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService{
 
     private final ProductRepositoy productRepositoy;
-    private final ColorRepositoy colorRepositoy;
 
     @Override
     public ProductEntity getProduct(int productID) {
@@ -19,7 +17,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<ColorEntity> getProductColor(Long productID) {
-        return colorRepositoy.getProductColor(productID);
+    public List<ProductEntity> getProductColor(String productName) {
+        return productRepositoy.getProductColor(productName);
     }
 }

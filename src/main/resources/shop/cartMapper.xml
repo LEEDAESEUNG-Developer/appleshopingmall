@@ -62,4 +62,14 @@
     <delete id="deleteCartID">
         delete from product_cart where cart_id = #{cartID}
     </delete>
+
+    <!-- 멤버 아이디를 기준으로 해서 제품을 담는다-->
+    <insert id="addCartProduct">
+        insert into product_cart (member_id, product_id, product_price, product_count) value (#{product.memberID},
+                                                                                              #{product.productID},
+                                                                                              (select product_price
+                                                                                               from product
+                                                                                               where product_id = #{product.productID}),
+                                                                                              #{product.productCount})
+    </insert>
 </mapper>

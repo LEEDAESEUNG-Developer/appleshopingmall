@@ -6,3 +6,9 @@ alter table product add product_Color varchar(50) after product_category;
 alter table product drop product_Color;
 
 alter table product add product_operating_system varchar(50) after product_ram;
+
+select * from product;
+
+desc product;
+
+alter table product change product_Color product_color varchar(50);

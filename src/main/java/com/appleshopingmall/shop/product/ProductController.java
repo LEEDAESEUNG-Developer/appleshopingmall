@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProductController {
 
     private final ProductRepositoy productRepositoy;
-    private final ColorRepositoy colorRepositoy;
 
     @GetMapping(value="/product/{productID}")
     public String product(@PathVariable int productID, Model model){
@@ -23,7 +22,7 @@ public class ProductController {
         ProductEntity findProduct = productRepositoy.getProduct(productID);
 
         log.debug("findProduct = " + findProduct);
-        model.addAttribute("color", colorRepositoy.getProductColor((long) productID));
+        model.addAttribute("color", productRepositoy.getProductColor(findProduct.getProductName()));
         model.addAttribute("product", findProduct);
 
         return "product";

@@ -9,4 +9,7 @@ public interface ProductRepositoy {
 
     // 제품 번호로 제품 가져오기
     ProductEntity getProduct(int productID);
+
+    // 제품번호로 색을 가져옴
+    List<ProductEntity> getProductColor(String productName);
 }
