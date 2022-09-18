@@ -204,7 +204,7 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="col-lg-7 mt-5">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="h2" th:text="${product.productName}">Active Wear</h1>
+                            <h1 class="h2" th:text="|${product.productName} - ${product.productColor}|">Active Wear</h1>
                             <hr>
                             <p class="h3 py-2" th:text="|${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">$25.00</p>
                             <hr>
@@ -218,7 +218,9 @@ https://templatemo.com/tm-559-zay-shop
                             </p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
-                                    <span class="text-muted" th:each="productColor: ${color}" th:text="|${productColor.productColor} |"><strong>White / Black</strong></span>
+                                    <a th:each="product: ${products}" href=""
+                                       th:href="@{/shop/product/{productName}/{productColor}(productName = ${product.productName}, productColor = ${product.productColor})}">
+                                        <span class="text-muted" th:text="|${product.productColor} |"><strong>White / Black</strong></span></a>
                                 </li>
                             </ul>
 

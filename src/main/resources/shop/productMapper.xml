@@ -22,17 +22,19 @@
     </resultMap>
 
     <!-- 전제 제품 가져옴 (제품)-->
-    <select id="getProductAll" resultMap="productMapper">
+    <select id="findAll" resultMap="productMapper">
         select * from product
     </select>
 
-    <!-- 재품번호로 제품을 가져오기 (제품)-->
-    <select id="getProduct" resultMap="productMapper">
-        select * from product where product_id = #{productID}
+    <!-- 재품번호로 제품 조회 가져오기 -->
+    <select id="findByProductName" resultMap="productMapper">
+        select * from product where product_name = #{productName}
     </select>
     
-    <!-- 제품번호로 색상 가져오기 -->
-    <select id="getProductColor" resultMap="productMapper">
-        select product_color from product where product_name = #{productName}
+    <!-- 제품이름, 컬러 조회 -->
+    <select id="findByProductNameAndColor" resultMap="productMapper">
+        select * from product where product_name = #{productName} and product_color = #{color}
     </select>
+
+
 </mapper>

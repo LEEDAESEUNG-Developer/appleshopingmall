@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface ProductService {
+public interface ProductRepository {
 
     // 전체 제품 보기
     List<ProductEntity> findAll();

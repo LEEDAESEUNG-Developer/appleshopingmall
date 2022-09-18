@@ -9,15 +9,21 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    private final ProductRepositoy productRepositoy;
+    private final ProductRepository productRepository;
 
     @Override
-    public ProductEntity getProduct(int productID) {
-        return productRepositoy.getProduct(productID);
+    public List<ProductEntity> findAll() {
+        return productRepository.findAll();
     }
 
     @Override
-    public List<ProductEntity> getProductColor(String productName) {
-        return productRepositoy.getProductColor(productName);
+    public List<ProductEntity> findByProductName(String productName) {
+        return productRepository.findByProductName(productName);
     }
+
+    @Override
+    public ProductEntity findByProductNameAndColor(String productName, String color) {
+        return productRepository.findByProductNameAndColor(productName, color);
+    }
+
 }
