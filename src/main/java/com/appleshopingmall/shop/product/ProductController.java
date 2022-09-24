@@ -19,40 +19,26 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @GetMapping
+    public String shop(Model model){
+        List<ProductEntity> products = productService.findByProductView();
+        List<ProductEntity> productListAll = productService.findAll();
+
+        model.addAttribute("products", products);
+        model.addAttribute("productListAll", productListAll);
+
+        return "shop";
+    }
+
     @GetMapping(value = "/product/{productName}/{productColor}")
     public String product(@PathVariable String productName, @PathVariable String productColor, Model model) {
-        log.debug("손님이 입장하였습니다.");
         ProductEntity product = productService.findByProductNameAndColor(productName, productColor);
         List<ProductEntity> products = productService.findByProductName(productName);
+
         model.addAttribute("product", product);
         model.addAttribute("products", products);
 
         return "product";
     }
 
-    /*@GetMapping(value = "/product/{productID}")
-    public String product(@PathVariable int productID, Model model) {
-        ProductEntity findProduct = productRepository.findProductID(productID);
-
-        log.debug("findProduct = " + findProduct);
-        model.addAttribute("color", productRepository.findByProductName(findProduct.getProductName()));
-        model.addAttribute("product", findProduct);
-
-        return "product";
-    }*/
-/*
-    @GetMapping(value = "/product/{productID}", params = "color")
-    public String product(@PathVariable int productID, Model model, @RequestParam("color") String color) {
-
-        log.debug("arg[0]={}, arg[1]={}", productID, color);
-
-        ProductEntity findProduct = productRepository.findByColor(productID, color);
-
-        log.debug("findProduct = " + findProduct);
-        log.debug("param = " + color);
-        model.addAttribute("color", productRepository.findByProductNameAndColor(findProduct.getProductName()));
-        model.addAttribute("product", findProduct);
-
-        return "product";
-    }*/
 }

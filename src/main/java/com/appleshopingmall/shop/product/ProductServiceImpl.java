@@ -26,4 +26,13 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findByProductNameAndColor(productName, color);
     }
 
+    @Override
+    public List<ProductEntity> findByProductColor(String productName) {
+        return productRepository.findByProductColor(productName);
+    }
+
+    @Override
+    public List<ProductEntity> findByProductView() {
+        return productRepository.findByProductView();
+    }
 }

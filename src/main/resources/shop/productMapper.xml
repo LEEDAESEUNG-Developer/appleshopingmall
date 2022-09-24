@@ -21,8 +21,18 @@
         <result column="product_Content_img01" property="productContentImg01"/>
     </resultMap>
 
-    <!-- 전제 제품 가져옴 (제품)-->
+    <!-- 제품 테이블 컬럼 전체 조회 -->
     <select id="findAll" resultMap="productMapper">
+        select * from product
+    </select>
+
+    <!-- < 제품 색상을 가져온다>
+        1. 제품 테이블에서 전체 데이터를 가져온다
+        2. shop.html 타임리프에서 product_name 속성을 가지고 데이터를 가공
+    -->
+    <!-- 제품 사이트에 적용시킬 sql -->
+    <select id="findByProductView" resultMap="productMapper">
+#         select product_name, any_value(product_price) as product_price, any_value(product_color) as product_color, any_value(product_img01) as product_img01 from product group by product_name
         select * from product
     </select>
 
@@ -31,10 +41,14 @@
         select * from product where product_name = #{productName}
     </select>
     
-    <!-- 제품이름, 컬러 조회 -->
+    <!-- 제품이름, 컬러 찾기 -->
     <select id="findByProductNameAndColor" resultMap="productMapper">
         select * from product where product_name = #{productName} and product_color = #{color}
     </select>
-
+    
+    <!-- 제품이름으로 컬러 찾기-->
+    <select id="findByProductColor" resultMap="productMapper">
+        select product_color from product where product_name = #{productName}
+    </select>
 
 </mapper>

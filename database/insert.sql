@@ -41,7 +41,16 @@ insert into product (product_name, product_price, product_data, product_category
                      product_storage, product_img01)
 value('M1 MacBook PRO', 1690000, '2020-11-10', 1, 'silver' , 'M1', '8GB', '256GB', 'm1.jpeg');
 
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
+                     product_storage, product_img01)
+    value('M2 MacBook PRO', 1690000, '2022-07-08', 1, 'mid-night' , 'M2', '8GB', '256GB', 'm1.jpeg');
+
+
+
+
 select * from product;
+
+select product_name, product_color, product_img01 from product;
 
 /* product_cart */
 insert into product_cart(member_id, product_id, product_count)
@@ -60,3 +69,5 @@ insert into color(product_id, product_color) value(2,'space-gray');
 select * from product;
 
 select * from color;
+
+select product_name, product_color, product_img01 from product where product_name = 'M1-MacBook-Pro';
