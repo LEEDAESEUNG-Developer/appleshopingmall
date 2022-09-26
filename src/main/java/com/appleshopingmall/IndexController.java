@@ -18,7 +18,7 @@ public class IndexController {
     @GetMapping(value = {"/"})
     public String index(HttpSession httpSession, Model model) {
 
-        if(SessionUtill.getSessionUtill().isSession(httpSession)) {
+        if(SessionUtill.getSessionUtill().hasSession(httpSession)) {
             model.addAttribute("cartCount", cartService.getMemberCartCount(SessionUtill.getSessionUtill().getMemberID(httpSession)));
         }
         return "index";

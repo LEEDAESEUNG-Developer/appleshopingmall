@@ -30,7 +30,7 @@ public class CartController {
     public String cart(HttpSession httpSession, Model model) {
         String url = "redirect:/member/login";
 
-        if (SessionUtill.getSessionUtill().isSession(httpSession)) {
+        if (SessionUtill.getSessionUtill().hasSession(httpSession)) {
             url = "cart";
             Long memberID = (Long) httpSession.getAttribute("memberID");
 
@@ -48,6 +48,10 @@ public class CartController {
      * */
     @PostMapping("add/{productName}/{productColor}")
     public String addCart(@PathVariable String productName, @PathVariable String productColor, CartEntity cart, HttpSession httpSession) {
+        String url = "redirect:/shop";
+
+        if(!SessionUtill.getSessionUtill().hasSession(httpSession)) url = "redirect:/member/login";
+
         ProductEntity findProduct = productService.findByProductNameAndColor(productName, productColor);
 
         cart.setMemberID((Long)httpSession.getAttribute("memberID"));
@@ -57,7 +61,7 @@ public class CartController {
         log.debug("cart = {}", cart);
 
         cartService.addCartByMemberId(cart);
-        return "redirect:/shop";
+        return url;
     }
 
     /*
