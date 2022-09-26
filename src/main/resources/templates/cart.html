@@ -146,7 +146,7 @@
                                 </td>
                                 <td class="desc">
                                     <h3>
-                                        <a href="#" class="text-navy" th:text="${product.productName}">
+                                        <a th:href="@{/shop/product/{productName}/{productColor}(productName=${product.productName},productColor=${product.productColor})}" class="text-navy" th:text="${product.productName}">
                                             Desktop publishing software
                                         </a>
                                     </h3>

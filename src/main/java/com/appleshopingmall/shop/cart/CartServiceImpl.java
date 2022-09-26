@@ -17,12 +17,17 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public int getMemberCartCount(Long memberID) {
+    public int addCartByMemberId(CartEntity cartEntity) {
+        return cartRepositoy.addCartByMemberId(cartEntity);
+    }
+
+    @Override
+    public Integer getMemberCartCount(Long memberID) {
         return cartRepositoy.getMemberCartCount(memberID);
     }
 
     @Override
-    public int getCartTotalPrice(Long memberID) {
+    public Integer getCartTotalPrice(Long memberID) {
         return cartRepositoy.getCartTotalPrice(memberID);
     }
 

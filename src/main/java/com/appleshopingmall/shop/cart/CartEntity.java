@@ -11,6 +11,7 @@ public class CartEntity {
     private long productPrice;
     private Timestamp productData;
     private int productCategory;
+    private String productColor;
     private String productAP;
     private String productRam;
     private String productStorage;

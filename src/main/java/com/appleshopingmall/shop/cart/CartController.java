@@ -1,23 +1,25 @@
 package com.appleshopingmall.shop.cart;
 
 import com.appleshopingmall.sessionUtill.SessionUtill;
+import com.appleshopingmall.shop.product.ProductEntity;
+import com.appleshopingmall.shop.product.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("shop")
 public class CartController {
 
     private final CartService cartService;
+    private final ProductService productService;
 
     /*
     * < 회원 카트 조회 코드 >
@@ -41,17 +43,38 @@ public class CartController {
     }
 
     /*
-    * < 카트 제품 삭제 >
-    * 1. url 파라미터로 cart_id를 가지고 온다
-    * 2. 가져온 card_id로 member_id랑 일치 한지 확인
-    * */
+     * < 카트 담기 >
+     * 1. 세션의 값을 가지고 카트에 담기
+     * */
+    @PostMapping("add/{productName}/{productColor}")
+    public String addCart(@PathVariable String productName, @PathVariable String productColor, CartEntity cart, HttpSession httpSession) {
+        ProductEntity findProduct = productService.findByProductNameAndColor(productName, productColor);
+
+        cart.setMemberID((Long)httpSession.getAttribute("memberID"));
+        cart.setProductID(findProduct.getProductID());
+        cart.setProductPrice(findProduct.getProductPrice());
+
+        log.debug("cart = {}", cart);
+
+        cartService.addCartByMemberId(cart);
+        return "redirect:/shop";
+    }
+
+    /*
+     * < 카트 제품 삭제 >
+     * 1. url 파라미터로 cart_id를 가지고 온다
+     * 2. 가져온 card_id로 member_id랑 일치 한지 확인
+     * */
 
     @GetMapping(value = "remove/{cartID}")
-    public String remove(HttpSession httpSession, @PathVariable Long cartID){
+    public String remove(HttpSession httpSession, @PathVariable Long cartID) {
         try {
             if ((Long) httpSession.getAttribute("memberID") == cartService.getMemberIDFindCardID(cartID)) {
                 cartService.deleteCartID(cartID);
-            } } catch (NullPointerException e){ System.out.println(e.getMessage());}
+            }
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
         return "redirect:/shop/cart";
     }
 
