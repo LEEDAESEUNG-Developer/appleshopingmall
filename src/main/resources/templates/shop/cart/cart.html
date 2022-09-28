@@ -141,7 +141,7 @@
                             <tr>
                                 <td width="90">
                                     <div class="cart-product-imitation">
-                                        <img src="/product_images/test.png" th:src="@{/product_images/}+${product.productImg01}"  alt="제품이미지" width="80" height="80">
+                                        <img src="/product_images/test.png" th:src="@{/product_images}+${product.productImg01}" alt="제품이미지" width="80" height="80">
                                     </div>
                                 </td>
                                 <td class="desc">
@@ -179,7 +179,7 @@
                 </div>
                 <div class="ibox-content">
                     <button class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout</button>
-                    <button class="btn btn-white"><i class="fa fa-arrow-left"></i> <a href="/"> Continue shopping</a></button>
+                    <button class="btn btn-white"><i class="fa fa-arrow-left"></i> <a href="/static"> Continue shopping</a></button>
                 </div>
             </div>
 
