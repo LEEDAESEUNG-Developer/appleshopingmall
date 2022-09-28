@@ -1,9 +1,12 @@
 package com.appleshopingmall.shop.cart;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Mapper
 public interface CartRepositoy {
     // 회원 번호로 장바구니 가지고 오기
     List<CartEntity> findMemberProductID(Long productID);

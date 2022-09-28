@@ -1,5 +1,6 @@
 package com.appleshopingmall.shop.cart;
 
+import com.appleshopingmall.SideBar;
 import com.appleshopingmall.sessionUtill.SessionUtill;
 import com.appleshopingmall.shop.product.ProductEntity;
 import com.appleshopingmall.shop.product.ProductService;
@@ -32,11 +33,11 @@ public class CartController {
 
         if (SessionUtill.getSessionUtill().hasSession(httpSession)) {
             url = "cart";
-            Long memberID = (Long) httpSession.getAttribute("memberID");
+            Long memberId = (Long) httpSession.getAttribute("memberID");
 
-            model.addAttribute("cartCount", cartService.getMemberCartCount(memberID));
-            model.addAttribute("cartTotal", cartService.getCartTotalPrice(memberID));
-            model.addAttribute("cart", cartService.findMemberProductID(memberID));
+            SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
+            model.addAttribute("cartTotal", cartService.getCartTotalPrice(memberId));
+            model.addAttribute("cart", cartService.findMemberProductID(memberId));
 
         }
         return url;

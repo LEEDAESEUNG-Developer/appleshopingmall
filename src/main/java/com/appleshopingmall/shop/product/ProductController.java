@@ -1,5 +1,7 @@
 package com.appleshopingmall.shop.product;
 
+import com.appleshopingmall.SideBar;
+import com.appleshopingmall.shop.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -7,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j
@@ -18,11 +20,19 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final CartService cartService;
+
 
     @GetMapping
-    public String shop(Model model){
+    public String shop(Model model, HttpSession httpSession){
+
         List<ProductEntity> products = productService.findByProductView();
         List<ProductEntity> productListAll = productService.findAll();
+
+        Long memberId = (Long) httpSession.getAttribute("memberID");
+
+        SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
+
 
         model.addAttribute("products", products);
         model.addAttribute("productListAll", productListAll);

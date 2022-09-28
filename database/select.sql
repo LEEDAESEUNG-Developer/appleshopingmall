@@ -23,3 +23,5 @@ select sum(product_price * product_count) from product_cart where member_id = 2;
 select * from color;
 
 select * from product;
+
+select * from member;
