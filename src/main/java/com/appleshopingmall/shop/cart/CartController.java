@@ -32,7 +32,7 @@ public class CartController {
         String url = "redirect:/member/login";
 
         if (SessionUtill.getSessionUtill().hasSession(httpSession)) {
-            url = "cart";
+            url = "/shop/cart/cart";
             Long memberId = (Long) httpSession.getAttribute("memberID");
 
             SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);

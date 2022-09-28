@@ -75,7 +75,7 @@
                         <li class="dropwon-item">
                             <a class="text-decoration-none" href="/member/logout"
                                th:if="${session.memberID} != null"
-                               th:text="|${session.memberID}님 로그아웃|">로그아웃
+                               th:text="|${session.memberName}님 로그아웃|">로그아웃
                             </a>
                             <a class="text-decoration-none" href="/member/login"
                                th:if="${session.memberID} == null">로그인

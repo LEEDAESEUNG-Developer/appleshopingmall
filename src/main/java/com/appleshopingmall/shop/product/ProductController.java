@@ -37,7 +37,7 @@ public class ProductController {
         model.addAttribute("products", products);
         model.addAttribute("productListAll", productListAll);
 
-        return "shop";
+        return "/shop/product/shop";
     }
 
     @GetMapping(value = "/product/{productName}/{productColor}")
@@ -48,7 +48,7 @@ public class ProductController {
         model.addAttribute("product", product);
         model.addAttribute("products", products);
 
-        return "product";
+        return "/shop/product/product";
     }
 
 }

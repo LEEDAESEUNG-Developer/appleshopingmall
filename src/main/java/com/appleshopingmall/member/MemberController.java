@@ -18,7 +18,7 @@ public class MemberController {
     // 세션이 있으면 카트 이동, 없으면 다시 로그인 페이지
     @GetMapping("/login")
     public String login(HttpSession session) {
-        return (SessionUtill.getSessionUtill().hasSession(session) ? "redirect:/" : "login");
+        return (SessionUtill.getSessionUtill().hasSession(session) ? "redirect:/" : "/member/login");
     }
 
     @PostMapping("/login")
