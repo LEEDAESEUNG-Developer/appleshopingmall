@@ -32,16 +32,15 @@
     -->
 
     <!-- 페이징 관련 -->
-    <select id="pageCount" parameterType="com.appleshopingmall.shop.paging.PagingEntity" resultType="Integer">
+<!--    <select id="pageCount" parameterType="com.appleshopingmall.shop.paging.PagingEntity" resultType="Integer">
         select count(*) from product
-    </select>
+    </select>-->
     
     <!-- 페이징 적용시킨 제품 사이트-->
-    <select id="findByPageProductView" resultMap="productMapper">
+    <!--<select id="findByPageProductView" resultMap="productMapper">
         select * from product limit #{page.pageCount}, #{page.recordSize}
-
     </select>
-
+-->
     <!-- 제품 사이트에 적용시킬 sql -->
     <select id="findByProductView" resultMap="productMapper">
 #         select product_name, any_value(product_price) as product_price, any_value(product_color) as product_color, any_value(product_img01) as product_img01 from product group by product_name

@@ -1,6 +1,5 @@
 package com.appleshopingmall;
 
-import com.appleshopingmall.sessionUtill.SessionUtill;
 import com.appleshopingmall.shop.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

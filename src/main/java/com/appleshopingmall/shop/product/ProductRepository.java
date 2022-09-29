@@ -1,6 +1,5 @@
 package com.appleshopingmall.shop.product;
 
-import com.appleshopingmall.shop.paging.PagingEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public interface ProductRepository {
     List<ProductEntity> findByProductColor(@Param("productName") String productName);
 
     // 전채 페이지 카운팅
-    Integer pageCount(PagingEntity page);
+//    Integer pageCount(PagingEntity page);
 
-    List<ProductEntity> findByPageProductView(@Param("page") PagingEntity page);
+//    List<ProductEntity> findByPageProductView(@Param("page") PagingEntity page);
 }
