@@ -12,3 +12,6 @@ select * from product;
 desc product;
 
 alter table product change product_Color product_color varchar(50);
+
+desc member;
+alter table member change member_email member_email varchar(50) not null unique;

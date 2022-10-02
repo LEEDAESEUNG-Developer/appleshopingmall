@@ -2,18 +2,36 @@ package com.appleshopingmall.member;
 
 import com.appleshopingmall.sessionUtill.SessionUtill;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/member")
 @Controller
 public class MemberController {
 
     private final MemberService memberService;
+
+    /**
+     * 회원 가입
+     * @return
+     */
+    @GetMapping("register")
+    public String getRegister(){
+        return "/member/register";
+    }
+
+    @PostMapping("register")
+    public String postRegister(MemberEntity member){
+        log.debug("member -> {}", member);
+        memberService.addMember(member);
+        return "redirect:/member/login";
+    }
 
     // 세션이 있으면 카트 이동, 없으면 다시 로그인 페이지
     @GetMapping("/login")

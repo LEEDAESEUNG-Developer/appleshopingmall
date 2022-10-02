@@ -12,7 +12,20 @@
         <result column="member_phoneNumber" property="memberPhoneNumber"/>
     </resultMap>
 
+    <!-- 이메일, 비밀번호 로그인 -->
     <select id="findMember" resultMap="memberEntity">
         select * from member where member_email = #{member.memberEmail} and member_pwd = #{member.memberPwd}
     </select>
+
+    <!-- 회원가입 -->
+    <insert id="addMember">
+        insert member(member_firstname, member_address, member_birthday, member_email, member_pwd, member_phoneNumber)
+            value (#{member.memberFirstname}, #{member.memberAddress}, #{member.memberBirthday}, #{member.memberEmail},
+                   #{member.memberPwd}, #{member.memberPhoneNumber})
+    </insert>
+    
+    <!-- 회원 탈퇴 -->
+    <delete id="deleteMember">
+        delete from member where member_email = #{member.memberEmail} and member_pwd = #{member.memberPwd}
+    </delete>
 </mapper>
