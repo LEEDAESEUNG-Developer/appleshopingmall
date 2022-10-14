@@ -22,6 +22,9 @@ public interface ProductRepository {
     // 제품이름으로 색상을 조회
     List<ProductEntity> findByProductColor(@Param("productName") String productName);
 
+    // 제품번호로 제품 가져오기
+    ProductEntity findByProductNumber(@Param("productNumber") int productNumber);
+
     // 전채 페이지 카운팅
 //    Integer pageCount(PagingEntity page);
 

@@ -24,4 +24,15 @@ select * from color;
 
 select * from product;
 
+select product_name, product_color, product_stock from product;
+
 select * from member;
+
+select * from order_number order by order_date desc;
+select * from order_tbl;
+select * from order_number;
+select * from product_cart;
+
+select * from member;
+
+select * from order_tbl where order_tbl_id = 13 and member_id = 2;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.appleshopingmall.member.MemberMapper">
+    <resultMap id="memberEntity" type="com.appleshopingmall.member.MemberEntity">
+        <result column="member_id" property="memberID"/>
+        <result column="member_firstname" property="memberFirstname"/>
+        <result column="member_address" property="memberAddress"/>
+        <result column="member_birthday" property="memberBirthday"/>
+        <result column="member_email" property="memberEmail"/>
+        <result column="member_pwd" property="memberPwd"/>
+        <result column="member_phoneNumber" property="memberPhoneNumber"/>
+    </resultMap>
+
+    <!-- 이메일, 비밀번호 로그인 -->
+    <select id="findMember" resultMap="memberEntity">
+        select * from member where member_email = #{member.memberEmail} and member_pwd = #{member.memberPwd}
+    </select>
+
+    <!-- 회원가입 -->
+    <insert id="addMember">
+        insert member(member_firstname, member_address, member_birthday, member_email, member_pwd, member_phoneNumber)
+            value (#{member.memberFirstname}, #{member.memberAddress}, #{member.memberBirthday}, #{member.memberEmail},
+                   #{member.memberPwd}, #{member.memberPhoneNumber})
+    </insert>
+    
+    <!-- 회원 탈퇴 -->
+    <delete id="deleteMember">
+        delete from member where member_email = #{member.memberEmail} and member_pwd = #{member.memberPwd}
+    </delete>
+</mapper>

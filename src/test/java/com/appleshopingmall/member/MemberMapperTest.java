@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
-import java.sql.Timestamp;
 import java.util.Date;
+
 
 @SpringBootTest
 class MemberMapperTest {
@@ -24,7 +24,7 @@ class MemberMapperTest {
     void beforeEach(){
         member.setMemberFirstname("자바");
         member.setMemberAddress("경기도");
-        member.setMemberBirthday(new Timestamp(new Date().getTime()));
+        member.setMemberBirthday(new java.sql.Date(new Date().getTime()));
         member.setMemberEmail("java1234@naver.com");
         member.setMemberPwd("1234");
         member.setMemberPhoneNumber("010-1234-1234");

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+
+</head>
+<body>
+<!-- Header -->
+<nav th:replace="sideBar.html :: nav"></nav>
+<!-- Close Header -->
+<div class="container py-5">
+    <div class="column">
+        <th:block th:each="orderNumber : ${orderNumbers}"
+                  th:with="orderEntitys=${orderService.findByMemberIdAndOrderNumber(orderNumber.getMemberId(), orderNumber.getOrderNumberId())}">
+            <h3 th:text="${#dates.format(orderNumber.orderDate, 'yy년MM월dd일 HH시mm분')}"> 날짜</h3>
+        <div class="row">
+            <div class="col-md-4 mb-4 product-wap rounded-0"
+                 th:each="orderEntity: ${orderEntitys}"
+                 th:with="product=${productService.findByProductNumber(orderEntity.getProductId())}"
+                 >
+                <div class="card rounded-0">
+                    <img class="card-img rounded-0 img-fluid" src="/assets/img/shop_01.jpg" th:src="@{/product_images} + ${product.productImg01}" th:width="100px" th:height="100px">
+                </div>
+                <div class="card-body">
+<!--                    <a href="/shop-single.html" class="h3 text-decoration-none" th:text="${productService.findByProductNumber(orderEntitys.getProductId()).getProductName()}">Oupidatat non</a>-->
+                    <br>
+                    <p th:text="|제품이름: ${product.productName}|">제품이름: 맥북</p>
+                    <p th:text="|색상: ${product.productColor}|">색상: 스페이스 그레이</p>
+                    <button><a href="#" th:href="@{/shop/order/{orderNumber}(orderNumber = ${orderEntity.orderId})}" class="text-decoration-none">제품 상세보기</a></button>
+                </div>
+            </div>
+            <br>
+        </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

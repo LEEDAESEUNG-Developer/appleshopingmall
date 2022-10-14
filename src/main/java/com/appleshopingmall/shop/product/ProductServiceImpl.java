@@ -35,4 +35,9 @@ public class ProductServiceImpl implements ProductService{
     public List<ProductEntity> findByProductView() {
         return productRepository.findByProductView();
     }
+
+    @Override
+    public ProductEntity findByProductNumber(int productNumber) {
+        return productRepository.findByProductNumber(productNumber);
+    }
 }

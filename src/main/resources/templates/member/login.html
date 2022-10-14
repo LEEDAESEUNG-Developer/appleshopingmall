@@ -38,10 +38,10 @@
                 <div class="login-wrap p-4 p-md-5">
                     <form class="login-form" action="/member/login" method="post">
                         <div class="form-group">
-                            <input type="text" class="form-control rounded-left" placeholder="Email" name="memberEmail" required>
+                            <input type="text" class="form-control rounded-left" placeholder="Email" name="memberEmail" th:value="test" required>
                         </div>
                         <div class="form-group d-flex">
-                            <input type="password" class="form-control rounded-left" placeholder="Password" name="memberPwd" required>
+                            <input type="password" class="form-control rounded-left" placeholder="Password" name="memberPwd" th:value="1234" required>
                         </div>
                         <div class="form-group d-md-flex">
                             <div class="w-50">

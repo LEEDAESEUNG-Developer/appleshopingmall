@@ -71,3 +71,45 @@ select * from product;
 select * from color;
 
 select product_name, product_color, product_img01 from product where product_name = 'M1-MacBook-Pro';
+
+/* 주문 테이블 */
+insert into order_tbl(order_member_id, cart_id, check_stock, check_shipment) value (2, 27, false, false);
+insert into order_tbl(order_member_id, cart_id, check_stock, check_shipment) value (2, 27, false, false);
+
+insert into order_tbl(order_tbl_id, product_id, product_count, product_price, check_stock, check_shipment, address)
+    VALUE (
+    (select order_number_id from order_number where order_date = (select max(order_date) from order_number group by member_id) and member_id = 2),
+           1, 1, (select product_price from product where product.product_id = 1), false, false, '경기도');
+select * from order_tbl;
+
+
+/* 주문 번호 테이블 */
+insert into order_number(member_id) value (2);
+select * from order_number;
+
+/*
+주문번호 프로세스
+1. order_number 테이블 데이터 생성
+2. 생성된 데이터를 가지고 order_tbl에 데이터 저장
+*/
+insert into order_number(member_id) value (2);
+insert into order_tbl(order_tbl_id, member_id, product_id, product_count, product_price, check_stock, check_shipment, address)
+    VALUE (
+           (select order_number_id from order_number where order_date = (select max(order_date) from order_number group by member_id) and member_id = 2),
+           2, 1, 6, (select product_price from product where product.product_id = 1), false, false, '경기도');
+select * from order_number;
+select * from order_tbl;
+
+/*
+< order_number_id를 최신 값을 가져오기 >
+1. order_date 최신 값으로 가져오기
+*/
+select max(order_date) from order_number group by member_id = 2;
+
+select * from order_number;
+/* 최근 날짜로 주문번호를 가지고 옴 */
+select order_number_id from order_number where order_date = (select max(order_date) from order_number group by member_id) and member_id = 2;
+
+
+select * from order_tbl;
+select (product_count * product_price) as '결제해야 할 금액' from order_tbl where order_tbl_id = 2;

@@ -47,7 +47,7 @@
         select * from product
     </select>
 
-    <!-- 재품번호로 제품 조회 가져오기 -->
+    <!-- 재품이름로 제품 조회 가져오기 -->
     <select id="findByProductName" resultMap="productMapper">
         select * from product where product_name = #{productName}
     </select>
@@ -61,5 +61,11 @@
     <select id="findByProductColor" resultMap="productMapper">
         select product_color from product where product_name = #{productName}
     </select>
+
+    <!-- 제품번호로 제품 가져오기 -->
+    <select id="findByProductNumber" resultMap="productMapper">
+        select * from product where product_id = #{productNumber}
+    </select>
+    
 
 </mapper>

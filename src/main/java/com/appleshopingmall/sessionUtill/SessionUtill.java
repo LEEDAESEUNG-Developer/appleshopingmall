@@ -24,7 +24,7 @@ public class SessionUtill {
 
     // 현재 접속자가 세션이 있는 사람이면 true, 없으면 false
     public boolean hasSession(HttpSession httpSession) {
-        return (httpSession.getAttribute("memberID") != null);
+        return (getMemberID(httpSession) != null);
     }
 
     // memberID 세션을 가져옴

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/templatemo.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
+
+</head>
+<body>
+<!-- Header -->
+<nav th:replace="sideBar.html :: nav"></nav>
+<!-- Close Header -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4" th:each="order : ${orders}" th:with="product=${productService.findByProductNumber(order.getProductId())}">
+            <h3 th:text="${}">날짜</h3>
+            <div class="card mb-4 product-wap rounded-0">
+                <div class="card rounded-0">
+                    <img class="card-img rounded-0 img-fluid" src="/assets/img/shop_01.jpg" th:src="@{/product_images} + ${product.productImg01}">
+                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                        <ul class="list-unstyled">
+                            <li><a class="btn btn-success text-white" href="/shop-single.html"><i
+                                    class="far fa-heart"></i></a></li>
+                            <li><a class="btn btn-success text-white mt-2" href="/shop-single.html"><i
+                                    class="far fa-eye"></i></a></li>
+                            <li><a class="btn btn-success text-white mt-2" href="/shop-single.html"><i
+                                    class="fas fa-cart-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+<!--                    <a href="/shop-single.html" class="h3 text-decoration-none" th:text="${product.productName}">Oupidatat non</a>-->
+                    <br>
+                    <p th:text="|제품이름: ${product.productName}|">제품이름: 맥북</p>
+                    <p th:text="|색상: ${product.productColor}|">색상: 스페이스 그레이</p>
+                    <button><a href="#" th:href="@{/shop/order/{orderNumber}(orderNumber = ${order.orderId})}" class="text-decoration-none">제품 상세보기</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
