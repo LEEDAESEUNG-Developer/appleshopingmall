@@ -13,7 +13,7 @@ import java.util.Date;
 
 
 @SpringBootTest
-class MemberMapperTest {
+class MemberTest {
 
     @Autowired
     MemberService memberService;
@@ -43,7 +43,7 @@ class MemberMapperTest {
     void login_O(){
         MemberEntity findMember = memberService.findMember(member);
 
-        Assertions.assertThat(member).isEqualTo(findMember);
+        Assertions.assertThat(member.getMemberFirstname()).isEqualTo(findMember.getMemberFirstname());
     }
 
     @DisplayName("중복회원_O")
@@ -55,16 +55,27 @@ class MemberMapperTest {
         });
     }
 
-    @DisplayName("회원탈퇴_O")
+    @DisplayName("회원정보 가져오기")
     @Test
     @Order(3)
-    void deleteMember_O(){
+    void findMember(){
+        MemberEntity findMember = memberService.findMember(member); // 세션아이디를 가져온다
+
+        MemberEntity findMemberId = memberService.findByMemberId(findMember.getMemberID());
+
+        Assertions.assertThat(findMemberId.getMemberFirstname()).isEqualTo(member.getMemberFirstname());
+    }
+
+    @DisplayName("회원탈퇴_O")
+    @Test
+    @Order(4)
+    void deleteMember_O() {
         Assertions.assertThat(memberService.deleteMember(member)).isEqualTo(1);
     }
 
     @DisplayName("회원탈퇴_X")
     @Test
-    @Order(4)
+    @Order(5)
     void deleteMember_X(){
         Assertions.assertThat(memberService.deleteMember(member)).isEqualTo(0);
     }

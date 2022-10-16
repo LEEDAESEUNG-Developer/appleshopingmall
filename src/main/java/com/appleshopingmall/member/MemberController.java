@@ -4,6 +4,7 @@ import com.appleshopingmall.sessionUtill.SessionUtill;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -44,6 +45,32 @@ public class MemberController {
         MemberEntity findMember = memberService.findMember(memberEntity);
         if(findMember != null) SessionUtill.getSessionUtill().addSession(session, findMember);
         return "redirect:/";
+    }
+
+    // 회원보기
+    @GetMapping
+    public String member(HttpSession httpSession, Model model) {
+        String url = "redirect:/member/login";
+        Long memberId = SessionUtill.getSessionUtill().getMemberID(httpSession);
+        if(SessionUtill.getSessionUtill().hasSession(httpSession)){
+            url = "member/memberView";
+            MemberEntity findMember = memberService.findByMemberId(memberId);
+            model.addAttribute("memberEntity", findMember);
+        }
+            return url;
+    }
+
+    // 회원수정 완료 post
+    @PostMapping("/change")
+    public String change(HttpSession httpSession, @ModelAttribute MemberEntity member) {
+        String url = "redirect:/member/login";
+        if(SessionUtill.getSessionUtill().hasSession(httpSession)){
+            url = "redirect:/";
+            Long memberID = SessionUtill.getSessionUtill().getMemberID(httpSession);
+            member.setMemberID(memberID);
+            memberService.updateMember(member);
+        }
+        return url;
     }
 
     @GetMapping("/logout")

@@ -18,8 +18,18 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public int updateMember(MemberEntity member) {
+        return memberRepository.updateMember(member);
+    }
+
+    @Override
     public MemberEntity findMember(MemberEntity memberEntity) {
         return memberRepository.findMember(memberEntity);
+    }
+
+    @Override
+    public MemberEntity findByMemberId(Long memberId) {
+        return memberRepository.findByMemberId(memberId);
     }
 
     @Override
