@@ -20,7 +20,7 @@ public class MemberController {
 
     /**
      * 회원 가입
-     * @return
+     * @return /member/login 이동
      */
     @GetMapping("register")
     public String getRegister(){
@@ -34,14 +34,18 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
-    // 세션이 있으면 카트 이동, 없으면 다시 로그인 페이지
+    /**
+     * 로그인 페이지
+     * @param session session
+     * @return 세션 없을시 /member/login, 있을시 메인 이동
+     */
     @GetMapping("/login")
-    public String login(HttpSession session) {
+    public String getLogin(HttpSession session) {
         return (SessionUtill.getSessionUtill().hasSession(session) ? "redirect:/" : "/member/login");
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute MemberEntity memberEntity, HttpSession session) {
+    public String postLogin(@ModelAttribute MemberEntity memberEntity, HttpSession session) {
         MemberEntity findMember = memberService.findMember(memberEntity);
         if(findMember != null) SessionUtill.getSessionUtill().addSession(session, findMember);
         return "redirect:/";
@@ -49,7 +53,7 @@ public class MemberController {
 
     // 회원보기
     @GetMapping
-    public String member(HttpSession httpSession, Model model) {
+    public String getMember(HttpSession httpSession, Model model) {
         String url = "redirect:/member/login";
         Long memberId = SessionUtill.getSessionUtill().getMemberID(httpSession);
         if(SessionUtill.getSessionUtill().hasSession(httpSession)){
@@ -62,7 +66,7 @@ public class MemberController {
 
     // 회원수정 완료 post
     @PostMapping("/change")
-    public String change(HttpSession httpSession, @ModelAttribute MemberEntity member) {
+    public String postChange(HttpSession httpSession, @ModelAttribute MemberEntity member) {
         String url = "redirect:/member/login";
         if(SessionUtill.getSessionUtill().hasSession(httpSession)){
             url = "redirect:/";
@@ -74,9 +78,33 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession httpSession){
+    public String getLogout(HttpSession httpSession){
         httpSession.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("/resign")
+    public String getResign(HttpSession httpSession, Model model) {
+        String url = "redirect:/";
+        if (SessionUtill.getSessionUtill().hasSession(httpSession)) {
+            Long memberID = SessionUtill.getSessionUtill().getMemberID(httpSession);
+            MemberEntity findMember = memberService.findByMemberId(memberID);
+            model.addAttribute("memberEntity", findMember);
+            url = "member/memberResign";
+        }
+        return url;
+    }
+
+    @PostMapping("/resign")
+    public String postResign(HttpSession httpSession, @ModelAttribute MemberEntity member){
+        String url = "redirect:/";
+        if (SessionUtill.getSessionUtill().hasSession(httpSession)) {
+            Long memberID = SessionUtill.getSessionUtill().getMemberID(httpSession);
+            member.setMemberID(memberID);
+            memberService.deleteMember(member);
+            url = "redirect:/member/logout";
+        }
+        return url;
     }
 
     /*
