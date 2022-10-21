@@ -3,6 +3,7 @@ package com.appleshopingmall.shop.product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -39,5 +40,15 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ProductEntity findByProductNumber(int productNumber) {
         return productRepository.findByProductNumber(productNumber);
+    }
+    @Override
+    public List<ProductEntity> findNewProduct() {
+        List<ProductEntity> products = new ArrayList<>();
+
+        products.add(productRepository.findNewMac());
+        products.add(productRepository.findNewIpad());
+        products.add(productRepository.findNewIphone());
+
+        return products;
     }
 }

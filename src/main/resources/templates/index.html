@@ -15,12 +15,20 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+
+    <style>
+        .video{
+            object-fit: cover;
+            width: 100%;
+            height: 400px;
+        }
+        .content{
+            top: -143px;
+        }
+    </style>
 <!--
-    
 TemplateMo 559 Zay Shop
-
 https://templatemo.com/tm-559-zay-shop
-
 -->
 </head>
 
@@ -58,15 +66,16 @@ https://templatemo.com/tm-559-zay-shop
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="container">
-                    <div class="row p-5">
-                        <div class="col-lg-6 mb-0 d-flex align-items-center">
-                            <video src="assets/video/appleEvent.mp4" width="1000" height="1000" autoplay muted playsinline></video>
-                            <div class="text-align-left align-self-center">
-                                <h1 class="h1">Apple 이벤트</h1>
-                                <h3 class="h2">9월 8일 새벽 2시 생중계.
-                                    apple.com 또는 Apple TV 앱에서 온라인으로 시청하세요.</h3>
-                            </div>
-                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                    <div class="row">
+<!--                        <div class="col-lg-6 mb-0 align-items-center">-->
+                        <div class="mt-4">
+                            <video src="assets/video/banner_appleEvent.mp4" class="video mt-1" autoplay muted playsinline></video>
+                            <div class="position-relative content">
+                                <h1 class="h1 text-white">Apple 이벤트</h1>
+                                <p class="text-white">
+                                    9월 8일 새벽 2시 생중계. <br>
+                                    apple.com 또는 Apple TV 앱에서 온라인으로 시청하세요.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -74,20 +83,16 @@ https://templatemo.com/tm-559-zay-shop
             </div>
             <div class="carousel-item">
                 <div class="container">
-                    <div class="row p-5">
-                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="./assets/img/banner_img_02.jpg" alt="">
-                        </div>
-                        <div class="col-lg-6 mb-0 d-flex align-items-center">
-                            <div class="text-align-left">
-                                <h1 class="h1">Proident occaecat</h1>
-                                <h3 class="h2">Aliquip ex ea commodo consequat</h3>
-                                <p>
-                                    You are permitted to use this Zay CSS template for your commercial websites. 
-                                    You are <strong>not permitted</strong> to re-distribute the template ZIP file in any kind of template collection websites.
+                    <div class="mt-4">
+                            <img class="img-fluid" src="assets/img/banner_apple_wwdc21.jpg" width="auto" height="auto" alt="apple_wwdc21">
+                            <div class="text-align-left position-relative content">
+                                <h1 class="h1 text-white">WWDC22</h1>
+                                <p class="text-white">
+                                    6월7일 새벽2시 생중계 <br>
+                                    apple.com/kr 또는 Apple TV 앱에서 온라인으로 <br>
+                                    시청하세요.
                                 </p>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -125,17 +130,17 @@ https://templatemo.com/tm-559-zay-shop
     <section class="container py-5">
         <div class="row">
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
+                <a href="#"><img src="./assets/img/mac.png" class="rounded-circle img-fluid border"></a>
                 <h5 class="text-center mt-3 mb-3">Mac</h5>
                 <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
+                <a href="#"><img src="./assets/img/ipad.jpeg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">iPad</h2>
                 <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
+                <a href="#"><img src="./assets/img/iphone.jpeg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">iPhone</h2>
                 <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
             </div>
@@ -156,31 +161,26 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-4 mb-4">
+                <div class="col-12 col-md-4 mb-4" th:each="product:${products}">
                     <div class="card h-100">
-                        <a href="shop/product/product.html">
-                            <img src="./assets/img/feature_prod_01.jpg" class="card-img-top" alt="...">
+                        <a href="shop/product/product.html" th:href="@{/shop/product/{productName}/{color}(productName = ${product.productName}, color = ${product.productColor})}">
+                            <img src="./assets/img/feature_prod_01.jpg" height="100%" th:src="@{/product_images}+${product.productImg01}" class="card-img-top" alt="제품이미지">
                         </a>
                         <div class="card-body">
                             <ul class="list-unstyled d-flex justify-content-between">
-                                <li>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-warning fa fa-star"></i>
-                                    <i class="text-muted fa fa-star"></i>
-                                    <i class="text-muted fa fa-star"></i>
-                                </li>
-                                <li class="text-muted text-right">$240.00</li>
+                                <li class="text-muted text-right" th:text="|${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">$240.00</li>
                             </ul>
-                            <a href="shop/product/product.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
-                            <p class="card-text">
+                            <a href="shop/product/product.html"
+                               class="h3 text-decoration-none text-dark"
+                               th:href="@{/shop/product/{productName}/{color}(productName = ${product.productName}, color = ${product.productColor})}" th:text="${#strings.replace(product.productName, '-', ' ')}">Gym Weight</a>
+                            <p class="card-text" th:utext="|메모리: ${product.productRam} <br> 저장소: ${product.productStorage} <br> 색상: ${product.productColor}|">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia deserunt.
                             </p>
-                            <p class="text-muted">Reviews (24)</p>
+<!--                            <p class="text-muted">Reviews (24)</p>-->
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-4 mb-4">
+                <!--<div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
                         <a href="shop/product/product.html">
                             <img src="./assets/img/feature_prod_02.jpg" class="card-img-top" alt="...">
@@ -203,8 +203,8 @@ https://templatemo.com/tm-559-zay-shop
                             <p class="text-muted">Reviews (48)</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-md-4 mb-4">
+                </div>-->
+                <!--<div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
                         <a href="shop/product/product.html">
                             <img src="./assets/img/feature_prod_03.jpg" class="card-img-top" alt="...">
@@ -227,7 +227,7 @@ https://templatemo.com/tm-559-zay-shop
                             <p class="text-muted">Reviews (74)</p>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </section>

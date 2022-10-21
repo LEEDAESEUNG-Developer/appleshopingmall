@@ -25,6 +25,23 @@ public interface ProductRepository {
     // 제품번호로 제품 가져오기
     ProductEntity findByProductNumber(@Param("productNumber") int productNumber);
 
+    /**
+     * 가장 최근에 나온 맥
+     * @return 최근에 나온 맥 제품
+     */
+    ProductEntity findNewMac();
+
+    /**
+     * 가장 최근에 나온 아이폰
+     * @return 최근에 나온 아이폰 제품
+     */
+    ProductEntity findNewIphone();
+    /**
+     * 가장 최근에 나온 아이패드
+     * @return 최근에 나온 아이패드 제품
+     */
+    ProductEntity findNewIpad();
+
     // 전채 페이지 카운팅
 //    Integer pageCount(PagingEntity page);
 

@@ -66,6 +66,21 @@
     <select id="findByProductNumber" resultMap="productMapper">
         select * from product where product_id = #{productNumber}
     </select>
+
+    <!-- 가장 최근에 나온 맥 -->
+    <select id="findNewMac" resultMap="productMapper">
+        select product_name, product_price, product_color, product_ap, product_ram, product_storage, product_img01 from product where product_category = 1 order by product_data desc limit 1
+    </select>
+
+    <!-- 가장 최근에 나온 아이폰 -->
+    <select id="findNewIphone" resultMap="productMapper">
+        select product_name, product_price, product_color, product_ap, product_ram, product_storage, product_img01 from product where product_category = 3 order by product_data desc limit 1
+    </select>
+
+    <!-- 가장 최근에 나온 아이패드 -->
+    <select id="findNewIpad" resultMap="productMapper">
+        select product_name, product_price, product_color, product_ap, product_ram, product_storage, product_img01 from product where product_category = 2 order by product_data desc limit 1
+    </select>
     
 
 </mapper>

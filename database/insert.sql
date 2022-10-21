@@ -45,6 +45,20 @@ insert into product (product_name, product_price, product_data, product_category
                      product_storage, product_img01)
     value('M2 MacBook PRO', 1690000, '2022-07-08', 1, 'mid-night' , 'M2', '8GB', '256GB', 'm1.jpeg');
 
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap,
+                     product_ram,
+                     product_storage, product_img01)
+    value ('iPhone 13 Pro', 1342000, 20211008, 3, 'sierra-blue', 'A15', 6, 128,
+           '/iPhone/13_Pro/iPhone_13_pro_sierra_blue.jpg');
+
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap,
+                     product_ram,
+                     product_storage, product_img01)
+    value ('iPad 6세대 Pro', 1729000, 20221026, 2, 'space-gray', 'm2', 8, 128,
+           '/iPad/6/ipad_6th_12.9inch_pro_space_gray.jpeg');
+
+
+
 
 
 
@@ -99,6 +113,7 @@ insert into order_tbl(order_tbl_id, member_id, product_id, product_count, produc
            2, 1, 6, (select product_price from product where product.product_id = 1), false, false, '경기도');
 select * from order_number;
 select * from order_tbl;
+
 
 /*
 < order_number_id를 최신 값을 가져오기 >

@@ -24,4 +24,8 @@ public interface ProductService {
     // 제품번호로 제품 가져오기
     ProductEntity findByProductNumber(@Param("productNumber") int productNumber);
 
+    // 신제품 가져오기
+    List<ProductEntity> findNewProduct();
+
+
 }
