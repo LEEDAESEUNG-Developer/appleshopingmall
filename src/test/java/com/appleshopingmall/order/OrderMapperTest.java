@@ -61,22 +61,14 @@ class OrderMapperTest {
     @DisplayName("주문 추가_실패")
     @Test
     void addOrder_X() {
-     /*   orderEntities.forEach(orderEntity -> {
-            orderService.addOrder(orderEntity);
-        });
-
-        List<CartEntity> findCarts = cartService.findMemberProductID(2L);
-        findCarts.forEach(findCart -> {
-            cartService.deleteCartID(findCart.getCartID());
-        });*/
-        OrderEntity order = new OrderEntity();
+/*        OrderEntity order = new OrderEntity();
         order.setMemberId(2L);
         int addOrder = orderService.addOrder(order);
 
         List<OrderEntity> findOrder = orderService.findByMemberId(2L);
         System.out.println("findOrder = " + findOrder);
 
-        Assertions.assertNotEquals(addOrder, 0);
+        Assertions.assertNotEquals(addOrder, 0);*/
     }
 
     @Order(2)

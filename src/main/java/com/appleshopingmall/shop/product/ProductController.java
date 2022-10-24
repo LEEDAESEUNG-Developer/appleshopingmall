@@ -1,6 +1,8 @@
 package com.appleshopingmall.shop.product;
 
 import com.appleshopingmall.SideBar;
+import com.appleshopingmall.paging.Criteria;
+import com.appleshopingmall.paging.PageDTO;
 import com.appleshopingmall.shop.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +27,16 @@ public class ProductController {
 
 
     @GetMapping
-    public String shop(Model model, HttpSession httpSession){
+    public String shop(Model model, HttpSession httpSession, Criteria cri){
 
-        List<ProductEntity> products = productService.findByProductView();
+//        List<ProductEntity> products = productService.findByProductView();
+        List<ProductEntity> products = productService.findByProductPaging(cri);
+        model.addAttribute("pageMaker", new PageDTO(cri, productService.count()));
+
         List<ProductEntity> productListAll = productService.findAll();
-
         Long memberId = (Long) httpSession.getAttribute("memberID");
 
         SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
-
 
         model.addAttribute("products", products);
         model.addAttribute("productListAll", productListAll);

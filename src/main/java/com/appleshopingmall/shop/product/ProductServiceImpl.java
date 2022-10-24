@@ -1,11 +1,14 @@
 package com.appleshopingmall.shop.product;
 
+import com.appleshopingmall.paging.Criteria;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -38,9 +41,21 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public List<ProductEntity> findByProductPaging(Criteria cri) {
+        log.info("get List with criteria " + cri);
+        return productRepository.getListWithPaging(cri);
+    }
+
+    @Override
     public ProductEntity findByProductNumber(int productNumber) {
         return productRepository.findByProductNumber(productNumber);
     }
+
+    @Override
+    public int count() {
+        return productRepository.count();
+    }
+
     @Override
     public List<ProductEntity> findNewProduct() {
         List<ProductEntity> products = new ArrayList<>();
@@ -51,4 +66,5 @@ public class ProductServiceImpl implements ProductService{
 
         return products;
     }
+
 }

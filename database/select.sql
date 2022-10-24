@@ -35,6 +35,8 @@ select * from product_cart;
 
 select * from member;
 
+select count(product_id) from product;
+
 select * from order_tbl where order_tbl_id = 13 and member_id = 2;
 
 select * from product order by product_data desc limit 1;

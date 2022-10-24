@@ -40,6 +40,6 @@
 
     <!-- 회원 탈퇴 -->
     <delete id="deleteMember">
-        delete from member where member_id = #{member.memberID} and member_pwd = #{member.memberPwd}
+        delete from member where member_email = #{member.memberEmail} and member_pwd = #{member.memberPwd}
     </delete>
 </mapper>

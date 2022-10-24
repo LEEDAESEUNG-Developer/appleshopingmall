@@ -81,6 +81,17 @@
     <select id="findNewIpad" resultMap="productMapper">
         select product_name, product_price, product_color, product_ap, product_ram, product_storage, product_img01 from product where product_category = 2 order by product_data desc limit 1
     </select>
+
+    <!-- 페이징 코드 -->
+    <select id="getListWithPaging" resultMap="productMapper">
+        <![CDATA[
+    select * from(select @RWONUM := @RWONUM + 1 as rnum, product_id, product_name, product_price, product_data, product_category, product_color, product_ap, product_ram, product_operating_system, product_storage, product_img01, product_stock, product_img02, product_img03, product_img04, product_img05, product_Content_img01 from product, (SELECT @RWONUM := 0 ) A ORDER BY product_id desc) result where rnum > (#{pageNum} - 1) * #{amount} limit #{amount}
+    ]]>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(product_id) cnt from product
+    </select>
     
 
 </mapper>

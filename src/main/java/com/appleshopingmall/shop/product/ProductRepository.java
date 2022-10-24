@@ -1,5 +1,6 @@
 package com.appleshopingmall.shop.product;
 
+import com.appleshopingmall.paging.Criteria;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -42,8 +43,9 @@ public interface ProductRepository {
      */
     ProductEntity findNewIpad();
 
-    // 전채 페이지 카운팅
-//    Integer pageCount(PagingEntity page);
+    // 페이징 처리 코드
+    List<ProductEntity> getListWithPaging(Criteria cri);
 
-//    List<ProductEntity> findByPageProductView(@Param("page") PagingEntity page);
+    // product 테이블 row 수
+    int count();
 }

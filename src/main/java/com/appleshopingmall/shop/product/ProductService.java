@@ -1,5 +1,6 @@
 package com.appleshopingmall.shop.product;
 
+import com.appleshopingmall.paging.Criteria;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public interface ProductService {
 
     // 제품 조회
     List<ProductEntity> findByProductView();
+    /* 페이징 코드 */
+    List<ProductEntity> findByProductPaging(Criteria cri);
 
     // 재품번호로 제품 조회 가져오기
     List<ProductEntity> findByProductName(@Param("productName") String productName);
@@ -27,5 +30,7 @@ public interface ProductService {
     // 신제품 가져오기
     List<ProductEntity> findNewProduct();
 
+    // product 테이블 row 수
+    int count();
 
 }
