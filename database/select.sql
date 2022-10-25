@@ -40,3 +40,13 @@ select count(product_id) from product;
 select * from order_tbl where order_tbl_id = 13 and member_id = 2;
 
 select * from product order by product_data desc limit 1;
+
+show tables;
+
+select * from product_catagory;
+
+select *
+from product_catagory
+where catagory_subject = 'MAC';
+
+select * from product where product_category = (select catagory_id from product_catagory where catagory_subject = 'MAC')

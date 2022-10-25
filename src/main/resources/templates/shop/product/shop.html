@@ -43,7 +43,6 @@
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
-
             <div class="col-lg-3">
                 <h1 class="h2 pb-4">Categories</h1>
                 <ul class="list-unstyled templatemo-accordion">
@@ -86,13 +85,19 @@
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="#" th:href="@{/shop(pageNum = ${pageMaker.cri.pageNum}, amount = ${pageMaker.cri.amount})}">All</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="#" th:href="@{/shop(pageNum = ${pageMaker.cri.pageNum}, amount = ${pageMaker.cri.amount}, type = 'MAC')}">Mac</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
+                                <a class="h3 text-dark text-decoration-none" href="#" th:href="@{/shop(pageNum = ${pageMaker.cri.pageNum}, amount = ${pageMaker.cri.amount}, type = 'iPhone')}">iPhone</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none" href="#" th:href="@{/shop(pageNum = ${pageMaker.cri.pageNum}, amount = ${pageMaker.cri.amount}, type = 'iPad')}">iPad</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none" href="#" th:href="@{/shop(pageNum = ${pageMaker.cri.pageNum}, amount = ${pageMaker.cri.amount}, type = 'Watch')}">Watch</a>
                             </li>
                         </ul>
                     </div>

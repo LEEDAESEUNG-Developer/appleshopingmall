@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -28,8 +29,6 @@ public class ProductController {
 
     @GetMapping
     public String shop(Model model, HttpSession httpSession, Criteria cri){
-
-//        List<ProductEntity> products = productService.findByProductView();
         List<ProductEntity> products = productService.findByProductPaging(cri);
         model.addAttribute("pageMaker", new PageDTO(cri, productService.count()));
 
