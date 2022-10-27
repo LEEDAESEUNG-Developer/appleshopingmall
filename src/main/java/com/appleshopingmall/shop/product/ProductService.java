@@ -31,6 +31,6 @@ public interface ProductService {
     List<ProductEntity> findNewProduct();
 
     // product 테이블 row 수
-    int count();
+    int count(Criteria cri);
 
 }

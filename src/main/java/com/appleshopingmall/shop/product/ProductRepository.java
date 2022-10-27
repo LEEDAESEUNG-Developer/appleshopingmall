@@ -46,6 +46,12 @@ public interface ProductRepository {
     // 페이징 처리 코드
     List<ProductEntity> getListWithPaging(Criteria cri);
 
+    // 페이징 type이 있는 경우 (Mac, iPhone, Watch) 등
+    List<ProductEntity> getListWithPagingType(Criteria cri);
+
     // product 테이블 row 수
     int count();
+
+    // product 테이블 row 수
+    int countType(Criteria cri);
 }

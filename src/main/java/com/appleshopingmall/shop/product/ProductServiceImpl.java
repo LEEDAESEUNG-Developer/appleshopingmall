@@ -43,6 +43,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public List<ProductEntity> findByProductPaging(Criteria cri) {
         log.info("get List with criteria " + cri);
+        if(cri.getType() != null) return productRepository.getListWithPagingType(cri);
         return productRepository.getListWithPaging(cri);
     }
 
@@ -52,7 +53,8 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public int count() {
+    public int count(Criteria cri) {
+        if(cri.getType() != null)  return productRepository.countType(cri);
         return productRepository.count();
     }
 
