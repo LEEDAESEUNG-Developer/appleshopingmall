@@ -54,3 +54,5 @@ select * from product where product_category = (select catagory_id from product_
 select * from product;
 
 select * from order_number;
+
+show tables;

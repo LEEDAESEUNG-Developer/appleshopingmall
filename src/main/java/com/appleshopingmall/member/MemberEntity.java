@@ -15,4 +15,5 @@ public class MemberEntity {
     private String memberEmail;
     private String memberPwd;
     private String memberPhoneNumber;
+    private String position;
 }

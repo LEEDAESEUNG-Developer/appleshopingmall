@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 @Data
 public class ProductEntity {
-    private int productID;
+    private Long productID;
     private String productName;
     private long productPrice;
     private Timestamp productData;

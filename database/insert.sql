@@ -21,6 +21,8 @@ values ('MAC'),
 /* product table */
 desc product;
 
+select * from product;
+
 insert into product (product_name, product_price, product_data, product_category, product_ap, product_ram,
                      product_storage, product_img01)
 value('M1 MacBook Air', 1390000, '2020-11-10', 1, 'M1', '8GB', '256GB', 'm1.jpeg');

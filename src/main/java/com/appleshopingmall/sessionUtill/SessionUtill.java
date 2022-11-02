@@ -18,6 +18,7 @@ public class SessionUtill {
 
     // 로그인 성공시 세션 생성
     public void addSession(HttpSession httpSession, MemberEntity member){
+        if(member.getPosition().equals("ADMIN")) httpSession.setAttribute("position", "ADMIN");
         httpSession.setAttribute("memberName", member.getMemberFirstname());
         httpSession.setAttribute("memberID", member.getMemberID());
     }

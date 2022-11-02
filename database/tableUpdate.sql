@@ -18,8 +18,10 @@ desc product;
 alter table product change product_Color product_color varchar(50);
 
 /* 회원 테이블*/
+select * from member;
 desc member;
 alter table member change member_email member_email varchar(50) not null unique;
+alter table member add position varchar(30) default 'USER';
 
 /* 주문 테이블 */
 use appleShopingMall;
