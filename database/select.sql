@@ -56,3 +56,19 @@ select * from product;
 select * from order_number;
 
 show tables;
+
+select * from product;
+
+delete
+from product
+where product_name = '제품 삭제';
+
+show table status where name = 'product';
+alter table product auto_increment = 12;
+
+select * from product_catagory;
+
+select * from order_tbl;
+select  * from order_create_number;
+
+select * from product;

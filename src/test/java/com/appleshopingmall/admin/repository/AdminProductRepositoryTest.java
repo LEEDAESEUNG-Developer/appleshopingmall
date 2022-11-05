@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -41,7 +42,7 @@ class AdminProductRepositoryTest {
         ProductEntity product = new ProductEntity();
         product.setProductName("제품 삭제");
         product.setProductPrice(0);
-        product.setProductData(new Timestamp(System.currentTimeMillis()));
+        product.setProductData(new Date(System.currentTimeMillis()));
         product.setProductCategory(1);
 
         //when
@@ -60,9 +61,12 @@ class AdminProductRepositoryTest {
 
         while (productId == null) {
             for (ProductEntity product : products) {
-                if(product.getProductName().equals("제품 삭제")) productId = product.getProductID();
+                if(product.getProductName().equals("제품 삭제")) productId = product.getProductId();
             }
-            addProduct();
+            if(productId == null) {
+                addProduct();
+                products = adminProductRepository.findProducts();
+            }
         }
 
         Integer deleteProduct = adminProductRepository.deleteProduct(productId);

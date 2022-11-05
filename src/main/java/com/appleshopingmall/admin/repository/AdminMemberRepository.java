@@ -14,5 +14,5 @@ public interface AdminMemberRepository {
     MemberEntity findMember(Long memberId);
 
     // 회원 삭제 (단일)
-    Integer deleteMember(@Param("memberId") Long memberId);
+    int deleteMember(@Param("memberId") Long memberId);
 }

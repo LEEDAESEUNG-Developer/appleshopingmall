@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragment/head_css :: head(~{::title}, ~{::style})">
+    <meta charset="UTF-8">
+    <title>회원보기</title>
+
+    <style>
+        .row{
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .masthead-text{
+            height: 300px;
+        }
+
+        .form-control{
+            height: 45px;
+        }
+
+        select:hover {
+            color: #444645;
+            background: #ddd;
+        }
+
+        .login-or {
+            position: relative;
+            font-size: 18px;
+            color: #aaa;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .span-or {
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: -2px;
+            margin-left: -25px;
+            background-color: #fff;
+            width: 50px;
+            text-align: center;
+        }
+        .hr-or {
+            background-color: #cdcdcd;
+            height: 1px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        #login-dp{
+            min-width: 250px;
+            padding: 14px 14px 0;
+            overflow:hidden;
+            background-color:rgba(255,255,255,.8);
+        }
+        #login-dp .help-block{
+            font-size:12px
+        }
+
+        #login-dp .social-buttons{
+            margin:12px 0
+        }
+        #login-dp .social-buttons a{
+            width: 49%;
+        }
+        #login-dp .form-group {
+            margin-bottom: 10px;
+        }
+        .btn-fb{
+            color: #fff;
+            background-color:#3b5998;
+        }
+        .btn-fb:hover{
+            color: #fff;
+            background-color:#496ebc
+        }
+        .btn-tw{
+            color: #fff;
+            background-color:#55acee;
+        }
+        .btn-tw:hover{
+            color: #fff;
+            background-color:#59b5fa;
+        }
+        @media(max-width:768px){
+            #login-dp{
+                background-color: inherit;
+                color: #fff;
+            }
+            #login-dp .bottom{
+                background-color: inherit;
+                border-top:0 none;
+            }
+        }
+
+        .progress {
+            height: 5px;
+        }
+
+        .block-help {
+            font-weight: 300;
+        }
+
+        .hide {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <nav th:replace="admin/fragment/admin_sidebar :: sidebar()"></nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-5">
+                <div class="card cardbox">
+                    <div class="card-header">회원 수정</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <form id="login-nav" th:object="${member}" action="/member/change" method="post" role="form" class="form" accept-charset="UTF-8">
+                                <div class="form-group">
+                                    <label for="memberFirstname">이름</label>
+                                    <input type="text" id="memberFirstname" class="form-control" th:field="*{memberFirstname}" readonly>
+                                </div>
+
+                                <!-- password group -->
+                                <div class="form-group">
+                                    <!-- password label -->
+                                    <label for="memberPwd">암호</label>
+                                    <!-- password input -->
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" data-placement="bottom" data-toggle="popover" data-container="body" id="memberPwd" th:field="*{memberPwd}" data-html="true" required>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="button-append1" onclick="togglePassword()">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 전화번호 -->
+                                <div class="form-group">
+                                    <label for="memberPhoneNumber">전화번호</label>
+                                    <input type="text" id="memberPhoneNumber" th:field="*{memberPhoneNumber}" class="form-control" readonly>
+                                </div>
+
+                                <!-- email group -->
+                                <div class="form-group">
+                                    <label for="memberEmail">이메일</label>
+                                    <input type="email" id="memberEmail" th:field="*{memberEmail}" class="form-control" readonly>
+                                </div>
+
+                                <!-- answer group -->
+                                <div class="form-group">
+                                    <label for="address">생년월일</label>
+                                    <input type="text" id="address" th:value="*{memberBirthday}" class="form-control" readonly>
+                                </div>
+
+                                <!-- 주소 -->
+                                <div class="form-group">
+                                    <label for="memberAddress">주소</label>
+                                    <input type="text" th:field="*{memberAddress}" id="memberAddress" name="memberAddress" class="form-control" readonly>
+                                </div>
+
+                                <!-- Submit -->
+                                <div class="form-group">
+                                    <button id="reg_submit" name="submit"  value="1" class="btn btn-block btn-primary" disabled="disabled">수정 완료</button>
+                                    <div id="sign-up-popover" class="hide"><p>is empty</p></div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="login-or"><hr class="hr-or"></div>
+                        <!-- Links -->
+                        <div class="bottom text-center">
+                            회원탈퇴를 하시겠습니까? <a href="/member/resign"><b>회원탈퇴</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // şifre kurallı değilse butonu disable et
+            $('#reg_userpassword').keyup(function() {
+                var password = $('#reg_userpassword').val();
+                var confirmpassword = $('#reg_userpasswordconfirm').val();
+
+                if (checkStrength(password) == false) {
+                    $('#reg_submit').attr('disabled', true);
+                }
+            });
+
+            $('#reg_submit').hover(function() {
+                if ($('#reg_submit').prop('disabled')) {
+                    $('#reg_submit').popover({
+                        html: true,
+                        trigger: 'hover',
+                        placement: 'below',
+                        offset: 20,
+                        content: function() {
+                            return $('#sign-up-popover').html();
+                        }
+                    });
+                }
+            });
+        });
+
+        function togglePassword() {
+            var element = document.getElementById('reg_userpassword');
+            element.type = (element.type == 'password' ? 'text' : 'password');
+        }
+    </script>
+</body>
+</html>

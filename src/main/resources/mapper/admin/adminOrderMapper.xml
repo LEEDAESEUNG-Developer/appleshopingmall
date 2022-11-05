@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.appleshopingmall.admin.repository.AdminOrderRepositoryMapper">
+    <resultMap id="orderEntity" type="com.appleshopingmall.admin.entity.Order">
+        <result property="orderId" column="order_id"/>
+        <result property="orderGroupNo" column="order_tbl_id"/>
+        <result property="memberName" column="member_name"/>
+        <result property="productName" column="product_name"/>
+        <result property="productColor" column="product_color"/>
+        <result property="productAP" column="product_ap"/>
+        <result property="productStorage" column="product_storage"/>
+        <result property="productCount" column="product_count"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="checkStock" column="check_stock"/>
+        <result property="checkShipment" column="check_shipment"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="productImg01" column="product_img01"/>
+    </resultMap>
+
+    <select id="orders" resultMap="orderEntity">
+        select order_id, order_tbl_id, m.member_firstname as member_name, p.product_name as product_name,
+               p.product_color, product_count, check_stock,
+               check_shipment
+        from order_tbl o
+            inner join member m
+        on m.member_id = o.member_id
+            inner join product p
+        on p.product_id = o.product_id
+    </select>
+
+    <select id="findOrder" resultMap="orderEntity">
+        select order_id, order_tbl_id, m.member_firstname as member_name, p.product_name as product_name,
+               p.product_color, product_ap, product_storage, product_count, o.product_price, check_stock,
+               check_shipment, order_date, product_img01
+        from order_tbl o
+                 inner join member m
+                            on m.member_id = o.member_id
+                 inner join product p
+                            on p.product_id = o.product_id
+                inner join order_create_number ocn
+                        on o.order_tbl_id = ocn.order_group_id
+        where order_id = #{orderId}
+    </select>
+    
+    <update id="updateOrder">
+        update order_tbl set check_stock = #{form.checkStock}, check_shipment = #{form.checkShipment}
+                         where order_id = #{orderId}
+    </update>
+
+</mapper>

@@ -14,13 +14,13 @@
     </resultMap>
 
     <insert id="addNumberOrder">
-        insert into order_number(member_id) value (#{orderEntity.memberId})
+        insert into order_create_number(member_id) value (#{orderEntity.memberId})
     </insert>
 
     <insert id="addOrder">
         insert into order_tbl(order_tbl_id, product_id, member_id, product_count, product_price, check_stock, check_shipment, address)
             VALUE (
-                   (select order_number_id from order_number where order_date = (select max(order_date) from order_number group by member_id) and member_id = #{orderEntity.memberId}),
+                   (select order_group_id from order_create_number where order_date = (select max(order_date) from order_create_number group by member_id) and member_id = #{orderEntity.memberId}),
                    #{orderEntity.productId}, #{orderEntity.memberId}, #{orderEntity.productCount}, (select product_price from product where product_id = #{orderEntity.productId}), #{orderEntity.checkStock}, #{orderEntity.checkShipment}, #{orderEntity.address});
     </insert>
 

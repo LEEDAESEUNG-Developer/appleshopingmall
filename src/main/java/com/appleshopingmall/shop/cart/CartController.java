@@ -1,7 +1,7 @@
 package com.appleshopingmall.shop.cart;
 
 import com.appleshopingmall.SideBar;
-import com.appleshopingmall.sessionUtill.SessionUtill;
+import com.appleshopingmall.sessionUtill.SessionUtil;
 import com.appleshopingmall.shop.product.ProductEntity;
 import com.appleshopingmall.shop.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,18 +30,16 @@ public class CartController {
     * */
     @GetMapping("cart")
     public String cart(HttpSession httpSession, Model model) {
-        String url = "redirect:/member/login";
 
-        if (SessionUtill.getSessionUtill().hasSession(httpSession)) {
-            url = "/shop/cart/cart";
-            Long memberId = (Long) httpSession.getAttribute("memberID");
+        if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 
-            SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
-            model.addAttribute("cartTotal", cartService.getCartTotalPrice(memberId));
-            model.addAttribute("cart", cartService.findMemberProductID(memberId));
+        Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
 
-        }
-        return url;
+        SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
+        model.addAttribute("cartTotal", cartService.getCartTotalPrice(memberId));
+        model.addAttribute("cart", cartService.findMemberProductID(memberId));
+
+        return "/shop/cart/cart";
     }
 
     /*
@@ -49,20 +48,19 @@ public class CartController {
      * */
     @PostMapping("add/{productName}/{productColor}")
     public String addCart(@PathVariable String productName, @PathVariable String productColor, CartEntity cart, HttpSession httpSession) {
-        String url = "redirect:/shop";
 
-        if(!SessionUtill.getSessionUtill().hasSession(httpSession)) url = "redirect:/member/login";
+        if(!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 
         ProductEntity findProduct = productService.findByProductNameAndColor(productName, productColor);
 
-        cart.setMemberID((Long)httpSession.getAttribute("memberID"));
-        cart.setProductID(findProduct.getProductID());
+        cart.setMemberId(SessionUtil.getSessionUtil().getMemberID(httpSession));
+        cart.setProductId(findProduct.getProductId());
         cart.setProductPrice(findProduct.getProductPrice());
 
         log.debug("cart = {}", cart);
 
         cartService.addCartByMemberId(cart);
-        return url;
+        return "redirect:/shop";
     }
 
     /*
@@ -72,11 +70,11 @@ public class CartController {
      * */
 
     @GetMapping(value = "remove/{cartID}")
-    public String remove(HttpSession httpSession, @PathVariable Long cartID) {
+    public String deleteCart(HttpSession httpSession, @PathVariable Long cartID) {
         try {
-            if ((Long) httpSession.getAttribute("memberID") == cartService.getMemberIDFindCardID(cartID)) {
-                cartService.deleteCartID(cartID);
-            }
+            Long sessionMemberId = (Long) httpSession.getAttribute("memberID");
+            Long cartMemberId = cartService.getMemberIDFindCardID(cartID);
+            if (sessionMemberId.equals(cartMemberId)) cartService.deleteCartID(cartID);
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
         }

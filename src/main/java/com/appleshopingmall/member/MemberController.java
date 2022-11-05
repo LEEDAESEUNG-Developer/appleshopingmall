@@ -1,6 +1,6 @@
 package com.appleshopingmall.member;
 
-import com.appleshopingmall.sessionUtill.SessionUtill;
+import com.appleshopingmall.sessionUtill.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -41,13 +41,13 @@ public class MemberController {
      */
     @GetMapping("/login")
     public String getLogin(HttpSession session) {
-        return (SessionUtill.getSessionUtill().hasSession(session) ? "redirect:/" : "/member/login");
+        return (SessionUtil.getSessionUtil().hasSession(session) ? "redirect:/" : "/member/login");
     }
 
     @PostMapping("/login")
     public String postLogin(@ModelAttribute MemberEntity memberEntity, HttpSession session) {
         MemberEntity findMember = memberService.findMember(memberEntity);
-        if(findMember != null) SessionUtill.getSessionUtill().addSession(session, findMember);
+        if(findMember != null) SessionUtil.getSessionUtil().addSession(session, findMember);
         return "redirect:/";
     }
 
@@ -55,9 +55,9 @@ public class MemberController {
     @GetMapping
     public String getMember(HttpSession httpSession, Model model) {
         String url = "redirect:/member/login";
-        Long memberId = SessionUtill.getSessionUtill().getMemberID(httpSession);
-        if(SessionUtill.getSessionUtill().hasSession(httpSession)){
-            url = "member/memberView";
+        Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
+        if(SessionUtil.getSessionUtil().hasSession(httpSession)){
+            url = "/member/memberView";
             MemberEntity findMember = memberService.findByMemberId(memberId);
             model.addAttribute("memberEntity", findMember);
         }
@@ -68,9 +68,9 @@ public class MemberController {
     @PostMapping("/change")
     public String postChange(HttpSession httpSession, @ModelAttribute MemberEntity member) {
         String url = "redirect:/member/login";
-        if(SessionUtill.getSessionUtill().hasSession(httpSession)){
+        if(SessionUtil.getSessionUtil().hasSession(httpSession)){
             url = "redirect:/";
-            Long memberID = SessionUtill.getSessionUtill().getMemberID(httpSession);
+            Long memberID = SessionUtil.getSessionUtil().getMemberID(httpSession);
             member.setMemberID(memberID);
             memberService.updateMember(member);
         }
@@ -86,11 +86,11 @@ public class MemberController {
     @GetMapping("/resign")
     public String getResign(HttpSession httpSession, Model model) {
         String url = "redirect:/";
-        if (SessionUtill.getSessionUtill().hasSession(httpSession)) {
-            Long memberID = SessionUtill.getSessionUtill().getMemberID(httpSession);
+        if (SessionUtil.getSessionUtil().hasSession(httpSession)) {
+            Long memberID = SessionUtil.getSessionUtil().getMemberID(httpSession);
             MemberEntity findMember = memberService.findByMemberId(memberID);
             model.addAttribute("memberEntity", findMember);
-            url = "member/memberResign";
+            url = "/member/memberResign";
         }
         return url;
     }
@@ -98,8 +98,8 @@ public class MemberController {
     @PostMapping("/resign")
     public String postResign(HttpSession httpSession, @ModelAttribute MemberEntity member){
         String url = "redirect:/";
-        if (SessionUtill.getSessionUtill().hasSession(httpSession)) {
-            Long memberID = SessionUtill.getSessionUtill().getMemberID(httpSession);
+        if (SessionUtil.getSessionUtil().hasSession(httpSession)) {
+            Long memberID = SessionUtil.getSessionUtil().getMemberID(httpSession);
             member.setMemberID(memberID);
             memberService.deleteMember(member);
             url = "redirect:/member/logout";
@@ -117,7 +117,7 @@ public class MemberController {
 //    @GetMapping("test")
     @ResponseBody
     public String test() throws SQLException {
-        //mapper 테스트
+        //테스트
 //        return memberService.getMembers().getMemberFirstname();
         return null;
     }

@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 @Data
 public class CartEntity {
-    private long productID;
+    private long productId;
     private String productName;
     private long productPrice;
     private Timestamp productData;
@@ -16,7 +16,7 @@ public class CartEntity {
     private String productRam;
     private String productStorage;
     private String productImg01;
-    private Long cartID;
-    private Long memberID;
+    private Long cartId;
+    private Long memberId;
     private int productCount;
 }

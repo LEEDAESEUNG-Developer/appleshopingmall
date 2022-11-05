@@ -3,7 +3,7 @@
 
 <mapper namespace="com.appleshopingmall.shop.product.ProductMapper">
     <resultMap id="productMapper" type="com.appleshopingmall.shop.product.ProductEntity">
-        <result column="product_id" property="productID"/>
+        <result column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="product_price" property="productPrice"/>
         <result column="product_data" property="productData"/>

@@ -6,10 +6,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class OrderMapperTest {
@@ -23,8 +20,8 @@ class OrderMapperTest {
 
     @BeforeEach
     void init() {
-        cartEntity.setMemberID(2L);
-        cartEntity.setProductID(1L);
+        cartEntity.setMemberId(2L);
+        cartEntity.setProductId(1L);
         cartEntity.setProductPrice(1390000L);
         cartEntity.setProductCount(1);
 

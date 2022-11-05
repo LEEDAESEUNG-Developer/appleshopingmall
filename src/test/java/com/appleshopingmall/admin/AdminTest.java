@@ -2,7 +2,6 @@ package com.appleshopingmall.admin;
 
 import com.appleshopingmall.member.MemberEntity;
 import com.appleshopingmall.member.MemberService;
-import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

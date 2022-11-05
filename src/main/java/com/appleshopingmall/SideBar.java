@@ -1,6 +1,6 @@
 package com.appleshopingmall;
 
-import com.appleshopingmall.sessionUtill.SessionUtill;
+import com.appleshopingmall.sessionUtill.SessionUtil;
 import com.appleshopingmall.shop.cart.CartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
@@ -24,7 +24,7 @@ public class SideBar {
      */
     public void modelAddCartCount(Model model, HttpSession httpSession, CartService cartService){
         try {
-            Long memberId = SessionUtill.getSessionUtill().getMemberID(httpSession);
+            Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
             model.addAttribute("cartCount", cartService.getMemberCartCount(memberId));
         } catch (Exception e) {
             log.debug("비회원 접속자");

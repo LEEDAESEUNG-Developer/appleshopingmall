@@ -3,7 +3,7 @@
 <mapper namespace="com.appleshopingmall.admin.repository.AdminProductRepositoryMapper">
 
     <resultMap id="productMapper" type="com.appleshopingmall.shop.product.ProductEntity">
-        <result column="product_id" property="productID"/>
+        <result column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="product_price" property="productPrice"/>
         <result column="product_data" property="productData"/>
@@ -21,6 +21,16 @@
         <result column="product_Content_img01" property="productContentImg01"/>
     </resultMap>
 
+    <insert id="addProduct">
+        insert into product (product_name, product_price, product_data, product_category, product_color, product_ap,
+                             product_ram,
+                             product_operating_system, product_storage, product_img01, product_stock, product_img01,
+                             product_img02, product_img03, product_img04, product_Content_img01)
+            value (#{productName}, #{productPrice}, #{productData}, #{productCategory}, #{productColor}, #{productAP},
+                   #{productRam}, #{productOperatingSystem}, #{productStorage}, #{productImg01}, #{productStock},
+                   #{productImg01}, #{productImg02}, #{productImg03}, #{productImg04}, #{productContentImg01});
+    </insert>
+
     <select id="findProducts" resultMap="productMapper">
         select * from product
     </select>
@@ -29,13 +39,15 @@
         select * from product where product_id = #{productId}
     </select>
 
-    <insert id="addProduct">
-        insert into product (product_name, product_price, product_data, product_category, product_color, product_ap,
-                             product_ram,
-                             product_operating_system, product_storage, product_img01)
-            value (#{productName}, #{productPrice}, #{productData}, #{productCategory}, #{productColor}, #{productAP},
-                   #{productRam}, #{productOperatingSystem}, #{productStorage}, #{productImg01});
-    </insert>
+    <update id="updateProduct">
+        update product set product_name = #{productName}, product_price = #{productPrice}, product_data = #{productData},
+                           product_category = #{productCategory}, product_color = #{productColor},
+                           product_ap = #{productAP}, product_ram =  #{productRam}, product_operating_system = #{productOperatingSystem},
+                           product_storage =  #{productStorage}, product_img01 = #{productImg01}, product_stock = #{productStock},
+                           product_img01 = #{productImg01}, product_img02 = #{productImg02}, product_img03 = #{productImg03},
+                           product_img04 = #{productImg04}, product_Content_img01 = #{productContentImg01}
+                       where product_id = #{productId}
+    </update>
 
     <delete id="deleteProduct">
         delete from product where product_id = #{productId}

@@ -15,6 +15,9 @@ public interface AdminProductRepository {
     // 제품 추가
     Integer addProduct(ProductEntity product);
 
+    // 제품 수정
+    Integer updateProduct(ProductEntity product);
+
     // 제품 삭제
     Integer deleteProduct(Long productId);
 }

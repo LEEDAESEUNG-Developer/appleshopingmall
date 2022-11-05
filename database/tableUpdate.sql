@@ -17,6 +17,8 @@ desc product;
 
 alter table product change product_Color product_color varchar(50);
 
+alter table product change product_data product_data date default now();
+
 /* 회원 테이블*/
 select * from member;
 desc member;
@@ -37,3 +39,9 @@ alter table order_number add order_date DATETIME default now();
 
 desc order_number;
 alter table order_number modify member_id int not null;
+
+desc product;
+
+select * from product;
+alter table product drop product_data;
+alter table product add product_data date default (current_date) after product_price;

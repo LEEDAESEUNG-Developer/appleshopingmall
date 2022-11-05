@@ -1,6 +1,5 @@
 package com.appleshopingmall.member;
 
-import com.appleshopingmall.shop.product.ProductEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DuplicateKeyException;
 

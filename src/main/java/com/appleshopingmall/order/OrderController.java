@@ -3,7 +3,7 @@ package com.appleshopingmall.order;
 import com.appleshopingmall.order.OrderNumber.OrderNumberEntity;
 import com.appleshopingmall.SideBar;
 import com.appleshopingmall.order.OrderNumber.OrderNumberService;
-import com.appleshopingmall.sessionUtill.SessionUtill;
+import com.appleshopingmall.sessionUtill.SessionUtil;
 import com.appleshopingmall.shop.cart.CartService;
 import com.appleshopingmall.shop.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +37,10 @@ public class OrderController {
     // Get 메소드 상품 결제 전 화면
     @GetMapping("/payment")
     public String payment(HttpSession httpSession, Model model) {
-        boolean session = SessionUtill.getSessionUtill().hasSession(httpSession);
+        boolean session = SessionUtil.getSessionUtil().hasSession(httpSession);
         String url = "redirect:/member/login";
         if (session) {
-            Long memberId = SessionUtill.getSessionUtill().getMemberID(httpSession);
+            Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
             log.debug("memberId => {}", memberId);
             Integer totalPrice = cartService.getCartTotalPrice(memberId);
             model.addAttribute("totalPrice", totalPrice);
@@ -55,10 +55,10 @@ public class OrderController {
     @PostMapping("/payment")
     public String postPayment(HttpSession httpSession, OrderEntity order){
         log.debug("order = {} ", order);
-        boolean session = SessionUtill.getSessionUtill().hasSession(httpSession);
+        boolean session = SessionUtil.getSessionUtil().hasSession(httpSession);
         String url = "redirect:/member/login";
         if(session){
-            order.setMemberId(SessionUtill.getSessionUtill().getMemberID(httpSession));
+            order.setMemberId(SessionUtil.getSessionUtil().getMemberID(httpSession));
             orderService.addOrder(order);
             url = "redirect:/shop";
         }
@@ -77,13 +77,13 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public String list(HttpSession httpSession, Model model){
+    public String orders(HttpSession httpSession, Model model){
         String url = "redirect:/member/login";
-        if(SessionUtill.getSessionUtill().hasSession(httpSession)){
+        if(SessionUtil.getSessionUtil().hasSession(httpSession)){
             url = "/order/orders";
-            Long memberID = SessionUtill.getSessionUtill().getMemberID(httpSession);
-            List<OrderNumberEntity> orderNumbers = orderNumberService.findByMemberId(memberID);
-            log.debug("orderEntity = {}", orderNumberService.findByMemberId(memberID));
+            Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
+            List<OrderNumberEntity> orderNumbers = orderNumberService.findByMemberId(memberId);
+            log.debug("OrderNumberEntity = {}", orderNumberService.findByMemberId(memberId));
             model.addAttribute("orderNumbers", orderNumbers);
             model.addAttribute("productService", productService);
             model.addAttribute("orderService", orderService);

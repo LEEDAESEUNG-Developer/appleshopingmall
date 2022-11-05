@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/fragment/head_css :: head(~{::title}, ~{::style})">
+    <meta charset="utf-8">
+    <title>주문 상품 수정</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <style type="text/css">
+    .row{
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+    .masthead-text{
+      height: 300px;
+    }
+
+    .form-control{
+      height: 45px;
+    }
+
+    select:hover {
+      color: #444645;
+      background: #ddd;
+    }
+
+    .login-or {
+      position: relative;
+      font-size: 18px;
+      color: #aaa;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .span-or {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: -2px;
+      margin-left: -25px;
+      background-color: #fff;
+      width: 50px;
+      text-align: center;
+    }
+    .hr-or {
+      background-color: #cdcdcd;
+      height: 1px;
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+    }
+
+    #login-dp{
+      min-width: 250px;
+      padding: 14px 14px 0;
+      overflow:hidden;
+      background-color:rgba(255,255,255,.8);
+    }
+    #login-dp .help-block{
+      font-size:12px
+    }
+
+    #login-dp .social-buttons{
+      margin:12px 0
+    }
+    #login-dp .social-buttons a{
+      width: 49%;
+    }
+    #login-dp .form-group {
+      margin-bottom: 10px;
+    }
+    .btn-fb{
+      color: #fff;
+      background-color:#3b5998;
+    }
+    .btn-fb:hover{
+      color: #fff;
+      background-color:#496ebc
+    }
+    .btn-tw{
+      color: #fff;
+      background-color:#55acee;
+    }
+    .btn-tw:hover{
+      color: #fff;
+      background-color:#59b5fa;
+    }
+    @media(max-width:768px){
+      #login-dp{
+        background-color: inherit;
+        color: #fff;
+      }
+      #login-dp .bottom{
+        background-color: inherit;
+        border-top:0 none;
+      }
+    }
+
+    .progress {
+      height: 5px;
+    }
+
+    .block-help {
+      font-weight: 300;
+    }
+
+    .hide {
+      display: none;
+    }
+  </style>
+
+
+</head>
+<body>
+<!-- Header -->
+<nav th:replace="sideBar.html :: nav"></nav>
+<!-- Close Header -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+<div class="container">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-5">
+      <div class="card cardbox">
+        <div class="card-header">주문 상품 수정</div>
+        <div class="card-body">
+          <div class="form-group">
+            <form id="login-nav" th:action="@{/admin/order/edit/{orderId} (orderId = ${order.orderId})}" method="post" role="form" class="form" accept-charset="UTF-8" th:object="${order}">
+              <div class="form-group">
+                <label>주문 번호</label>
+                <input type="text" id="reg_username" name="memberFirstname" class="form-control" th:value="${order.orderId}" disabled>
+              </div>
+
+              <div class="form-group">
+                <div>출고여부</div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" id="checkStock01" class="form-check-input" th:field="*{checkStock}" th:value="true">
+                  <label for="checkStock01" class="form-check-label">O</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" id="checkStock02" class="form-check-input" th:field="*{checkStock}" th:value="false">
+                  <label for="checkStock02" class="form-check-label">X</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div>배송여부</div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" id="checkShipment01" class="form-check-input" th:field="*{checkShipment}" th:value="true">
+                  <label for="checkShipment01" class="form-check-label">O</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" id="checkShipment02" class="form-check-input" th:field="*{checkShipment}" th:value="false">
+                  <label for="checkShipment02" class="form-check-label">X</label>
+                </div>
+              </div>
+
+              <!-- Submit -->
+              <div class="form-group">
+                <button id="reg_submit" name="submit"  value="1" class="btn btn-block btn-primary">수정 완료</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

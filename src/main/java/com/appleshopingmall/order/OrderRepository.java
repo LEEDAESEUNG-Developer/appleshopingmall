@@ -19,9 +19,6 @@ public interface OrderRepository {
     // 회원번호로 주문 테이블 모두 삭제
     int deleteOrder(@Param("memberId") Long memberId);
 
-    // 주문번호로 주문 테이블 삭제
-    int deletefindByid();
-
     // 회원번호, 주문번호로 상품 가져오기
     List<OrderEntity> findByMemberIdAndOrderNumber(@Param("memberId") Long memberId, @Param("orderTblId") Long orderTblId);
 

@@ -21,14 +21,14 @@ public class OrderServiceImpl implements OrderService {
         if(findCarts.size() >= 1){
             orderRepository.addNumberOrder(orderEntity);          // 주문번호 생성
             findCarts.forEach(cartEntity -> {
-                orderEntity.setProductId(cartEntity.getProductID());
+                orderEntity.setProductId(cartEntity.getProductId());
                 orderEntity.setProductCount(cartEntity.getProductCount());
                 orderEntity.setProductPrice(cartEntity.getProductPrice());
                 orderEntity.setCheckStock(false);
                 orderEntity.setCheckShipment(false);
                 orderEntity.setAddress(orderEntity.getAddress());
                 orderRepository.addOrder(orderEntity);            // 주문 테이블에 값 추가
-                cartService.deleteCartID(cartEntity.getCartID()); // 카트에 담긴 제품 삭제
+                cartService.deleteCartID(cartEntity.getCartId()); // 카트에 담긴 제품 삭제
             });
             chk = 1;
         }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragment/head :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>member list</title>
+</head>
+<body>
+    <nav th:replace="admin/fragment/admin_sidebar :: sidebar()"></nav>
+    <table class="table table-hover mt-4 w-75" style="margin-left: auto; margin-right: auto;">
+        <thead>
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">PhoneNumber</th>
+            <th scope="col">Position</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <th scope="row" th:text="${member.memberID}">1</th>
+            <td><a href="#" th:href="@{/admin/member/{memberId} (memberId=${member.memberID})}" th:text="${member.memberFirstname}">Name</a></td>
+            <td th:text="${member.memberEmail}">Email</td>
+            <td th:text="${member.memberPhoneNumber}">PhoneNumber</td>
+            <td th:text="${member.position}">Position</td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragment/head :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>member list</title>
+</head>
+<body>
+    <nav th:replace="admin/fragment/admin_sidebar :: sidebar()"></nav>
+    <table class="table table-hover mt-4 w-75" style="margin-left: auto; margin-right: auto;">
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">주문번호</th>
+            <th scope="col" class="text-center">주문그룹번호</th>
+            <th scope="col" class="text-center">아이디</th>
+            <th scope="col" class="text-center">제품명</th>
+            <th scope="col" class="text-center">색상</th>
+            <th scope="col" class="text-center">수량</th>
+            <th scope="col" class="text-center">수량확인</th>
+            <th scope="col" class="text-center">배송확인</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <th scope="col" class="text-center">
+                <a href="#" class="text-black text-decoration-none" th:href="@{/admin/order/{orderId} (orderId = ${order.orderId})}" th:text="${order.orderId}">orderID</a>
+            </th>
+            <td class="text-center" th:text="${order.orderGroupNo}">groupNo</td>
+            <td class="text-center" th:text="${order.memberName}">memberName</td>
+            <td class="text-center" th:text="${order.productName}">productName</td>
+            <td class="text-center" th:text="${order.productColor}">productColor</td>
+            <td class="text-center" th:text="${order.productCount}">productCount</td>
+            <td class="text-center" th:text="${order.checkStock}">checkStock</td>
+            <td class="text-center" th:text="${order.checkShipment}">checkShipment</td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>
