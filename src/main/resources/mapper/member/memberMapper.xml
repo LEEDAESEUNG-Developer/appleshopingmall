@@ -33,9 +33,11 @@
     <update id="updateMember">
         update member
         set
-            member_firstname = #{member.memberFirstname}, member_address = #{member.memberAddress},
-            member_email = #{member.memberEmail}, member_phoneNumber = #{member.memberPhoneNumber}
-        where member_id = #{member.memberID}
+            member_firstname = #{member.memberFirstname}, member_pwd = #{member.memberPwd}, member_phoneNumber = #{member.memberPhoneNumber},
+            member_email = #{member.memberEmail},
+            member_address = #{member.memberAddress}
+        where
+            member_id = #{memberId}
     </update>
 
     <!-- 회원 탈퇴 -->

@@ -1,13 +1,14 @@
 package com.appleshopingmall.member;
 
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
-@Data
+@Getter
+@ToString
+@Builder
 public class MemberEntity {
-
     private Long memberID;
     private String memberFirstname;
     private String memberAddress;

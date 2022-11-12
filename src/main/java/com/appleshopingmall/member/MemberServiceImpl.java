@@ -22,8 +22,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int updateMember(MemberEntity member) {
-        return memberRepository.updateMember(member);
+    public int updateMember(Long memberId, MemberEntity member) {
+        return memberRepository.updateMember(memberId, member);
     }
 
     @Override

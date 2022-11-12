@@ -139,10 +139,11 @@
         <div class="card-header">회원 수정</div>
         <div class="card-body">
           <div class="form-group">
-            <form id="login-nav" action="/member/change" method="post" role="form" class="form" accept-charset="UTF-8">
+            <form id="login-nav" action="/member/change" method="post" role="form" class="form" accept-charset="UTF-8" th:object="${form}">
               <div class="form-group">
-                <label>이름</label>
-                <input type="text" id="reg_username" name="memberFirstname" class="form-control" th:value="${memberEntity.memberFirstname}" required>
+                <label for="reg_username">이름</label>
+                <input type="text" id="reg_username" class="form-control" th:field="*{name}" required>
+                <p th:errors="*{name}" th:errorclass="text-danger"></p>
               </div>
 
               <!-- password group -->
@@ -151,8 +152,8 @@
                 <label>암호</label>
                 <!-- password input -->
                 <div class="input-group">
-                  <input type="password" id="reg_userpassword" name="memberPwd" class="form-control" data-placement="bottom" data-toggle="popover" data-container="body"
-				  data-html="true" th:value="${memberEntity.memberPwd}" required>
+                  <input type="password" id="reg_userpassword" class="form-control" data-placement="bottom" data-toggle="popover" data-container="body"
+				  data-html="true" th:field="*{password}" required>
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="button-append1" onclick="togglePassword()">
                       <i class="fa fa-eye" aria-hidden="true"></i>
@@ -182,6 +183,7 @@
                   </ul>
                   </small>
                 </div>
+                <p th:errors="*{password}" th:errorclass="text-danger"></p>
               </div>
 
               <!-- password-confirm group -->
@@ -208,25 +210,30 @@
               <!-- 전화번호 -->
               <div class="form-group">
                 <label>전화번호</label>
-                <input type="text" th:value="${memberEntity.memberPhoneNumber}" id="phoneNumber" name="memberPhoneNumber" class="form-control">
+                <input type="text" th:field="*{phoneNumber}" id="phoneNumber" class="form-control">
+                <p th:errors="*{phoneNumber}" th:errorclass="text-danger"></p>
               </div>
 
               <!-- email group -->
               <div class="form-group">
                 <label>이메일</label>
-                <input type="email" th:value="${memberEntity.memberEmail}" id="reg_useremail" name="memberEmail" class="form-control">
+                <input type="email" th:field="*{email}" id="reg_useremail" class="form-control">
+                <p th:errors="*{email}" th:errorclass="text-danger"></p>
+
               </div>
 
 			  <!-- answer group -->
               <div class="form-group">
                 <label>생년월일</label>
-                <input type="text" th:value="${memberEntity.memberBirthday}" id="birthday" class="form-control" readonly>
+                <input type="text" th:field="*{birthday}" id="birthday" class="form-control" readonly>
+                <p th:errors="*{birthday}" th:errorclass="text-danger"></p>
               </div>
 
 			  <!-- 주소 -->
               <div class="form-group">
                 <label>주소</label>
-                <input type="text" th:value="${memberEntity.memberAddress}" id="address" name="memberAddress" class="form-control">
+                <input type="text" th:field="*{address}" id="address" class="form-control">
+                <p th:errors="*{address}" th:errorclass="text-danger"></p>
               </div>
 
               <!-- Submit -->

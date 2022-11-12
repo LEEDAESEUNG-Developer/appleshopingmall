@@ -32,7 +32,7 @@ public interface MemberRepository {
      * @param member MemberEntity
      * @return 성공시 1, 실패 0
      */
-    int updateMember(@Param("member") MemberEntity member);
+    int updateMember(@Param("memberId") Long memberId, @Param("member") MemberEntity member);
 
     /**
      * 회원 탈퇴

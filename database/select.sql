@@ -72,3 +72,6 @@ select * from order_tbl;
 select  * from order_create_number;
 
 select * from product;
+
+select *
+from member;

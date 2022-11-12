@@ -1,11 +1,17 @@
 package com.appleshopingmall.member;
 
+import com.appleshopingmall.member.web.form.MemberLoginForm;
+import com.appleshopingmall.member.web.form.MemberUpdateForm;
 import com.appleshopingmall.sessionUtill.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
@@ -40,41 +46,72 @@ public class MemberController {
      * @return 세션 없을시 /member/login, 있을시 메인 이동
      */
     @GetMapping("/login")
-    public String getLogin(HttpSession session) {
-        return (SessionUtil.getSessionUtil().hasSession(session) ? "redirect:/" : "/member/login");
+    public String loginForm(HttpSession session, Model model) {
+
+        // 세션이 없는 경우 /member/login 이동
+        if (!SessionUtil.getSessionUtil().hasSession(session)){
+            model.addAttribute("loginForm", new MemberLoginForm());
+            return "/member/login";
+        }
+
+        // 세션이 있는경우 /으로 이동
+        return "redirect:/";
     }
 
     @PostMapping("/login")
-    public String postLogin(@ModelAttribute MemberEntity memberEntity, HttpSession session) {
-        MemberEntity findMember = memberService.findMember(memberEntity);
-        if(findMember != null) SessionUtil.getSessionUtil().addSession(session, findMember);
+    public String login(@Validated @ModelAttribute MemberLoginForm memberLoginForm, BindingResult bindingResult, HttpSession session) {
+
+        // 이메일, 비밀번호 문제가 있을시
+        if(bindingResult.hasErrors()){
+            log.info("오류 발생 => {}", bindingResult);
+            return "/member/login";
+        }
+
+        MemberEntity member = MemberEntity.builder().memberEmail(memberLoginForm.getEmail()).memberPwd(memberLoginForm.getPassword()).build();
+
+        MemberEntity findMember = memberService.findMember(member);
+
+        // 로그인 실패시
+        if(findMember == null){
+            bindingResult.addError(new ObjectError("loginForm", "아이디 또는 비밀번호를 잘못 입력하였습니다."));
+            return "/member/login";
+        }
+
+        SessionUtil.getSessionUtil().addSession(session, findMember);
         return "redirect:/";
     }
 
     // 회원보기
     @GetMapping
-    public String getMember(HttpSession httpSession, Model model) {
-        String url = "redirect:/member/login";
+    public String memberForm(HttpSession httpSession, Model model) {
+        if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
+
         Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
-        if(SessionUtil.getSessionUtil().hasSession(httpSession)){
-            url = "/member/memberView";
-            MemberEntity findMember = memberService.findByMemberId(memberId);
-            model.addAttribute("memberEntity", findMember);
-        }
-            return url;
+        MemberEntity findMember = memberService.findByMemberId(memberId);
+        MemberUpdateForm findMemberUpdate = new MemberUpdateForm(findMember.getMemberFirstname(), findMember.getMemberPwd(), findMember.getMemberPhoneNumber(), findMember.getMemberEmail(), findMember.getMemberBirthday(), findMember.getMemberAddress());
+        model.addAttribute("form", findMemberUpdate);
+        return "/member/member";
     }
 
     // 회원수정 완료 post
     @PostMapping("/change")
-    public String postChange(HttpSession httpSession, @ModelAttribute MemberEntity member) {
-        String url = "redirect:/member/login";
-        if(SessionUtil.getSessionUtil().hasSession(httpSession)){
-            url = "redirect:/";
-            Long memberID = SessionUtil.getSessionUtil().getMemberID(httpSession);
-            member.setMemberID(memberID);
-            memberService.updateMember(member);
+    public String memberChange(HttpSession httpSession, @Validated @ModelAttribute("form") MemberUpdateForm form,
+                               BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
+
+
+        if(bindingResult.hasErrors()){
+            log.info("오류 퉤 =>{}", bindingResult);
+            return "/member/member";
         }
-        return url;
+
+        Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
+
+        MemberEntity memberUpdate = MemberEntity.builder().memberFirstname(form.getName()).memberPwd(form.getPassword()).memberPhoneNumber(form.getPhoneNumber()).
+                memberEmail(form.getEmail()).memberAddress(form.getAddress()).build();
+
+        memberService.updateMember(memberId, memberUpdate);
+        return "redirect:/member";
     }
 
     @GetMapping("/logout")
@@ -100,8 +137,8 @@ public class MemberController {
         String url = "redirect:/";
         if (SessionUtil.getSessionUtil().hasSession(httpSession)) {
             Long memberID = SessionUtil.getSessionUtil().getMemberID(httpSession);
-            member.setMemberID(memberID);
-            memberService.deleteMember(member);
+            MemberEntity memberEntity = MemberEntity.builder().memberID(memberID).build();
+            memberService.deleteMember(memberEntity);
             url = "redirect:/member/logout";
         }
         return url;

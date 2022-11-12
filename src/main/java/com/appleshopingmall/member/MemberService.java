@@ -32,10 +32,11 @@ public interface MemberService {
 
     /**
      * 회원 수정
+     * @param memberId memberId
      * @param member MemberEntity
      * @return 성공시 1, 실패 0
      */
-    int updateMember(MemberEntity member);
+    int updateMember(Long memberId, MemberEntity member);
 
     /**
      * 회원 탈퇴
