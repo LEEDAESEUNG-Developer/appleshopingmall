@@ -1,7 +1,7 @@
 package com.appleshopingmall.shop.cart;
 
 import com.appleshopingmall.SideBar;
-import com.appleshopingmall.sessionUtill.SessionUtil;
+import com.appleshopingmall.util.SessionUtil;
 import com.appleshopingmall.shop.product.ProductEntity;
 import com.appleshopingmall.shop.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class CartController {
 
         if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 
-        Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
+        Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
 
         SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
         model.addAttribute("cartTotal", cartService.getCartTotalPrice(memberId));
@@ -53,7 +52,7 @@ public class CartController {
 
         ProductEntity findProduct = productService.findByProductNameAndColor(productName, productColor);
 
-        cart.setMemberId(SessionUtil.getSessionUtil().getMemberID(httpSession));
+        cart.setMemberId(SessionUtil.getSessionUtil().getMemberId(httpSession));
         cart.setProductId(findProduct.getProductId());
         cart.setProductPrice(findProduct.getProductPrice());
 

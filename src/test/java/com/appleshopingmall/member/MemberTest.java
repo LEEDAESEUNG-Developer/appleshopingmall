@@ -1,5 +1,6 @@
 package com.appleshopingmall.member;
 
+import com.appleshopingmall.util.SessionUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.util.Date;
 
@@ -18,16 +20,20 @@ class MemberTest {
     @Autowired
     MemberService memberService;
 
-    MemberEntity member = new MemberEntity();
+    MockHttpServletRequest request = new MockHttpServletRequest();
+
+    MemberEntity member;
 
     @BeforeEach
     void beforeEach(){
-        member.setMemberFirstname("자바");
-        member.setMemberAddress("경기도");
-        member.setMemberBirthday(new java.sql.Date(new Date().getTime()));
-        member.setMemberEmail("java1234@naver.com");
-        member.setMemberPwd("1234");
-        member.setMemberPhoneNumber("010-1234-1234");
+        member = MemberEntity.builder()
+                .memberFirstname("자바")
+                .memberAddress("경기도")
+                .memberBirthday(new java.sql.Date(new Date().getTime()))
+                .memberEmail("java1234@naver.com")
+                .memberPwd("1234")
+                .memberPhoneNumber("010-1234-1234")
+                .build();
     }
 
     @DisplayName("회원가입_O")
@@ -42,7 +48,7 @@ class MemberTest {
     @Order(2)
     void login_O(){
         MemberEntity findMember = memberService.findMember(member);
-
+        request.getSession().setAttribute(SessionUtil.MEMBER_ID, findMember.getMemberID());
         Assertions.assertThat(member.getMemberFirstname()).isEqualTo(findMember.getMemberFirstname());
     }
 
@@ -70,13 +76,15 @@ class MemberTest {
     @Test
     @Order(4)
     void deleteMember_O() {
-        Assertions.assertThat(memberService.deleteMember(member)).isEqualTo(1);
+        Long memberId = (Long) request.getAttribute(SessionUtil.MEMBER_ID);
+        Assertions.assertThat(memberService.deleteMember(memberId, member.getMemberEmail(), member.getMemberPwd())).isEqualTo(1);
     }
 
     @DisplayName("회원탈퇴_X")
     @Test
     @Order(5)
     void deleteMember_X(){
-        Assertions.assertThat(memberService.deleteMember(member)).isEqualTo(0);
+        Long memberId = (Long) request.getAttribute(SessionUtil.MEMBER_ID);
+        Assertions.assertThat(memberService.deleteMember(memberId, member.getMemberEmail(), member.getMemberPwd())).isEqualTo(0);
     }
 }

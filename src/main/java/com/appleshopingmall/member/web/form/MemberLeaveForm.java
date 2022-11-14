@@ -8,7 +8,8 @@ import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
-public class MemberUpdateForm {
+public class MemberLeaveForm {
+
     @NotBlank
     private String name;
 
@@ -21,19 +22,15 @@ public class MemberUpdateForm {
     @NotBlank
     private String email;
 
-    @Past
+    @Past(message = "생년월일 오류")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
-    @NotBlank
-    private String address;
-
-    public MemberUpdateForm(String name, String password, String phoneNumber, String email, Date birthday, String address) {
+    public MemberLeaveForm(String name, String password, String phoneNumber, String email, Date birthday) {
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.birthday = birthday;
-        this.address = address;
     }
 }

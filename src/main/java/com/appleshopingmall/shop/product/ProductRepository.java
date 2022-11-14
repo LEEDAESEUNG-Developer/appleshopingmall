@@ -43,15 +43,42 @@ public interface ProductRepository {
      */
     ProductEntity findNewIpad();
 
+    // product 테이블에 중복제거
+    List<String> findByDeduplicationProduct(@Param("column") String column);
+
     // 페이징 처리 코드
     List<ProductEntity> getListWithPaging(Criteria cri);
 
     // 페이징 type이 있는 경우 (Mac, iPhone, Watch) 등
     List<ProductEntity> getListWithPagingType(Criteria cri);
 
+    // 페이징 type, ap, color
+    List<ProductEntity> findListWithPagingTypeAndApAndColor(Criteria cri);
+
+    // 페이징 type, ap
+    List<ProductEntity> findListWithPagingTypeAndAp(Criteria cri);
+
     // product 테이블 row 수
     int count();
 
-    // product 테이블 row 수
+    // product 테이블 카테고리 row 수
     int countType(Criteria cri);
+
+    // product 테이블 Ap row 수
+    int countAp(Criteria cri);
+
+    // product 테이블 color row 수
+    int countColor(Criteria cri);
+
+    // product 테이블 카테고리, ap, 색상 row 수
+    int countAndTypeAnyApAndColor(Criteria cri);
+
+    // product 테이블 카테고리, ap row 수
+    int countAndTypeAndAp(Criteria cri);
+
+    // product ap row 수
+    List<ProductEntity> findListWithPagingAp(Criteria cri);
+
+    // product color row 수
+    List<ProductEntity> findListWithPagingColor(Criteria cri);
 }

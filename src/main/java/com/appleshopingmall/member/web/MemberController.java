@@ -1,17 +1,22 @@
-package com.appleshopingmall.member;
+package com.appleshopingmall.member.web;
 
+import com.appleshopingmall.member.MemberEntity;
+import com.appleshopingmall.member.MemberService;
+import com.appleshopingmall.member.web.form.MemberAddForm;
+import com.appleshopingmall.member.web.form.MemberLeaveForm;
 import com.appleshopingmall.member.web.form.MemberLoginForm;
 import com.appleshopingmall.member.web.form.MemberUpdateForm;
-import com.appleshopingmall.sessionUtill.SessionUtil;
+import com.appleshopingmall.util.SessionUtil;
+import com.appleshopingmall.util.DateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
@@ -29,13 +34,31 @@ public class MemberController {
      * @return /member/login 이동
      */
     @GetMapping("register")
-    public String getRegister(){
+    public String registerForm(Model model){
+        model.addAttribute("form", new MemberAddForm());
         return "/member/register";
     }
 
     @PostMapping("register")
-    public String postRegister(MemberEntity member){
-        log.debug("member -> {}", member);
+    public String register(@Validated @ModelAttribute("form") MemberAddForm form, BindingResult bindingResult){
+        log.debug("form -> {}", form);
+
+        // 입력 오류
+        if (bindingResult.hasErrors()) {
+            log.info("오류");
+            return "/member/register";
+        }
+
+        MemberEntity member = MemberEntity.builder()
+                .memberFirstname(form.getName())
+                .memberPwd(form.getPassword())
+                .memberPhoneNumber(form.getPhoneNumber())
+                .memberEmail(form.getEmail())
+                .memberBirthday(DateConverter.utilDateToSql(form.getBirthday()))
+                .memberAddress(form.getAddress())
+                .build();
+
+
         memberService.addMember(member);
         return "redirect:/member/login";
     }
@@ -59,21 +82,24 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute MemberLoginForm memberLoginForm, BindingResult bindingResult, HttpSession session) {
+    public String login(@Validated @ModelAttribute("loginForm") MemberLoginForm loginForm, BindingResult bindingResult, HttpSession session) {
+
+        log.info("loginForm => {}", loginForm);
 
         // 이메일, 비밀번호 문제가 있을시
         if(bindingResult.hasErrors()){
-            log.info("오류 발생 => {}", bindingResult);
+            log.info("이메일, 비밀번호 입력 오류 => {}", bindingResult);
             return "/member/login";
         }
 
-        MemberEntity member = MemberEntity.builder().memberEmail(memberLoginForm.getEmail()).memberPwd(memberLoginForm.getPassword()).build();
+        MemberEntity member = MemberEntity.builder().memberEmail(loginForm.getEmail()).memberPwd(loginForm.getPassword()).build();
 
         MemberEntity findMember = memberService.findMember(member);
 
         // 로그인 실패시
         if(findMember == null){
             bindingResult.addError(new ObjectError("loginForm", "아이디 또는 비밀번호를 잘못 입력하였습니다."));
+            log.info("target => {} ", bindingResult.getTarget());
             return "/member/login";
         }
 
@@ -86,7 +112,7 @@ public class MemberController {
     public String memberForm(HttpSession httpSession, Model model) {
         if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 
-        Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
+        Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
         MemberEntity findMember = memberService.findByMemberId(memberId);
         MemberUpdateForm findMemberUpdate = new MemberUpdateForm(findMember.getMemberFirstname(), findMember.getMemberPwd(), findMember.getMemberPhoneNumber(), findMember.getMemberEmail(), findMember.getMemberBirthday(), findMember.getMemberAddress());
         model.addAttribute("form", findMemberUpdate);
@@ -95,17 +121,13 @@ public class MemberController {
 
     // 회원수정 완료 post
     @PostMapping("/change")
-    public String memberChange(HttpSession httpSession, @Validated @ModelAttribute("form") MemberUpdateForm form,
-                               BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String memberChange(HttpSession httpSession, @Validated @ModelAttribute("form") MemberUpdateForm form, BindingResult bindingResult) {
         if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 
 
-        if(bindingResult.hasErrors()){
-            log.info("오류 퉤 =>{}", bindingResult);
-            return "/member/member";
-        }
+        if(bindingResult.hasErrors()) return "/member/member";
 
-        Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
+        Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
 
         MemberEntity memberUpdate = MemberEntity.builder().memberFirstname(form.getName()).memberPwd(form.getPassword()).memberPhoneNumber(form.getPhoneNumber()).
                 memberEmail(form.getEmail()).memberAddress(form.getAddress()).build();
@@ -115,33 +137,39 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public String getLogout(HttpSession httpSession){
+    public String logout(HttpSession httpSession){
         httpSession.invalidate();
         return "redirect:/";
     }
 
-    @GetMapping("/resign")
-    public String getResign(HttpSession httpSession, Model model) {
-        String url = "redirect:/";
-        if (SessionUtil.getSessionUtil().hasSession(httpSession)) {
-            Long memberID = SessionUtil.getSessionUtil().getMemberID(httpSession);
-            MemberEntity findMember = memberService.findByMemberId(memberID);
-            model.addAttribute("memberEntity", findMember);
-            url = "/member/memberResign";
-        }
-        return url;
+    @GetMapping("/leave")
+    public String leaveForm(HttpSession httpSession, Model model) {
+        if(!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/";
+
+        Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
+        MemberEntity findMember = memberService.findByMemberId(memberId);
+
+        MemberLeaveForm form = new MemberLeaveForm(findMember.getMemberFirstname(), findMember.getMemberPwd(), findMember.getMemberPhoneNumber(), findMember.getMemberEmail(), findMember.getMemberBirthday());
+
+        model.addAttribute("memberEntity", form);
+        return "/member/leave";
     }
 
-    @PostMapping("/resign")
-    public String postResign(HttpSession httpSession, @ModelAttribute MemberEntity member){
-        String url = "redirect:/";
-        if (SessionUtil.getSessionUtil().hasSession(httpSession)) {
-            Long memberID = SessionUtil.getSessionUtil().getMemberID(httpSession);
-            MemberEntity memberEntity = MemberEntity.builder().memberID(memberID).build();
-            memberService.deleteMember(memberEntity);
-            url = "redirect:/member/logout";
+    @PostMapping("/leave")
+    public String leave(HttpSession httpSession, @Validated @ModelAttribute("memberEntity") MemberLeaveForm form, BindingResult bindingResult){
+        if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/";
+
+        if(bindingResult.hasErrors()) return "/member/leave";
+
+        Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
+        int deleteCnt = memberService.deleteMember(memberId, form.getEmail(), form.getPassword());
+
+        if (deleteCnt == 0){
+            bindingResult.addError(new FieldError("memberEntity", "password", "비밀번호가 일치하지 않음."));
+            return "member/leave";
         }
-        return url;
+
+        return "redirect:/member/logout";
     }
 
     /*

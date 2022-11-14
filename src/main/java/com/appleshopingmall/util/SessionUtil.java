@@ -1,4 +1,4 @@
-package com.appleshopingmall.sessionUtill;
+package com.appleshopingmall.util;
 
 import com.appleshopingmall.member.MemberEntity;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 public class SessionUtil {
 
     private static final SessionUtil SESSION_UTIL = new SessionUtil();
-    private static final String MEMBER_ID = "memberID";
+    public static final String MEMBER_ID = "memberID";
 
     private SessionUtil(){}
 
@@ -26,11 +26,11 @@ public class SessionUtil {
 
     // 현재 접속자가 세션이 있는 사람이면 true, 없으면 false
     public boolean hasSession(HttpSession httpSession) {
-        return (getMemberID(httpSession) != null);
+        return (getMemberId(httpSession) != null);
     }
 
     // memberID 세션을 가져옴
-    public Long getMemberID(HttpSession httpSession) {
+    public Long getMemberId(HttpSession httpSession) {
         return (Long)httpSession.getAttribute(MEMBER_ID);
     }
 

@@ -3,7 +3,7 @@ package com.appleshopingmall.member;
 import lombok.*;
 
 import java.sql.Date;
-import java.sql.Timestamp;
+
 
 @Getter
 @ToString

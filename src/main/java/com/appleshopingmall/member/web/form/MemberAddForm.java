@@ -3,12 +3,13 @@ package com.appleshopingmall.member.web.form;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
-public class MemberUpdateForm {
+public class MemberAddForm {
     @NotBlank
     private String name;
 
@@ -18,22 +19,13 @@ public class MemberUpdateForm {
     @NotBlank
     private String phoneNumber;
 
-    @NotBlank
+    @Email
     private String email;
 
-    @Past
+    @Past(message = "생년월일 오류")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     @NotBlank
     private String address;
-
-    public MemberUpdateForm(String name, String password, String phoneNumber, String email, Date birthday, String address) {
-        this.name = name;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.birthday = birthday;
-        this.address = address;
-    }
 }

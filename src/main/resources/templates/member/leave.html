@@ -34,12 +34,13 @@
     <div class="col-md-5">
       <div class="card cardbox">
         <div class="card-header">회원 탈퇴</div>
+        <p th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}" th:class="text-danger"></p>
         <div class="card-body">
           <div class="form-group">
-            <form id="login-nav" action="/member/resign" method="post" role="form" class="form" accept-charset="UTF-8">
+            <form id="login-nav" action="/member/leave" method="post" role="form" class="form" th:object="${memberEntity}" accept-charset="UTF-8">
               <div class="form-group">
                 <label>이름</label>
-                <input type="text" id="reg_username" name="memberFirstname" class="form-control" th:value="${memberEntity.memberFirstname}" required>
+                <input type="text" id="reg_username" name="memberFirstname" class="form-control" th:field="*{name}" required>
               </div>
 
               <!-- password group -->
@@ -48,7 +49,7 @@
                 <label>암호</label>
                 <!-- password input -->
                 <div class="input-group">
-                  <input type="password" id="reg_userpassword" name="memberPwd" class="form-control" data-placement="bottom" data-toggle="popover" data-container="body"
+                  <input type="password" id="reg_userpassword" th:field="*{password}" class="form-control" data-placement="bottom" data-toggle="popover" data-container="body"
 				  data-html="true" required>
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="button-append1" onclick="togglePassword()">
@@ -56,23 +57,24 @@
                     </button>
                   </div>
                 </div>
+                <p th:errors="*{password}" th:text="*{password}" class="text-danger"></p>
 
-              <!-- 전화번호 -->
+                <!-- 전화번호 -->
               <div class="form-group">
                 <label>전화번호</label>
-                <input type="text" th:value="${memberEntity.memberPhoneNumber}" id="phoneNumber" name="memberPhoneNumber" class="form-control">
+                <input type="text" th:field="*{phoneNumber}" class="form-control">
               </div>
 
               <!-- email group -->
               <div class="form-group">
                 <label>이메일</label>
-                <input type="email" th:value="${memberEntity.memberEmail}" id="reg_useremail" name="memberEmail" class="form-control">
+                <input type="email" th:field="*{email}" id="reg_useremail" class="form-control">
               </div>
 
 			  <!-- answer group -->
               <div class="form-group">
                 <label>생년월일</label>
-                <input type="text" th:value="${memberEntity.memberBirthday}" id="birthday" class="form-control" readonly>
+                <input type="text" th:field="*{birthday}" class="form-control" readonly>
               </div>
 
               <div class="form-group">

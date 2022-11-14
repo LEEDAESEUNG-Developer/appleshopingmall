@@ -36,9 +36,10 @@ public interface MemberRepository {
 
     /**
      * 회원 탈퇴
-     * @param member MemberEntity
+     * @param email 이메일
+     * @param pwd 비밀번호
      * @return 삭제 성공 1, 실패 0
      */
-    int deleteMember(@Param("member") MemberEntity member);
+    int deleteMember(@Param("memberId") Long memberId, @Param("email") String email, @Param("password") String pwd);
 
 }

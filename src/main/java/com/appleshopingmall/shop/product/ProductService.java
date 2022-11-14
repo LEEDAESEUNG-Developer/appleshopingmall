@@ -10,8 +10,16 @@ public interface ProductService {
     // 전체 제품 보기
     List<ProductEntity> findAll();
 
+    /**
+     *
+     * @param column 컬럼명
+     * @return product 테이블에 중복제거
+     */
+    List<String> findByDeduplicationProduct(@Param("column") String column);
+
     // 제품 조회
     List<ProductEntity> findByProductView();
+
     /* 페이징 코드 */
     List<ProductEntity> findByProductPaging(Criteria cri);
 

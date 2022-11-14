@@ -3,7 +3,7 @@ package com.appleshopingmall.order;
 import com.appleshopingmall.order.OrderNumber.OrderNumberEntity;
 import com.appleshopingmall.SideBar;
 import com.appleshopingmall.order.OrderNumber.OrderNumberService;
-import com.appleshopingmall.sessionUtill.SessionUtil;
+import com.appleshopingmall.util.SessionUtil;
 import com.appleshopingmall.shop.cart.CartService;
 import com.appleshopingmall.shop.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class OrderController {
         boolean session = SessionUtil.getSessionUtil().hasSession(httpSession);
         String url = "redirect:/member/login";
         if (session) {
-            Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
+            Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
             log.debug("memberId => {}", memberId);
             Integer totalPrice = cartService.getCartTotalPrice(memberId);
             model.addAttribute("totalPrice", totalPrice);
@@ -58,7 +58,7 @@ public class OrderController {
         boolean session = SessionUtil.getSessionUtil().hasSession(httpSession);
         String url = "redirect:/member/login";
         if(session){
-            order.setMemberId(SessionUtil.getSessionUtil().getMemberID(httpSession));
+            order.setMemberId(SessionUtil.getSessionUtil().getMemberId(httpSession));
             orderService.addOrder(order);
             url = "redirect:/shop";
         }
@@ -81,7 +81,7 @@ public class OrderController {
         String url = "redirect:/member/login";
         if(SessionUtil.getSessionUtil().hasSession(httpSession)){
             url = "/order/orders";
-            Long memberId = SessionUtil.getSessionUtil().getMemberID(httpSession);
+            Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
             List<OrderNumberEntity> orderNumbers = orderNumberService.findByMemberId(memberId);
             log.debug("OrderNumberEntity = {}", orderNumberService.findByMemberId(memberId));
             model.addAttribute("orderNumbers", orderNumbers);

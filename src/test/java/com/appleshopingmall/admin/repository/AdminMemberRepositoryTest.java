@@ -50,14 +50,14 @@ class AdminMemberRepositoryTest {
     @Test
     void deleteMember(){
         // given -> 주어졌을때
-        MemberEntity member = new MemberEntity();
-
-        member.setMemberFirstname("삭제될계정");
-        member.setMemberAddress("없음");
-        member.setMemberBirthday(new java.sql.Date(new Date().getTime()));
-        member.setMemberEmail("delete@naver.com");
-        member.setMemberPwd("1234");
-        member.setMemberPhoneNumber("010-1234-1234");
+        MemberEntity member = MemberEntity.builder()
+                .memberFirstname("삭제될계정")
+                .memberAddress("없음")
+                .memberBirthday(new java.sql.Date(new Date().getTime()))
+                .memberEmail("delete@naver.com")
+                .memberPwd("1234")
+                .memberPhoneNumber("010-1234-1234")
+                .build();
 
         // when -> 처리 했을때
         memberService.addMember(member);

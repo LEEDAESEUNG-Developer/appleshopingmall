@@ -17,9 +17,9 @@ public class AdminTest {
     @DisplayName("관리자 확인")
     @Test
     void isAdmin(){
-        MemberEntity member = new MemberEntity();
-        member.setMemberEmail("admin");
-        member.setMemberPwd("admin");
+        MemberEntity member = MemberEntity.builder()
+                .memberEmail("admin")
+                .memberPwd("admin").build();
 
         MemberEntity findMember = memberService.findMember(member);
         String position = findMember.getPosition();

@@ -37,8 +37,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int deleteMember(MemberEntity member) {
-        return memberRepository.deleteMember(member);
+    public int deleteMember(Long memberId, String email, String pwd){
+        return memberRepository.deleteMember(memberId, email, pwd);
     }
-
 }

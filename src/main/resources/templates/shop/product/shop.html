@@ -50,8 +50,9 @@
                             <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
                         <ul class="collapse show list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">Men</a></li>
-                            <li><a class="text-decoration-none" href="#">Women</a></li>
+                            <li th:each="ap:${aps}">
+                                <a class="text-decoration-none" href="#" th:href="@{/shop (pageNum=1, amount=9, type=${param.type}, ap=${ap}, color=${param.color})}" th:text="${ap}"></a>
+                            </li>
                         </ul>
                     </li>
                     <li class="pb-3">
@@ -60,8 +61,9 @@
                             <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
                         <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="#">Sport</a></li>
-                            <li><a class="text-decoration-none" href="#">Luxury</a></li>
+                            <li th:each="color : ${colors}">
+                                <a class="text-decoration-none" href="#" th:href="@{/shop (pageNum=1, amount=9, type=${param.type}, ap=${param.ap}, color=${color})}" th:text="${color}"></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

@@ -82,6 +82,21 @@
         select product_name, product_price, product_color, product_ap, product_ram, product_storage, product_img01 from product where product_category = 2 order by product_data desc limit 1
     </select>
 
+    <!-- 모든 제품의 컬러를 가져옴 -->
+    <select id="findProductColors">
+        select distinct(product_color) from product
+    </select>
+
+    <!-- 제품에 모든 AP을 가져옴 -->
+    <select id="">
+        select distinct(product_ap) from product
+    </select>
+    
+    <!-- 제품에 중복된 결과를 처리-->
+    <select id="findByDeduplicationProduct" resultType="string">
+        select distinct(${column}) from product
+    </select>
+
     <!-- 페이징 코드 (모든) -->
     <select id="getListWithPaging" resultMap="productMapper">
         <![CDATA[
@@ -130,6 +145,107 @@
         ]]>
     </select>
 
+    <!-- 페이징 코드 (타입, ap, 색상) -->
+    <select id="findListWithPagingTypeAndApAndColor" resultMap="productMapper">
+        <![CDATA[
+        select *
+        from (select @RWONUM := @RWONUM + 1 as rnum,
+                     product_id,
+                     product_name,
+                     product_price,
+                     product_data,
+                     product_category,
+                     product_color,
+                     product_ap,
+                     product_ram,
+                     product_operating_system,
+                     product_storage,
+                     product_img01
+              from product,
+                   (SELECT @RWONUM := 0) A
+              where product_category = (select catagory_id from product_catagory where catagory_subject = #{type})
+              and product_ap = #{ap} and product_color = #{color}
+              ORDER BY product_data desc) result
+        where rnum > (#{pageNum} - 1) * #{amount}
+        limit #{amount}
+        ]]>
+    </select>
+
+    <!-- 페이징 코드 (타입, ap) -->
+    <select id="findListWithPagingTypeAndAp" resultMap="productMapper">
+        <![CDATA[
+        select *
+        from (select @RWONUM := @RWONUM + 1 as rnum,
+                     product_id,
+                     product_name,
+                     product_price,
+                     product_data,
+                     product_category,
+                     product_color,
+                     product_ap,
+                     product_ram,
+                     product_operating_system,
+                     product_storage,
+                     product_img01
+              from product,
+                   (SELECT @RWONUM := 0) A
+              where product_category = (select catagory_id from product_catagory where catagory_subject = #{type})
+                and product_ap = #{ap}
+              ORDER BY product_data desc) result
+        where rnum > (#{pageNum} - 1) * #{amount}
+        limit #{amount}
+        ]]>
+    </select>
+
+    <!-- 페이징 코드 (ap) -->
+    <select id="findListWithPagingAp" resultMap="productMapper">
+        <![CDATA[
+        select *
+        from (select @RWONUM := @RWONUM + 1 as rnum,
+                     product_id,
+                     product_name,
+                     product_price,
+                     product_data,
+                     product_category,
+                     product_color,
+                     product_ap,
+                     product_ram,
+                     product_operating_system,
+                     product_storage,
+                     product_img01
+              from product,
+                   (SELECT @RWONUM := 0) A
+              where product_ap = #{ap}
+              ORDER BY product_data desc) result
+        where rnum > (#{pageNum} - 1) * #{amount}
+        limit #{amount}
+        ]]>
+    </select>
+
+    <!-- 페이징 코드 (ap) -->
+    <select id="findListWithPagingColor" resultMap="productMapper">
+        <![CDATA[
+        select *
+        from (select @RWONUM := @RWONUM + 1 as rnum,
+                     product_id,
+                     product_name,
+                     product_price,
+                     product_data,
+                     product_category,
+                     product_color,
+                     product_ap,
+                     product_ram,
+                     product_operating_system,
+                     product_storage,
+                     product_img01
+              from product,
+                   (SELECT @RWONUM := 0) A
+              where product_color = #{color}
+              ORDER BY product_data desc) result
+        where rnum > (#{pageNum} - 1) * #{amount}
+        limit #{amount}
+        ]]>
+    </select>
 
     <select id="count" resultType="int">
         select count(product_id) cnt from product
@@ -137,6 +253,26 @@
 
     <select id="countType" resultType="int">
         select count(product_id) cnt from product where product_category = (select catagory_id from product_catagory where catagory_subject = #{type})
+    </select>
+    
+    <select id="countAp" resultType="int">
+        select count(product_id) cnt from product where product_ap = #{ap}
+    </select>
+
+    <select id="countColor" resultType="int">
+        select count(product_id) cnt from product where product_color = #{color}
+    </select>
+    
+    <select id="countAndTypeAnyApAndColor" resultType="int">
+        select count(product_id) cnt from product
+                                     where product_category = (select catagory_id from product_catagory where catagory_subject = #{type})
+                                    and product_ap = #{ap} and product_color = #{color}
+    </select>
+
+    <select id="countAndTypeAndAp" resultType="int">
+        select count(product_id) cnt from product
+                                     where product_category = (select catagory_id from product_catagory where catagory_subject = #{type})
+                                    and product_ap = #{ap}
     </select>
     
 

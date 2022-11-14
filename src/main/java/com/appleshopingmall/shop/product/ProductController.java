@@ -11,11 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
 import java.util.List;
 
 @Slf4j
@@ -40,6 +37,12 @@ public class ProductController {
 
         SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
 
+
+        List<String> productColor = productService.findByDeduplicationProduct("product_color");
+        List<String> productAp = productService.findByDeduplicationProduct("product_ap");
+
+        model.addAttribute("colors", productColor);
+        model.addAttribute("aps", productAp);
         model.addAttribute("products", products);
         model.addAttribute("productListAll", productListAll);
 

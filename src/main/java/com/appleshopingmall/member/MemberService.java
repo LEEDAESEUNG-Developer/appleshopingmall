@@ -40,9 +40,10 @@ public interface MemberService {
 
     /**
      * 회원 탈퇴
-     * @param member MemberEntity
+     * @param email 이메일
+     * @param pwd 비밀번호
      * @return 삭제 성공 1, 실패 0
      */
-    int deleteMember(MemberEntity member);
+    int deleteMember(Long memberId, String email, String pwd);
 
 }

@@ -75,3 +75,63 @@ select * from product;
 
 select *
 from member;
+
+select *
+from (select @RWONUM := @RWONUM + 1 as rnum,
+             product_id,
+             product_name,
+             product_price,
+             product_data,
+             product_category,
+             product_color,
+             product_ap,
+             product_ram,
+             product_operating_system,
+             product_storage,
+             product_img01
+      from product;
+
+select * from (@rownum := @rownum + 1 as rnum, product_id from product)
+
+select *
+from (select @RWONUM := @RWONUM + 1 as rnum,
+             product_id,
+             product_name,
+             product_price,
+             product_data,
+             product_category,
+             product_color,
+             product_ap,
+             product_ram,
+             product_operating_system,
+             product_storage,
+             product_img01
+      from product,
+           (SELECT @RWONUM := 0) A
+      ORDER BY product_id desc) result
+where rnum > (1 - 1) * 9
+    limit 9;
+
+
+select *
+    from
+        (select @RWONUM := @RWONUM +1 as rnum, product_id, product_data from product, (select @rwonum := 0) A) result order by product_data desc;
+
+    select * from product;
+
+select *
+from (select @RWONUM := @RWONUM + 1 as rnum,
+             product_id,
+             product_name,
+             product_price,
+             product_data,
+             product_category,
+             product_color,
+             product_ap,
+             product_ram,
+             product_operating_system,
+             product_storage,
+             product_img01
+      from product,
+           (SELECT @RWONUM := 0) A
+      ORDER BY product_id desc) result;
