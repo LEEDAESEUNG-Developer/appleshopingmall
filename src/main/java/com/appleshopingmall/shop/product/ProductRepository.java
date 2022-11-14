@@ -76,9 +76,15 @@ public interface ProductRepository {
     // product 테이블 카테고리, ap row 수
     int countAndTypeAndAp(Criteria cri);
 
-    // product ap row 수
+    // product 테이블 Ap, 색상 row 수
+    int countAndApAndColor(Criteria cri);
+
+    // product ap
     List<ProductEntity> findListWithPagingAp(Criteria cri);
 
-    // product color row 수
+    // product color
     List<ProductEntity> findListWithPagingColor(Criteria cri);
+
+    // product ap and color
+    List<ProductEntity> findListWithPagingApAndColor(Criteria cri);
 }

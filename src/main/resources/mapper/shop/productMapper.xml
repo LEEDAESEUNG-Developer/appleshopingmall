@@ -247,6 +247,31 @@
         ]]>
     </select>
 
+    <!-- 페이징 코드 (ap, color) -->
+    <select id="findListWithPagingApAndColor" resultMap="productMapper">
+        <![CDATA[
+        select *
+        from (select @RWONUM := @RWONUM + 1 as rnum,
+                     product_id,
+                     product_name,
+                     product_price,
+                     product_data,
+                     product_category,
+                     product_color,
+                     product_ap,
+                     product_ram,
+                     product_operating_system,
+                     product_storage,
+                     product_img01
+              from product,
+                   (SELECT @RWONUM := 0) A
+              where product_color = #{color} and product_ap = #{ap}
+              ORDER BY product_data desc) result
+        where rnum > (#{pageNum} - 1) * #{amount}
+        limit #{amount}
+        ]]>
+    </select>
+
     <select id="count" resultType="int">
         select count(product_id) cnt from product
     </select>
@@ -273,6 +298,10 @@
         select count(product_id) cnt from product
                                      where product_category = (select catagory_id from product_catagory where catagory_subject = #{type})
                                     and product_ap = #{ap}
+    </select>
+
+    <select id="countAndApAndColor" resultType="int">
+        select count(product_id) cnt from product where product_ap = #{ap} and product_color = #{color}
     </select>
     
 

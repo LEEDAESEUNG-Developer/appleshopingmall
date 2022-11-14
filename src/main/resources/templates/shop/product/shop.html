@@ -110,8 +110,10 @@
                             </div>
                         </div>
                     </div>
+                    <p class="h2 text-muted mt-5" th:if="${products.size()} == '0'">제품을 찾을 수 없습니다.</p>
+
                 </div>
-                <div div="row">
+                <div class="row" th:if="${products.size()} > 0">
                     <ul class="pagination pagination-lg justify-content-end"  th:object="${pageMaker.cri}">
                         <li class="page-item" th:if="${pageMaker.prev}">
                             <a href="#" class="page-link" th:href="@{/shop (pageNum = ${pageMaker.startPage - 1}, amount = *{amount})}"><</a>

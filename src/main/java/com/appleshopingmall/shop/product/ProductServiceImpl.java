@@ -56,7 +56,10 @@ public class ProductServiceImpl implements ProductService{
         } else if(cri.getType() != null && cri.getAp() != null && !cri.getType().isBlank() && !cri.getAp().isBlank()){
                 log.info("타입, ap");
                 return productRepository.findListWithPagingTypeAndAp(cri);
-        } else if(cri.getType() != null && !cri.getType().isBlank()) {
+        } else if(cri.getAp() != null && cri.getColor() != null && !cri.getAp().isBlank() && !cri.getColor().isBlank()){
+            log.info("ap, 색상");
+            return productRepository.findListWithPagingApAndColor(cri);
+        }else if(cri.getType() != null && !cri.getType().isBlank()) {
             log.info("타입");
             return productRepository.getListWithPagingType(cri);
         } else if(cri.getAp() != null && !cri.getAp().isBlank()){
@@ -83,6 +86,9 @@ public class ProductServiceImpl implements ProductService{
             return productRepository.countAndTypeAnyApAndColor(cri);
         } else if(cri.getType() != null && cri.getAp() != null && !cri.getType().isBlank() && !cri.getAp().isBlank()){
             return productRepository.countAndTypeAndAp(cri);
+        }else if(cri.getAp() != null && cri.getColor() != null && !cri.getAp().isBlank() && !cri.getColor().isBlank()){
+            log.info("ap, 색상");
+            return productRepository.countAndApAndColor(cri);
         } else if(cri.getType() != null && !cri.getType().isBlank()) {
             return productRepository.countType(cri); // 타입 검색
         } else if(cri.getAp() != null && !cri.getAp().isBlank()){
