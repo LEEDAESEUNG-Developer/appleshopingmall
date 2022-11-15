@@ -46,7 +46,7 @@ class AdminProductRepositoryTest {
         product.setProductCategory(1);
 
         //when
-        Integer addProduct = adminProductRepository.addProduct(product);
+        Integer addProduct = adminProductRepository.addProduct(null);
 
         //then
         assertThat(addProduct).isEqualTo(1);

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.appleshopingmall.admin.repository.AdminMemberRepositoryMapper">
-    <resultMap id="memberEntityMap" type="com.appleshopingmall.member.MemberEntity">
+    <resultMap id="adminMemberMap" type="com.appleshopingmall.member.MemberEntity">
         <result column="member_id" property="memberID"/>
         <result column="member_firstname" property="memberFirstname"/>
         <result column="member_address" property="memberAddress"/>
@@ -10,13 +10,14 @@
         <result column="member_email" property="memberEmail"/>
         <result column="member_pwd" property="memberPwd"/>
         <result column="member_phoneNumber" property="memberPhoneNumber"/>
+        <result column="position" property="position"/>
     </resultMap>
 
-    <select id="findMembers" resultMap="memberEntityMap">
+    <select id="findMembers" resultMap="adminMemberMap">
         select * from member
     </select>
 
-    <select id="findMember" resultMap="memberEntityMap">
+    <select id="findMember" resultMap="adminMemberMap">
         select * from member where member_id = #{memberId}
     </select>
 

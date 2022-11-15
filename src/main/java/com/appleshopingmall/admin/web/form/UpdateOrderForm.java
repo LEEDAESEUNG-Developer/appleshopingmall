@@ -1,4 +1,4 @@
-package com.appleshopingmall.admin.entity;
+package com.appleshopingmall.admin.web.form;
 
 import lombok.Data;
 

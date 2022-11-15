@@ -19,6 +19,15 @@ alter table product change product_Color product_color varchar(50);
 
 alter table product change product_data product_data date default now();
 
+alter table product drop product_img04;
+
+alter table product add product_img04 varchar(50) after product_img03;
+
+select *
+from product;
+
+alter table product change product_Content_img01 product_Content_img01 varchar(100);
+
 /* 회원 테이블*/
 select * from member;
 desc member;

@@ -118,6 +118,7 @@ select *
         (select @RWONUM := @RWONUM +1 as rnum, product_id, product_data from product, (select @rwonum := 0) A) result order by product_data desc;
 
     select * from product;
+select * from product_catagory;
 
 select *
 from (select @RWONUM := @RWONUM + 1 as rnum,
@@ -135,3 +136,9 @@ from (select @RWONUM := @RWONUM + 1 as rnum,
       from product,
            (SELECT @RWONUM := 0) A
       ORDER BY product_id desc) result;
+
+
+select * from product;
+
+
+desc product;

@@ -10,17 +10,15 @@
         <thead>
         <tr>
             <th scope="col" class="text-center">No</th>
-            <th scope="col" class="text-center">mainImage</th>
-            <th scope="col" class="text-center">Name</th>
-            <th scope="col" class="text-center">Price</th>
-            <th scope="col" class="text-center">Category</th>
+            <th scope="col" class="text-center">메인사진</th>
+            <th scope="col" class="text-center">이름</th>
+            <th scope="col" class="text-center">가격</th>
+            <th scope="col" class="text-center">타입</th>
             <th scope="col" class="text-center">AP</th>
             <th scope="col" class="text-center">Ram</th>
-            <th scope="col" class="text-center">OperatingSystem</th>
-            <th scope="col" class="text-center">Storage</th>
-            <th scope="col" class="text-center">productImg02</th>
-            <th scope="col" class="text-center">productImg03</th>
-            <th scope="col" class="text-center">productImg04</th>
+            <th scope="col" class="text-center">운영체제</th>
+            <th scope="col" class="text-center">저장용량</th>
+            <th scope="col" class="text-center"><button class="btn btn-secondary"><a href="/admin/product/add">새제품 추가</a></button></th>
         </tr>
         </thead>
         <tbody>
@@ -28,15 +26,12 @@
             <th scope="col" th:text="${product.getProductId}" class="text-center">No</th>
             <td class="text-center"><img src="" th:src="@{/product_images}+${product.productImg01}" alt="제품메인" width="50px" height="50px"></td>
             <td class="text-center"><a href="#" th:href="@{/admin/product/{productId}(productId = ${product.getProductId})}" th:text="${product.productName}"></a> </td>
-            <td class="text-center" th:text="${product.productPrice}">productPrice</td>
+            <td class="text-center" th:text="|₩${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}|">$25.00</td>
             <td class="text-center" th:text="${product.productCategory}">productCategory</td>
             <td class="text-center" th:text="${product.productAP}">productAP</td>
             <td class="text-center" th:text="${product.productRam}">productRam</td>
             <td class="text-center" th:text="${product.productOperatingSystem}">productOperatingSystem</td>
             <td class="text-center" th:text="${product.productStorage}">productStorage</td>
-            <td class="text-center" th:text="${product.productImg02}">productImg02</td>
-            <td class="text-center" th:text="${product.productImg03}">productImg03</td>
-            <td class="text-center" th:text="${product.productImg04}">productImg04</td>
         </tr>
         </tbody>
     </table>

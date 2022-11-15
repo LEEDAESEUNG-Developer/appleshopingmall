@@ -13,6 +13,7 @@
         <result column="product_ram" property="productRam"/>
         <result column="product_operating_system" property="productOperatingSystem"/>
         <result column="product_storage" property="productStorage"/>
+        <result column="product_stock" property="productStock"/>
         <result column="product_img01" property="productImg01"/>
         <result column="product_img02" property="productImg02"/>
         <result column="product_img03" property="productImg03"/>
@@ -83,15 +84,11 @@
     </select>
 
     <!-- 모든 제품의 컬러를 가져옴 -->
-    <select id="findProductColors">
+    <select id="findProductColors" resultType="string">
         select distinct(product_color) from product
     </select>
 
-    <!-- 제품에 모든 AP을 가져옴 -->
-    <select id="">
-        select distinct(product_ap) from product
-    </select>
-    
+
     <!-- 제품에 중복된 결과를 처리-->
     <select id="findByDeduplicationProduct" resultType="string">
         select distinct(${column}) from product

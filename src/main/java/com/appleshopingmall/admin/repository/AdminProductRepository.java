@@ -1,23 +1,28 @@
 package com.appleshopingmall.admin.repository;
 
-import com.appleshopingmall.shop.product.ProductEntity;
+import com.appleshopingmall.admin.entity.AdminProductEntity;
+import com.appleshopingmall.admin.repository.dto.ProductAddDTO;
 
 import java.util.List;
 
 public interface AdminProductRepository {
 
     // 모든 제품 조회(복수)
-    List<ProductEntity> findProducts();
+    List<AdminProductEntity> findProducts();
 
     // 제품 조회 (단수)
-    ProductEntity findProduct(Long productId);
+    AdminProductEntity findProduct(Long productId);
 
     // 제품 추가
-    Integer addProduct(ProductEntity product);
+    int addProduct(ProductAddDTO product);
 
     // 제품 수정
-    Integer updateProduct(ProductEntity product);
+    Integer updateProduct(AdminProductEntity product);
 
     // 제품 삭제
     Integer deleteProduct(Long productId);
+
+    // 카테고리 번호로 조회해서 카테고리명 리턴
+    String findByCategoryId(int categoryId);
+
 }

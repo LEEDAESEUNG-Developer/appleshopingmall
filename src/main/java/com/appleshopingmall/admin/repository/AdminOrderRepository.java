@@ -1,8 +1,6 @@
 package com.appleshopingmall.admin.repository;
 
 import com.appleshopingmall.admin.entity.Order;
-import com.appleshopingmall.admin.entity.UpdateOrderForm;
-import com.appleshopingmall.order.OrderEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

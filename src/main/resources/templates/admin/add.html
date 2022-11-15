@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragment/head :: head(~{::title})">
+    <title>상품 수정 폼</title>
+</head>
+<body>
+<nav th:replace="admin/fragment/admin_sidebar :: sidebar()"></nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-5 mt-4">
+            <div class="card cardbox">
+                <div class="card-header">상품 추가</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <form id="login-nav" th:object="${form}" action="#" th:action="@{/admin/product/add}" th:method="post" role="form" class="form" accept-charset="UTF-8" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="directType">제품군</label>
+                                <select id="directType" th:field="*{directType}" class="form-select">
+                                    <option th:each="type : ${types}" th:value="${type}" th:text="${type.getName()}"></option>
+                                </select>
+                                <p th:errors="*{productCategory}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="memberFirstname">이름</label>
+                                <input type="text" id="memberFirstname" th:field="*{productName}" class="form-control">
+                                <p th:errors="*{productName}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productPrice">가격</label>
+                                <input type="text" id="productPrice" th:field="*{productPrice}" class="form-control">
+                                <p th:errors="*{productPrice}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productData">출시일</label>
+                                <input type="date" id="productData" th:field="*{productData}" class="form-control">
+                                <p th:errors="*{productData}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="series">세대</label>
+                                <input type="text" id="series" th:field="*{series}" class="form-control">
+<!--                                <p th:errors="" class="text-danger"></p>-->
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productCategory">카테고리</label>
+                                <select id="productCategory" th:field="*{productCategory}" class="form-select">
+                                    <option value="1">맥</option>
+                                    <option value="2">아이패드</option>
+                                    <option value="3">아이폰</option>
+                                    <option value="4">와치</option>
+                                    <option value="5">에어팟</option>
+                                </select>
+                                <p th:errors="*{productCategory}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productColor">색상</label>
+                                <input type="text" id="productColor" th:field="*{productColor}" class="form-control">
+                                <p th:errors="*{productColor}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productAP">AP</label>
+                                <input type="text" id="productAP" th:field="*{productAP}" class="form-control">
+                                <p th:errors="*{productAP}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productRam">Ram</label>
+                                <input type="text" id="productRam" th:field="*{productRam}" class="form-control">
+                                <p th:errors="*{productRam}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productOperatingSystem">OS</label>
+                                <input type="text" id="productOperatingSystem" th:field="*{productOperatingSystem}" class="form-control">
+                                <p th:errors="*{productOperatingSystem}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productStorage">저장용량</label>
+                                <input type="text" id="productStorage" th:field="*{productStorage}" class="form-control">
+                                <p th:errors="*{productStorage}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productStock">상품수량</label>
+                                <input type="text" id="productStock" th:field="*{productStock}" class="form-control">
+                                <p th:errors="*{productStock}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productImg01">메인사진</label>
+                                <input type="file" id="productImg01" th:field="*{productMainImg}" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productImg02">왼쪽사진</label>
+                                <input type="file" id="productImg02" th:field="*{productTopImg}" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productImg03">윗사진</label>
+                                <input type="file" id="productImg03" th:field="*{productLeftImg}" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productImg04">오른쪽사진</label>
+                                <input type="file" id="productImg04" th:field="*{productRightImg}" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productContentImg01">설명사진</label>
+                                <input type="file" id="productContentImg01" th:field="*{productContentImg01}" class="form-control">
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="form-group">
+                                <button id="reg_submit" name="submit" class="btn btn-block btn-primary">상품 추가</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="login-or"><hr class="hr-or"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
