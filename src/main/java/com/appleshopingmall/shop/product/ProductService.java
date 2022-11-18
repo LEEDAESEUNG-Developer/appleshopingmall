@@ -41,4 +41,11 @@ public interface ProductService {
     // product 테이블 row 수
     int count(Criteria cri);
 
+    // 제품 색상 가져오기
+    List<String> getProductColorByProductName(String productName);
+
+
+    // 제품 번호를 조회해서 stock(수량)를 가져옴
+    int findByProductIdStockCount(@Param("productId") Long productId);
+
 }

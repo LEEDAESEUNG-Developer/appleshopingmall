@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -50,12 +52,14 @@ public class ProductController {
     }
 
     @GetMapping(value = "/product/{productName}/{productColor}")
-    public String product(@PathVariable String productName, @PathVariable String productColor, Model model) {
+    public String productForm(@PathVariable String productName, @PathVariable String productColor, Model model) {
+
         ProductEntity product = productService.findByProductNameAndColor(productName, productColor);
-        List<ProductEntity> products = productService.findByProductName(productName);
+
+        List<String> colors = productService.getProductColorByProductName(productName);
 
         model.addAttribute("product", product);
-        model.addAttribute("products", products);
+        model.addAttribute("colors", colors);
 
         return "/shop/product/product";
     }

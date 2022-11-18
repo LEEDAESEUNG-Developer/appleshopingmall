@@ -1,5 +1,7 @@
 package com.appleshopingmall.shop.cart;
 
+import com.appleshopingmall.shop.cart.dto.CartAddDto;
+import com.appleshopingmall.shop.cart.dto.CartDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +14,13 @@ public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
 
     @Override
-    public List<CartEntity> findMemberProductID(Long memberID) {
-        return cartRepository.findMemberProductID(memberID);
+    public List<CartDto> findByMemberIdCart(Long memberID) {
+        return cartRepository.findByMemberIdCart(memberID);
     }
 
     @Override
-    public int addCartByMemberId(CartEntity cartEntity) {
-        return cartRepository.addCartByMemberId(cartEntity);
+    public int addCartByMemberId(CartAddDto dto) {
+        return cartRepository.addCartByMemberId(dto);
     }
 
     @Override
@@ -40,4 +42,5 @@ public class CartServiceImpl implements CartService {
     public Long deleteCartID(Long cardID) {
         return cartRepository.deleteCartID(cardID);
     }
+
 }

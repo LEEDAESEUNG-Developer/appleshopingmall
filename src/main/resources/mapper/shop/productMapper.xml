@@ -52,6 +52,11 @@
     <select id="findByProductName" resultMap="productMapper">
         select * from product where product_name = #{productName}
     </select>
+
+    <!-- 제품이름으로 색상만 가져오기 -->
+    <select id="getProductColorByProductName" resultType="string">
+        select product_color from product where product_name = #{productName}
+    </select>
     
     <!-- 제품이름, 컬러 찾기 -->
     <select id="findByProductNameAndColor" resultMap="productMapper">
@@ -299,6 +304,11 @@
 
     <select id="countAndApAndColor" resultType="int">
         select count(product_id) cnt from product where product_ap = #{ap} and product_color = #{color}
+    </select>
+
+    <!-- 제품 번호를 조회해서 stock(수량)를 가져옴 -->
+    <select id="findByProductIdStockCount" resultType="int">
+        select product_stock from product where product_id = #{productId}
     </select>
     
 

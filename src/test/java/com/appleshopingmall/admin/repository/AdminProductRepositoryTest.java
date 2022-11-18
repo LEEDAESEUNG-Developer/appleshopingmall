@@ -18,7 +18,7 @@ class AdminProductRepositoryTest {
 
     @Autowired
     AdminProductRepository adminProductRepository;
-
+/*
     @DisplayName("모든 상품 조회")
     @Test
     void findProducts() {
@@ -74,4 +74,5 @@ class AdminProductRepositoryTest {
         // then
         Assertions.assertThat(deleteProduct).isNotEqualTo(0);
     }
+    */
 }

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="d-flex align-items-center justify-content-center vh-100" th:fragment="error(errorCode, message)">
+  <div class="text-center">
+    <h1 class="display-1 fw-bold" th:text="${errorCode}">500</h1>
+    <p class="fs-3" th:utext="|<span class='text-danger'>헉!</span> ${message}|"> Internal Server Error</p>
+    <a href="/" class="btn btn-primary">메인 페이지</a>
+  </div>
+</div>
+</html>

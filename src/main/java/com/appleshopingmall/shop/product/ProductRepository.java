@@ -87,4 +87,10 @@ public interface ProductRepository {
 
     // product ap and color
     List<ProductEntity> findListWithPagingApAndColor(Criteria cri);
+
+    // 제품 색상 가져오기
+    List<String> getProductColorByProductName(@Param("productName") String productName);
+
+    // 제품 번호를 조회해서 stock(수량)를 가져옴
+    int findByProductIdStockCount(@Param("productId") Long productId);
 }

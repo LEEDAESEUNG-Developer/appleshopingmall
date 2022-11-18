@@ -13,6 +13,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new ControllerInterceptor())
                 .order(1)
-                .addPathPatterns("/admin/product/add");
+                .addPathPatterns("/shop/product/**");
     }
 }

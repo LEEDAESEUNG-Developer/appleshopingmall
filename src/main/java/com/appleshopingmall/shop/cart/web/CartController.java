@@ -1,6 +1,13 @@
-package com.appleshopingmall.shop.cart;
+package com.appleshopingmall.shop.cart.web;
 
 import com.appleshopingmall.SideBar;
+import com.appleshopingmall.error.exception.ProductStockError;
+import com.appleshopingmall.shop.cart.CartEntity;
+import com.appleshopingmall.shop.cart.CartService;
+import com.appleshopingmall.shop.cart.dto.CartAddDto;
+import com.appleshopingmall.shop.cart.dto.CartDto;
+import com.appleshopingmall.shop.cart.web.form.CartForm;
+import com.appleshopingmall.util.ProductError;
 import com.appleshopingmall.util.SessionUtil;
 import com.appleshopingmall.shop.product.ProductEntity;
 import com.appleshopingmall.shop.product.ProductService;
@@ -8,7 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -35,8 +45,17 @@ public class CartController {
         Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
 
         SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
+
+        List<CartDto> findCart = cartService.findByMemberIdCart(memberId);
+
+        //매진 된 상품이 있는지 검사
+        boolean isSoldOut = ProductError.hasSoldOut(findCart, productService);
+
+        log.info("isSoldOut => {}", isSoldOut);
+        log.info("cart => {}", findCart);
+        model.addAttribute("isSoldOut", isSoldOut);
         model.addAttribute("cartTotal", cartService.getCartTotalPrice(memberId));
-        model.addAttribute("cart", cartService.findMemberProductID(memberId));
+        model.addAttribute("carts", findCart);
 
         return "/shop/cart/cart";
     }
@@ -46,19 +65,35 @@ public class CartController {
      * 1. 세션의 값을 가지고 카트에 담기
      * */
     @PostMapping("add/{productName}/{productColor}")
-    public String addCart(@PathVariable String productName, @PathVariable String productColor, CartEntity cart, HttpSession httpSession) {
+    public String addCart(@PathVariable String productName, @PathVariable String productColor, CartForm form, HttpSession httpSession, RedirectAttributes redirectAttributes) throws ProductStockError {
 
         if(!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 
+        CartAddDto cartAddDto = new CartAddDto();
+
         ProductEntity findProduct = productService.findByProductNameAndColor(productName, productColor);
+        String message = "현재 남은 수량은 " + findProduct.getProductStock() + "개 입니다.";
 
-        cart.setMemberId(SessionUtil.getSessionUtil().getMemberId(httpSession));
-        cart.setProductId(findProduct.getProductId());
-        cart.setProductPrice(findProduct.getProductPrice());
+        //DB에 제품 수량 보다 더 많은 제품을 담을 경우 에러처리
+        if (form.getProductCount() > findProduct.getProductStock()) {
+            redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addAttribute("productName", productName);
+            redirectAttributes.addAttribute("productColor", productColor);
+            return "redirect:/shop/product/{productName}/{productColor}";
+        }
 
-        log.debug("cart = {}", cart);
+        form.setMemberId(SessionUtil.getSessionUtil().getMemberId(httpSession));
+        form.setProductId(findProduct.getProductId());
+        form.setProductPrice(findProduct.getProductPrice());
 
-        cartService.addCartByMemberId(cart);
+        log.debug("cart = {}", form);
+
+        cartAddDto.setMemberId(SessionUtil.getSessionUtil().getMemberId(httpSession));
+        cartAddDto.setProductId(findProduct.getProductId());
+        cartAddDto.setProductPrice(findProduct.getProductPrice());
+        cartAddDto.setProductCount(form.getProductCount());
+
+        cartService.addCartByMemberId(cartAddDto);
         return "redirect:/shop";
     }
 
@@ -85,6 +120,7 @@ public class CartController {
     public List<CartEntity> test(HttpSession httpSession){
         System.out.println(httpSession.getAttribute("memberID"));
 //        return productService.getAllProduct();
-        return cartService.findMemberProductID((Long) httpSession.getAttribute("memberID"));
+//        return cartService.findMemberProductID((Long) httpSession.getAttribute("memberID"));
+        return null;
     }
 }

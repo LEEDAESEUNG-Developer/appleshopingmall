@@ -6,10 +6,6 @@
     <!--  All snippets are MIT license http://bootdey.com/license -->
     <title>cart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" defer></script>-->
 
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
@@ -132,45 +128,49 @@
                     <span class="pull-right" th:utext="|(<strong>${cartCount}</strong>) 상품|">
                         (<strong>5</strong>) 상품
                     </span>
-                    <h5>장바구니</h5>
+<!--                    <h5>장바구니</h5>-->
+                    <div> <span class="h5">장바구니</span> <span th:if="${isSoldOut} == true" th:class="text-danger">(현재 매진 상품이 있어 주문 하실수 없습니다.)</span> </div>
                 </div>
-                <div class="ibox-content" th:each="product : ${cart}">
+                <div class="ibox-content" th:each="cart : ${carts}">
                     <div class="table-responsive">
                         <table class="table shoping-cart-table">
                             <tbody>
                             <tr>
                                 <td width="90">
                                     <div class="cart-product-imitation">
-                                        <img src="/product_images/test.png" th:src="@{/product_images}+${product.productImg01}" alt="제품이미지" width="80" height="80">
+                                        <img src="/product_images/test.png" th:src="@{/product_images}+${cart.productImg01}" alt="제품이미지" width="80" height="80">
                                     </div>
                                 </td>
                                 <td class="desc">
                                     <h3>
-                                        <a th:href="@{/shop/product/{productName}/{productColor}(productName=${product.productName},productColor=${product.productColor})}" class="text-navy" th:text="${product.productName}">
+                                        <a th:href="@{/shop/product/{productName}/{productColor}(productName=${cart.productName},productColor=${cart.productColor})}" class="text-navy" th:text="${cart.productName}">
                                             Desktop publishing software
                                         </a>
                                     </h3>
-                                    <p class="small" th:text="|CPU:${product.productAP} RAM:${product.productRam} Storage: ${product.productStorage}|">
+                                    <p class="small" th:text="|CPU:${cart.productAP} RAM:${cart.productRam} Storage: ${cart.productStorage}|">
                                         It is a long established fact that a reader will be distracted by the readable
                                         content of a page when looking at its layout. The point of using Lorem Ipsum is
                                     </p>
 
                                     <div class="m-t-sm">
-                                        <a href="#" th:href="@{/shop/remove/{cartID}(cartID=${product.cartId})}" class="text-muted"><i class="fa fa-trash"></i> 삭제</a>
+                                        <a href="#" th:href="@{/shop/remove/{cartID}(cartID=${cart.cartId})}" class="text-muted"><i class="fa fa-trash"></i> 삭제</a>
                                     </div>
                                 </td>
 
-                                <td th:text="|${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">
-                                    $180,00
-<!--                                    <s class="small text-muted">$230,00</s>-->
-                                </td>
+                                <td th:if="${cart.productStock} > 0" th:text="|${#numbers.formatInteger(cart.productPrice, 3, 'COMMA')}₩|"></td>
+
+                                <td th:if="${cart.productStock} <= 0" th:text="|${#numbers.formatInteger(cart.productPrice, 3, 'COMMA')}₩|" class="text-decoration-line-through"></td>
+
                                 <td width="65">
-                                    <input type="text" class="form-control" placeholder="1" th:placeholder="${product.productCount}">
+                                    <input type="text" class="form-control" placeholder="1" th:value="${cart.productCount}">
                                 </td>
-                                <td>
-                                    <h4 th:text="|${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">
+                                <td th:if="${cart.productStock} > 0">
+                                    <h4 th:text="|${#numbers.formatInteger(cart.productPrice * cart.productCount, 3, 'COMMA')}₩|">
                                         $180,00
                                     </h4>
+                                </td>
+                                <td th:if="${cart.productStock} <= 0">
+                                    <h4 th:text="|매진|" ></h4>
                                 </td>
                             </tr>
                             </tbody>
@@ -178,9 +178,10 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-<!--                    <button class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> 주문</button>-->
-                    <a href="/shop/order/payment" class="btn btn-primary btn-sm pull-right"><i class="fa fa-shopping-cart"></i> 주문</a>
-                    <button class="btn btn-white"><i class="fa fa-arrow-left"></i> <a href="/shop"> Continue shopping</a></button>
+                    <button onclick="location.href='/shop/order/payment'" class="btn btn-primary pull-right" th:attr="disabled=${isSoldOut == true ? 'true' : 'false'}">
+                        <i class="fa fa-shopping-cart"></i> 주문
+                    </button>
+                    <button class="btn btn-white"><i class="fa fa-arrow-left"></i> <a href="/shop"> 다른 제품 보려가기</a></button>
                 </div>
             </div>
 
@@ -204,7 +205,9 @@
                     </span>
                     <div class="m-t-sm">
                         <div class="btn-group">
-                        <a href="/shop/order/payment" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> 주문</a>
+                            <button onclick="location.href='/shop/order/payment'" class="btn btn-primary pull-right" th:attr="disabled=${isSoldOut == true ? 'true' : 'false'}">
+                                <i class="fa fa-shopping-cart"></i> 주문
+                            </button>
                         <a href="#" class="btn btn-white btn-sm"> Cancel</a>
                         </div>
                     </div>

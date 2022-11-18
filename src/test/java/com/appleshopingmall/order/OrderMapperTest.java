@@ -43,7 +43,7 @@ class OrderMapperTest {
     @DisplayName("주문 추가_성공")
     @Test
     void addOrder_O() {
-        cartService.addCartByMemberId(cartEntity);          // 카트 추가
+        cartService.addCartByMemberId(null);          // 카트 추가
         int addOrder = orderService.addOrder(orderEntity);  // 주문 추가
 
         List<OrderEntity> findOrder = orderService.findByMemberId(2L); // 검색

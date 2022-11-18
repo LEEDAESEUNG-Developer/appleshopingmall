@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.appleshopingmall.shop.cart.CartRepository">
+
     <resultMap id="cartMapper" type="com.appleshopingmall.shop.cart.CartEntity">
         <result column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
@@ -19,6 +20,24 @@
         <result column="product_count" property="productCount"/>
     </resultMap>
 
+    <resultMap id="cartMap" type="com.appleshopingmall.shop.cart.dto.CartDto">
+        <!-- 카트-->
+        <result column="cart_id" property="cartId"/>
+        <result column="member_id" property="memberId"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_price" property="productPrice"/>
+        <result column="product_count" property="productCount"/>
+
+        <!-- 제품 -->
+        <result column="product_name" property="productName"/>
+        <result column="product_color" property="productColor"/>
+        <result column="product_ap" property="productAP"/>
+        <result column="product_ram" property="productRam"/>
+        <result column="product_storage" property="productStorage"/>
+        <result column="product_stock" property="productStock"/>
+        <result column="product_img01" property="productImg01"/>
+    </resultMap>
+
     <!-- 회원 번호로 카트에 담긴 제품을 가져오기-->
     <select id="findMemberProduct" resultMap="cartMapper">
         select * from product where product.product_id in (select product_id from product_cart where member_id = #{memberId})
@@ -26,24 +45,9 @@
 
     
     <!-- 카트 테이블, 제품 테이블 조인 쿼리 -->
-    <select id="findMemberProductID" resultMap="cartMapper">
-        select p.product_id,
-               product_name,
-               product_data,
-               product_category,
-               product_color,
-               product_ap,
-               product_ram,
-               product_storage,
-               product_img01,
-               cart_id,
-               member_id,
-               p.product_price,
-               product_count
-        from product p,
-             product_cart c
-        where p.product_id = c.product_id
-          and c.member_id = #{memberId}
+    <select id="findByMemberIdCart" resultMap="cartMap">
+    select cart_id, member_id, c.product_price, c.product_id, product_count, product_name, product_color, product_ap, product_ram, product_storage, product_stock, product_img01
+     from product_cart c inner join product p on c.product_id = p.product_id where member_id = #{memberId}
     </select>
     
     <!-- 회원번호로 장바구니에 담긴 제품 수량 가져옴 DB 함수 처리-->
@@ -66,9 +70,9 @@
         delete from product_cart where cart_id = #{cartId}
     </delete>
 
-    <!-- 멤버 아이디를 기준으로 해서 제품을 담는다-->
+    <!-- 멤버 아이디를 기준으로 해서 제품을 저장함 -->
     <insert id="addCartByMemberId">
         insert into product_cart (member_id, product_id, product_price, product_count)
-            value (#{cartEntity.memberId}, #{cartEntity.productId},(select product_price from product where product_id = #{cartEntity.productId}),#{cartEntity.productCount})
+            value (#{dto.memberId}, #{dto.productId}, (select product_price from product where product_id = #{dto.productId}),#{dto.productCount})
     </insert>
 </mapper>

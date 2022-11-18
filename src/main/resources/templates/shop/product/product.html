@@ -144,9 +144,9 @@ https://templatemo.com/tm-559-zay-shop
                             </p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
-                                    <a th:each="product: ${products}" href=""
-                                       th:href="@{/shop/product/{productName}/{productColor}(productName = ${product.productName}, productColor = ${product.productColor})}">
-                                        <span class="text-muted" th:text="|${product.productColor} |"><strong>White / Black</strong></span></a>
+                                    <a th:each="color: ${colors}" href=""
+                                       th:href="@{/shop/product/{productName}/{productColor}(productName = ${product.productName}, productColor = ${color})}">
+                                        <span class="text-muted" th:text="|${color} |"><strong>White / Black</strong></span></a>
                                 </li>
                             </ul>
 
@@ -164,7 +164,20 @@ https://templatemo.com/tm-559-zay-shop
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row pb-3">
+
+                                <div class="row pd-3" th:if="${message} != null">
+                                    <div class="col d-grid">
+                                        <p th:text="${message}"></p>
+                                    </div>
+                                </div>
+
+                                <div class="row pd-3" th:if="${product.productStock} == 0">
+                                    <div class="col d-grid">
+                                        <button class="btn btn-success" disabled>현재 상품이 매진 되었습니다.</button>
+                                    </div>
+                                </div>
+
+                                <div class="row pb-3" th:if="${product.productStock} > 0">
                                     <div class="col d-grid">
                                         <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">구매</button>
                                     </div>

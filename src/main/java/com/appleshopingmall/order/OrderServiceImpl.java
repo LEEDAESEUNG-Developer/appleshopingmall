@@ -1,6 +1,6 @@
 package com.appleshopingmall.order;
 
-import com.appleshopingmall.shop.cart.CartEntity;
+import com.appleshopingmall.shop.cart.dto.CartDto;
 import com.appleshopingmall.shop.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int addOrder(OrderEntity orderEntity) {
-        int chk = 0;
-        List<CartEntity> findCarts = cartService.findMemberProductID(orderEntity.getMemberId());
+        List<CartDto> findCarts = cartService.findByMemberIdCart(orderEntity.getMemberId());
         if(findCarts.size() >= 1){
             orderRepository.addNumberOrder(orderEntity);          // 주문번호 생성
             findCarts.forEach(cartEntity -> {
@@ -30,9 +29,9 @@ public class OrderServiceImpl implements OrderService {
                 orderRepository.addOrder(orderEntity);            // 주문 테이블에 값 추가
                 cartService.deleteCartID(cartEntity.getCartId()); // 카트에 담긴 제품 삭제
             });
-            chk = 1;
+            return 1;
         }
-        return chk;
+        return 0;
     }
 
     @Override

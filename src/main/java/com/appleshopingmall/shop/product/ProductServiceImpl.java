@@ -102,6 +102,16 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public List<String> getProductColorByProductName(String productName) {
+        return productRepository.getProductColorByProductName(productName);
+    }
+
+    @Override
+    public int findByProductIdStockCount(Long productId) {
+        return productRepository.findByProductIdStockCount(productId);
+    }
+
+    @Override
     public List<ProductEntity> findNewProduct() {
         List<ProductEntity> products = new ArrayList<>();
 
