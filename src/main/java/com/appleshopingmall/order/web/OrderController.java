@@ -1,9 +1,12 @@
-package com.appleshopingmall.order;
+package com.appleshopingmall.order.web;
 
 import com.appleshopingmall.error.exception.ProductStockError;
+import com.appleshopingmall.order.dto.OrderEntity;
 import com.appleshopingmall.order.OrderNumber.OrderNumberEntity;
 import com.appleshopingmall.SideBar;
 import com.appleshopingmall.order.OrderNumber.OrderNumberService;
+import com.appleshopingmall.order.OrderService;
+import com.appleshopingmall.order.web.form.OrderAddForm;
 import com.appleshopingmall.shop.cart.dto.CartDto;
 import com.appleshopingmall.util.SessionUtil;
 import com.appleshopingmall.shop.cart.CartService;
@@ -12,10 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -36,13 +38,14 @@ public class OrderController {
     @GetMapping("/payment")
     public String paymentForm(HttpSession httpSession, Model model, RedirectAttributes redirectAttributes) throws ProductStockError {
 
+        // 세션 검사
         boolean session = SessionUtil.getSessionUtil().hasSession(httpSession);
         if (!session) return "redirect:/member/login";
 
         Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
         log.debug("memberId => {}", memberId);
 
-        Integer totalPrice = cartService.getCartTotalPrice(memberId);
+        Integer totalPrice = cartService.getCartTotalPrice(memberId);   // 카트에 있는 제품 총 결제
         List<CartDto> findCart = cartService.findByMemberIdCart(memberId); // 회원 카트를 가져오기
 
         log.debug("findCart => {}", findCart);
@@ -56,23 +59,36 @@ public class OrderController {
                 return "redirect:/shop/cart";
             }
         }
+        SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
 
         model.addAttribute("totalPrice", totalPrice);
-        SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);
         model.addAttribute("products", findCart);
+        model.addAttribute("form", new OrderAddForm());
         return "/order/payment";
     }
 
     // 제품 구매 (form) -> 처리
     @PostMapping("/payment")
-    public String payment(HttpSession httpSession, OrderEntity order){
-        log.debug("order = {} ", order);
+    public String payment(HttpSession httpSession, OrderEntity order, @ModelAttribute("form") @Validated OrderAddForm form, BindingResult bindingResult, Model model){
+        log.debug("form = {} ", form);
 
+        // 세션 검사
         if(!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 
-        order.setMemberId(SessionUtil.getSessionUtil().getMemberId(httpSession));
+        // 검증
+        Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
+        /*if(bindingResult.hasErrors()){
+            log.debug("bindingResult => {}", bindingResult);
 
-        orderService.addOrder(order);
+            Integer totalPrice = cartService.getCartTotalPrice(memberId);   // 카트에 있는 제품 총 결제
+            List<CartDto> findCart = cartService.findByMemberIdCart(memberId); // 회원 카트를 가져오기
+
+            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("products", findCart);
+            return "order/payment";
+        }*/
+
+        orderService.addOrder(memberId, form.getAddress());
         return "redirect:/shop";
     }
 

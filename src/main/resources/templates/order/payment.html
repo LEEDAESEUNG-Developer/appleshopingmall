@@ -307,38 +307,49 @@
                                     iste harum ipsum hic, nemo qui!</p>
                             </div>
                             <div class="col-lg-7">
-                                <form action="/shop/order/payment" method="post" class="form">
+                                <form action="/shop/order/payment" method="post" class="form" th:object="${form}">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form__div">
-                                                <input type="text" name="address" class="form-control" placeholder=" ">
-                                                <label for="" class="form__label">배송지</label>
+                                                <input type="text" id="address" th:field="*{address}" class="form-control" placeholder=" " th:errorclass="border-danger">
+                                                <label for="address" class="form__label">배송지</label>
+                                                <p th:errors="*{address}" class="text-danger"></p>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form__div">
-                                                <input type="text" class="form-control" placeholder=" ">
-                                                <label for="" class="form__label">카드 번호</label>
+                                                <input type="text" id="cardNo" th:field="*{cardNo}" class="form-control" placeholder=" " th:errorclass="border-danger">
+                                                <label for="cardNo" class="form__label">카드 번호</label>
+                                                <p th:errors="*{cardNo}" class="text-danger"></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <div class="form__div">
+                                                <input type="text" id="month" th:field="*{month}" class="form-control" placeholder=" " th:errorclass="border-danger">
+                                                <label for="month" class="form__label">월</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <div class="form__div">
+                                                <input type="text" id="year" th:field="*{year}" class="form-control" placeholder=" " th:errorclass="border-danger">
+                                                <label for="year" class="form__label">년</label>
                                             </div>
                                         </div>
 
                                         <div class="col-6">
                                             <div class="form__div">
-                                                <input type="text" class="form-control" placeholder=" ">
-                                                <label for="" class="form__label">월/년도</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form__div">
-                                                <input type="password" class="form-control" placeholder=" ">
-                                                <label for="" class="form__label">cvv 코드</label>
+                                                <input type="password" id="cvvCode" th:field="*{cvvCode}" class="form-control" placeholder=" " th:errorclass="border-danger">
+                                                <label for="cvvCode" class="form__label">cvv 코드</label>
+                                                <p th:errors="*{cvvCode}" class="text-danger"></p>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form__div">
-                                                <input type="text" class="form-control" placeholder=" ">
-                                                <label for="" class="form__label">카드 이름</label>
+                                                <input type="text" id="bankName" th:field="*{bankName}" class="form-control" placeholder=" " th:errorclass="border-danger">
+                                                <label for="bankName" class="form__label">카드 이름</label>
+                                                <p th:errors="*{bankName}" class="text-danger"></p>
                                             </div>
                                         </div>
                                         <div class="col-12">

@@ -1,5 +1,6 @@
 package com.appleshopingmall.order;
 
+import com.appleshopingmall.order.dto.OrderEntity;
 import com.appleshopingmall.shop.cart.CartEntity;
 import com.appleshopingmall.shop.cart.CartService;
 import org.junit.jupiter.api.*;

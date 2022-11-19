@@ -1,4 +1,4 @@
-package com.appleshopingmall.order;
+package com.appleshopingmall.order.dto;
 
 import lombok.Data;
 

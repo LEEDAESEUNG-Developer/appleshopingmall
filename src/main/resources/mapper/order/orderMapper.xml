@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.appleshopingmall.order.OrderMapper">
-    <resultMap  id="orderEntity" type="com.appleshopingmall.order.OrderEntity">
+    <resultMap  id="orderEntity" type="com.appleshopingmall.order.dto.OrderEntity">
         <result property="orderId" column="order_id"/>
         <result property="orderTblId" column="order_tbl_id"/>
         <result property="memberId" column="member_id"/>
@@ -14,14 +14,14 @@
     </resultMap>
 
     <insert id="addNumberOrder">
-        insert into order_create_number(member_id) value (#{orderEntity.memberId})
+        insert into order_create_number(member_id) value (#{memberId})
     </insert>
 
     <insert id="addOrder">
         insert into order_tbl(order_tbl_id, product_id, member_id, product_count, product_price, check_stock, check_shipment, address)
             VALUE (
-                   (select order_group_id from order_create_number where order_date = (select max(order_date) from order_create_number group by member_id) and member_id = #{orderEntity.memberId}),
-                   #{orderEntity.productId}, #{orderEntity.memberId}, #{orderEntity.productCount}, (select product_price from product where product_id = #{orderEntity.productId}), #{orderEntity.checkStock}, #{orderEntity.checkShipment}, #{orderEntity.address});
+                   (select order_group_id from order_create_number where order_date = (select max(order_date) from order_create_number group by member_id) and member_id = #{dto.memberId}),
+                   #{dto.productId}, #{dto.memberId}, #{dto.productCount}, (select product_price from product where product_id = #{dto.productId}), #{dto.checkStock}, #{dto.checkShipment}, #{dto.address});
     </insert>
 
     <select id="findByMemberId" resultMap="orderEntity">
@@ -39,4 +39,9 @@
     <select id="findByMemberIdAndOrderNumber" resultMap="orderEntity">
         select * from order_tbl where member_id = #{memberId} and order_tbl_id = #{orderTblId}
     </select>
+
+    <!-- 제품 아이디에 재고 수정-->
+    <update id="updateStock">
+        update product set product_stock = #{stock} where product_id = #{productId}
+    </update>
 </mapper>
