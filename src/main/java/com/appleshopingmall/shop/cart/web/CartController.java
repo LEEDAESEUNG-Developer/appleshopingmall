@@ -40,8 +40,6 @@ public class CartController {
     @GetMapping("cart")
     public String cart(HttpSession httpSession, Model model) {
 
-        if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
-
         Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
 
         SideBar.getInstance().modelAddCartCount(model, httpSession, cartService);

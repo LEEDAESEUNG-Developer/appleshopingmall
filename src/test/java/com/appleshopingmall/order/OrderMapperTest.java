@@ -40,7 +40,7 @@ class OrderMapperTest {
      * 2. 주문 완료시 카트에 있는 제품 삭제
      */
 
-    @Order(1)
+   /* @Order(1)
     @DisplayName("주문 추가_성공")
     @Test
     void addOrder_O() {
@@ -50,10 +50,10 @@ class OrderMapperTest {
         List<OrderEntity> findOrder = orderService.findByMemberId(2L); // 검색
         System.out.println("findOrder = " + findOrder);
 
-        /* 둘이 비교해야하지만 귀찮아서 구현하지 않음*/
+        *//* 둘이 비교해야하지만 귀찮아서 구현하지 않음*//*
 
         Assertions.assertEquals(addOrder, 1);
-    }
+    }*/
 
     @Order(1)
     @DisplayName("주문 추가_실패")

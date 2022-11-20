@@ -12,4 +12,15 @@ public class RedirectErrorController {
         return "redirect:/error/500";
     }
 
+    @RequestMapping("redirect-errorPage-404")
+    public String redirectErrorPage404(){
+        return "redirect:/error/404";
+    }
+
+    // 세션이 없는 사람 리다이락테
+    @RequestMapping("redirect-session-error")
+    public String redirectSessionError(){
+        return "redirect:/member/login";
+    }
+
 }

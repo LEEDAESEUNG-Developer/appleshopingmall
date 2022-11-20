@@ -110,8 +110,6 @@ public class MemberController {
     // 회원보기
     @GetMapping
     public String memberForm(HttpSession httpSession, Model model) {
-        if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
-
         Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
         MemberEntity findMember = memberService.findByMemberId(memberId);
         MemberUpdateForm findMemberUpdate = new MemberUpdateForm(findMember.getMemberFirstname(), findMember.getMemberPwd(), findMember.getMemberPhoneNumber(), findMember.getMemberEmail(), findMember.getMemberBirthday(), findMember.getMemberAddress());
@@ -122,7 +120,6 @@ public class MemberController {
     // 회원수정 완료 post
     @PostMapping("/change")
     public String memberChange(HttpSession httpSession, @Validated @ModelAttribute("form") MemberUpdateForm form, BindingResult bindingResult) {
-        if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 
 
         if(bindingResult.hasErrors()) return "/member/member";
@@ -157,8 +154,6 @@ public class MemberController {
 
     @PostMapping("/leave")
     public String leave(HttpSession httpSession, @Validated @ModelAttribute("memberEntity") MemberLeaveForm form, BindingResult bindingResult){
-        if (!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/";
-
         if(bindingResult.hasErrors()) return "/member/leave";
 
         Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
