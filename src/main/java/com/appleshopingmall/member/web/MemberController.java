@@ -18,8 +18,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -69,11 +73,19 @@ public class MemberController {
      * @return 세션 없을시 /member/login, 있을시 메인 이동
      */
     @GetMapping("/login")
-    public String loginForm(HttpSession session, Model model) {
+    public String loginForm(HttpSession session, Model model, HttpServletRequest request) {
 
         // 세션이 없는 경우 /member/login 이동
         if (!SessionUtil.getSessionUtil().hasSession(session)){
-            model.addAttribute("loginForm", new MemberLoginForm());
+
+            MemberLoginForm memberLoginForm = new MemberLoginForm();
+
+            // 쿠키 저장된 아이디 가져오기
+            Cookie id = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("id")).findFirst().orElse(new Cookie("id", ""));
+
+            memberLoginForm.setEmail(id.getValue());
+
+            model.addAttribute("loginForm", memberLoginForm);
             return "/member/login";
         }
 
@@ -82,9 +94,11 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute("loginForm") MemberLoginForm loginForm, BindingResult bindingResult, HttpSession session) {
+    public String login(@Validated @ModelAttribute("loginForm") MemberLoginForm loginForm, BindingResult bindingResult, HttpSession session, HttpServletResponse response) {
 
         log.info("loginForm => {}", loginForm);
+
+        if(loginForm.isIdSaveChk()) response.addCookie(new Cookie("id", loginForm.getEmail()));
 
         // 이메일, 비밀번호 문제가 있을시
         if(bindingResult.hasErrors()){
