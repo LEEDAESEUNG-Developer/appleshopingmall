@@ -13,6 +13,7 @@ public class DateConverter {
     }
 
     public static Date utilDateToSql(java.util.Date date) {
-        return Date.valueOf(date.toString());
+        System.out.println("date = " + date.toString());
+        return new Date(date.getTime());
     }
 }

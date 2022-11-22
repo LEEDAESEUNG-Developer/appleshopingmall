@@ -10,6 +10,7 @@ import com.appleshopingmall.util.SessionUtil;
 import com.appleshopingmall.util.DateConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,7 +64,13 @@ public class MemberController {
                 .build();
 
 
-        memberService.addMember(member);
+        try {
+            memberService.addMember(member);
+        } catch (DuplicateKeyException e) {
+            bindingResult.addError(new ObjectError("form", "중복회원"));
+            return "/member/register";
+        }
+
         return "redirect:/member/login";
     }
 

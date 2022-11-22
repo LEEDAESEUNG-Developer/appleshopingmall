@@ -36,7 +36,7 @@
         <div class="card-header">회원가입</div>
         <div class="card-body">
           <div class="form-group">
-            <form id="login-nav" action="/member/register" method="post" role="form" class="form" th:object="${form}" accept-charset="UTF-8">
+            <form id="login-nav" action="/member/register" method="post" role="form" class="form" name="form" th:object="${form}" accept-charset="UTF-8">
               <div class="form-group">
                 <label>이름</label>
                 <input type="text" id="reg_username" th:field="*{name}" class="form-control">
@@ -115,7 +115,14 @@
               <!-- email group -->
               <div class="form-group">
                 <label>이메일</label>
-                <input type="email" id="reg_useremail" th:field="*{email}" class="form-control">
+                <div class="input-group">
+                  <input type="email" id="reg_useremail" th:field="*{email}" class="form-control">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="email_check" type="button">
+                      중복검사
+                    </button>
+                  </div>
+                </div>
                 <p th:errors="*{email}"  class="text-danger"></p>
               </div>
 
@@ -135,7 +142,7 @@
        
               <!-- Submit -->
               <div class="form-group">
-                <button id="reg_submit" name="submit"  value="1" class="btn btn-block btn-primary" disabled="disabled">회원가입 완료</button>
+                <button id="reg_submit" type="button" class="btn btn-block btn-primary">회원가입 완료</button>
                 <div id="sign-up-popover" class="hide"><p>is empty</p></div>
               </div>
 
@@ -260,7 +267,92 @@ select:hover {
 </style>
 
 <script type="text/javascript">
-$(document).ready(function() { 
+$(document).ready(function() {
+
+  let emailCheck = false;
+
+  // 이메일 중복 검사
+  $('#email_check').click(function () {
+    let params = {
+      email : $('#reg_useremail').val()
+    };
+    $.ajax({
+      type: "POST",
+      url: "/api/emailCheck",
+      data: params
+    }).done((data, textStatus, jqXHR) => { // 성공
+      console.log("값은 => " + data);
+      if (data) {
+        $("#reg_useremail").attr("disabled", true);
+        $("#email_check").attr("disabled", true);
+        emailCheck = true;
+      }
+    }).fail((jqXHR, textStatus, errorThrown) => {// 실패
+      let errorMessage = jqXHR.responseText;
+      alert(errorMessage);
+    });
+  });
+
+  $("#reg_submit").click(function () {
+    formCheck();
+  });
+
+  // 검증
+  function formCheck(){
+    //변수 담기
+    let name = document.querySelector("#reg_username");
+    let password = document.querySelector("#reg_userpassword");
+    let passwordChk = document.querySelector("#reg_userpasswordconfirm");
+    let phoneNumber = document.querySelector("#phoneNumber");
+    let email = document.querySelector("#reg_useremail");
+    let birthday = document.querySelector("#birthday");
+    let address = document.querySelector("#address");
+
+    if(name.value == ""){
+      name.focus();
+      return false;
+    }
+
+    if(password.value == ""){
+      password.focus();
+      return false;
+    }
+
+    if(passwordChk.value == ""){
+      passwordChk.focus();
+      return false;
+    }
+
+    if(phoneNumber.value == ""){
+      phoneNumber.focus();
+      return false;
+    }
+
+    if(email.value == ""){
+      email.focus();
+      return false;
+    }
+
+    if(emailCheck === false){
+      alert("이메일 중복검사를 해주세요");
+      return false;
+    }
+
+    if(birthday.value == ""){
+      birthday.focus();
+      return false;
+    }
+
+    if(address.value == ""){
+      address.focus();
+      return false;
+    }
+
+    // 입력한 값 서버에 보내기
+    document.form.submit();
+
+  }
+
 
   // şifre kurallı değilse butonu disable et
   $('#reg_userpassword').keyup(function() {
@@ -290,10 +382,8 @@ $(document).ready(function() {
   $('#reg_userpasswordconfirm').blur(function() {
     if ($('#reg_userpassword').val() !== $('#reg_userpasswordconfirm').val()) {
       $('#error-confirmpassword').removeClass('hide');
-      $('#reg_submit').attr('disabled', true);
     } else {
       $('#error-confirmpassword').addClass('hide');
-      $('#reg_submit').attr('disabled', false);
     }
   });
 

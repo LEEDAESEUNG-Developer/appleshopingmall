@@ -46,4 +46,11 @@ public interface MemberService {
      */
     int deleteMember(Long memberId, String email, String pwd);
 
+    /**
+     * 이메일 중복 검사
+     * @param email String
+     * @return 가입가능 T, 불가능 F
+     */
+    boolean emailCheck(String email);
+
 }

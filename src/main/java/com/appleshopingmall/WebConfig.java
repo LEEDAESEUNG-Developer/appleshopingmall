@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new MemberSessionInterceptor())
                 .order(1)
                 .addPathPatterns("/shop/cart", "/shop/order/payment", "/member/**")
-                .excludePathPatterns("/member/login");
+                .excludePathPatterns("/member/login", "/member/register");
 
         // 관리자 검사
         registry.addInterceptor(new AdminSessionInterceptor())

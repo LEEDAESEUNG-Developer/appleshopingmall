@@ -42,4 +42,11 @@ public interface MemberRepository {
      */
     int deleteMember(@Param("memberId") Long memberId, @Param("email") String email, @Param("password") String pwd);
 
+    /**
+     * 이메일 중복 검사
+     * @param email String
+     * @return 없으면 0, 있으면 1
+     */
+    int emailCheck(@Param("email") String email);
+
 }

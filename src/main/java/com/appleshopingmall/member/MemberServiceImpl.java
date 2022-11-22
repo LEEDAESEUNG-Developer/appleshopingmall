@@ -40,4 +40,9 @@ public class MemberServiceImpl implements MemberService{
     public int deleteMember(Long memberId, String email, String pwd){
         return memberRepository.deleteMember(memberId, email, pwd);
     }
+
+    @Override
+    public boolean emailCheck(String email) {
+        return memberRepository.emailCheck(email) == 0;
+    }
 }

@@ -19,7 +19,7 @@ public class MemberAddForm {
     @NotBlank
     private String phoneNumber;
 
-    @Email
+//    @Email
     private String email;
 
     @Past(message = "생년월일 오류")
