@@ -104,6 +104,9 @@
                             </form>
                         </div>
                         <div class="login-or"><hr class="hr-or"></div>
+                        <button id="delete" class="btn btn-block btn-danger">
+                            <a href="#" th:href="@{/admin/product/delete/{productId} (productId=${product.productId})}">상품 삭제</a>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -13,10 +13,12 @@ import com.appleshopingmall.shop.product.ProductEntity;
 import com.appleshopingmall.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import static com.appleshopingmall.util.FileCharacter.*;
@@ -116,7 +118,15 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Integer deleteProduct(Long productId) {
-        return productRepository.deleteProduct(productId);
+
+        Integer result = 0;
+
+        try{
+             result = productRepository.deleteProduct(productId);
+        } catch (Exception e){
+            log.info("어떤 회원이 주문한 상품이 있어 상품을 삭제 할 수 없음.");
+        }
+        return result;
     }
 
     @Override
