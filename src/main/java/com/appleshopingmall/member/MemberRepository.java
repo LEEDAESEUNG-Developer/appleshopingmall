@@ -49,4 +49,20 @@ public interface MemberRepository {
      */
     int emailCheck(@Param("email") String email);
 
+
+    /**
+     * 이메일 조회
+     * @param email String
+     * @return 있으면 1, 없으면 0
+     */
+    int findByEmail(@Param("email") String email);
+
+    /**
+     * 회원 비밀번호 찾기 (비밀번호 수정)
+     * @param email String
+     * @param password String
+     * @return 성공 1, 실패 0
+     */
+    int updateMemberPassword(@Param("email") String email, @Param("password") String password);
+
 }

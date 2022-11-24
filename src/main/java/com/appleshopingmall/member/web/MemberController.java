@@ -1,11 +1,9 @@
 package com.appleshopingmall.member.web;
 
+import com.appleshopingmall.admin.web.form.PasswordReset;
 import com.appleshopingmall.member.MemberEntity;
 import com.appleshopingmall.member.MemberService;
-import com.appleshopingmall.member.web.form.MemberAddForm;
-import com.appleshopingmall.member.web.form.MemberLeaveForm;
-import com.appleshopingmall.member.web.form.MemberLoginForm;
-import com.appleshopingmall.member.web.form.MemberUpdateForm;
+import com.appleshopingmall.member.web.form.*;
 import com.appleshopingmall.util.SessionUtil;
 import com.appleshopingmall.util.DateConverter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -186,6 +185,55 @@ public class MemberController {
         }
 
         return "redirect:/member/logout";
+    }
+
+    @GetMapping("password-reset")
+    public String passwordResetConfirmForm(Model model){
+        model.addAttribute("form", new PasswordReset());
+        return "member/password-reset-email";
+    }
+
+    @PostMapping("password-reset")
+    public String passwordResetConfirm(@Validated @ModelAttribute("form") PasswordReset passwordReset, BindingResult bindingResult, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        log.debug("email => {}", passwordReset.getEmail());
+
+        // 입력한 값에 오류가 있을 경우
+        if(bindingResult.hasErrors()){
+            return "member/password-reset-email";
+        }
+
+        // 입력 받은 값을 DB 조회시 없는 회원 일 경우
+        if(!memberService.findByEmail(passwordReset.getEmail())){
+            bindingResult.addError(new ObjectError("form", "입력하신 이메일은 없는 이메일 입니다. 회원가입 해주세요"));
+            return "member/password-reset-email";
+        }
+
+        String email = passwordReset.getEmail();
+        session.setAttribute("email", email);
+        session.setMaxInactiveInterval(180); // 3분 동안 세션에 저장
+
+        redirectAttributes.addAttribute("email", email);
+
+        return "redirect:/member/password-reset/{email}";
+    }
+
+    @GetMapping("password-reset/{email}")
+    public String passwordResetForm(@PathVariable String email, @SessionAttribute(value = "email") String sessionEmail, Model model){
+        log.debug("email => {}", email);
+        log.debug("sessionEmail => {}", sessionEmail);
+
+        model.addAttribute("form", new MemberPasswordResetForm());
+
+        return "/member/password_reset";
+    }
+
+    @PostMapping("password-reset/{email}")
+    public String passwordReset(@PathVariable String email, @SessionAttribute(value = "email") String sessionEmail, HttpSession session, @ModelAttribute("form") MemberPasswordResetForm form){
+        log.debug("email => {}", email);
+        memberService.updateMemberPassword(sessionEmail, form.getPassword());
+        session.invalidate();
+        return "redirect:/member/login";
     }
 
     /*

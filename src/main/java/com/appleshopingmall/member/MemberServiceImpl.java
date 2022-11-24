@@ -17,6 +17,16 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Override
+    public boolean findByEmail(String email) {
+        return (memberRepository.findByEmail(email) == 1);
+    }
+
+    @Override
+    public boolean updateMemberPassword(String email, String password) {
+        return memberRepository.updateMemberPassword(email, password) == 1;
+    }
+
+    @Override
     public int addMember(MemberEntity member) throws DuplicateKeyException {
         return memberRepository.addMember(member);
     }

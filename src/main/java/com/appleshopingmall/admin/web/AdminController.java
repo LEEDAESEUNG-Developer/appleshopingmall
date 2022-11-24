@@ -4,6 +4,7 @@ import com.appleshopingmall.admin.AdminService;
 import com.appleshopingmall.admin.entity.AdminProductEntity;
 import com.appleshopingmall.admin.entity.Order;
 import com.appleshopingmall.admin.web.form.DirectType;
+import com.appleshopingmall.admin.web.form.PasswordReset;
 import com.appleshopingmall.admin.web.form.ProductAddForm;
 import com.appleshopingmall.admin.web.form.UpdateOrderForm;
 import com.appleshopingmall.member.MemberEntity;
@@ -51,6 +52,7 @@ public class AdminController {
 
     @GetMapping("products")
     public String products(Model model) {
+
         List<AdminProductEntity> products = adminService.findProducts();
         model.addAttribute("products", products);
         return "admin/products";

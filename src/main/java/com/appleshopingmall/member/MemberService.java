@@ -53,4 +53,19 @@ public interface MemberService {
      */
     boolean emailCheck(String email);
 
+    /**
+     * 이메일이 있는 검색
+     * @param email String
+     * @return 있으면 T, 없으면 F
+     */
+    boolean findByEmail(String email);
+
+    /**
+     * 회원 비밀번호 찾기 (비밀번호 수정)
+     * @param email String
+     * @param password String
+     * @return 성공시 T, 실패시 F
+     */
+    boolean updateMemberPassword(String email, String password);
+
 }

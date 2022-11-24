@@ -23,4 +23,9 @@ public class RedirectErrorController {
         return "redirect:/member/login";
     }
 
+    @RequestMapping("redirect-email-error")
+    public String redirectEmailError(){
+        return "redirect:/member/password-reset";
+    }
+
 }
