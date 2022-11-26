@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
+    <title>주문상품</title>
 
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templatemo.css">
@@ -14,11 +14,6 @@
 
     <!-- bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" defer></script>
-
-    <!--
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    -->
 </head>
 <body>
 <!-- Header -->
@@ -35,10 +30,10 @@
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <p class="lead fw-normal mb-0" style="color: #a8729a;">주문하신 제품</p>
-                            <p class="small mb-0">주문번호: <span th:text="${orderEntity.orderTblId}">1KAU9-84UIL</span></p>
+                            <p class="small mb-0">주문번호: <span th:text="${dto.orderTblId}">1KAU9-84UIL</span></p>
                         </div>
                         <div class="card shadow-0 border mb-4"
-                             th:with="product = ${productService.findByProductNumber(orderEntity.getProductId().intValue())}">
+                             th:with="product = ${productService.findByProductNumber(dto.getProductId().intValue())}">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-2">
@@ -59,11 +54,12 @@
                                         <p class="mb-0 small" th:utext="|저장공간 <br> ${product.productStorage}|">Capacity: 64GB</p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="mb-0 small" th:utext="|수량 <br> ${orderEntity.productCount}|">Qty: 1</p>
+                                        <p th:if="${dto.cancel} == false" class="mb-0 small" th:utext="|수량 <br> ${dto.productCount}|">Qty: 1</p>
+                                        <p th:if="${dto.cancel} == true" class="mb-0 small text-decoration-line-through" th:utext="|수량 <br> ${dto.productCount}|">Qty: 1</p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="mb-0 small"
-                                           th:utext="|가격 <br> ${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">$499</p>
+                                        <p th:if="${dto.cancel} == false" class="mb-0 small" th:utext="|가격 <br> ${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">$499</p>
+                                        <p th:if="${dto.cancel} == true" class="mb-0 small text-decoration-line-through" th:utext="|가격 <br> ${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">$499</p>
                                     </div>
                                 </div>
                                 <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
@@ -72,7 +68,7 @@
                                         <div class="progress" style="height: 6px; border-radius: 16px;">
                                             <!-- 출고 준비 중 -->
                                             <div
-                                                    th:if="${orderEntity.checkStock == false}"
+                                                    th:if="${dto.checkStock == false}"
                                                     class="progress-bar"
                                                     role="progressbar"
                                                     style="
@@ -86,7 +82,7 @@
 
                                             <!-- 출고 준비 중 ~ 출고됨 -->
                                             <div class="progress-bar"
-                                                 th:if="${orderEntity.checkStock == true} and ${orderEntity.checkShipment == false}"
+                                                 th:if="${dto.checkStock == true} and ${dto.checkShipment == false}"
                                                  role="progressbar"
                                                  style="
                            width: 57%;
@@ -99,7 +95,7 @@
 
                                             <!-- 출고 준비 중 ~ 배송됨 -->
                                             <div class="progress-bar"
-                                                 th:if="${orderEntity.checkShipment == true}"
+                                                 th:if="${dto.checkShipment == true}"
                                                  role="progressbar"
                                                  style="
                            width: 100%;
@@ -123,6 +119,10 @@
 
                         <div class="d-flex justify-content-between">
                             <!--              <p class="mb-0" th:text="${#dates.format()}">주문 날짜 : 22 Dec,2019</p>-->
+                            <p class="mb-0" th:text="|배송지: ${dto.address}|">배송지</p>
+                            <button th:if="${dto.cancel} == false" class="btn btn-secondary">
+                                <a href="#" th:href="@{/shop/order/{orderId}/delete (orderId = ${dto.orderId})}" class="text-decoration-none text-white">주문 취소</a>
+                            </button>
                         </div>
                     </div>
                 </div>

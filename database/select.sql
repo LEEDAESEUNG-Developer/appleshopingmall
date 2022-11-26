@@ -146,3 +146,8 @@ select * from order_create_number;
 
 select cart_id, member_id, c.product_price, product_count, product_stock, product_img01
     from product_cart c inner join product p on c.product_id = p.product_id where member_id = 2;
+
+
+
+select  * from order_tbl;
+update order_tbl set cancle = false where member_id = 2;

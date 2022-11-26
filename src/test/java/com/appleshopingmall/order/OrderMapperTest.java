@@ -69,7 +69,7 @@ class OrderMapperTest {
         Assertions.assertNotEquals(addOrder, 0);*/
     }
 
-    @Order(2)
+ /*   @Order(2)
     @DisplayName("주문 확인")
     @Test
     void orderCheck() {
@@ -77,7 +77,7 @@ class OrderMapperTest {
         Assertions.assertNotEquals(byMemberId.size(), 0);
         System.out.println(byMemberId);
     }
-
+*/
     @Order(10)
     @DisplayName("주문 목록이 있을 경우 삭제")
     @Test

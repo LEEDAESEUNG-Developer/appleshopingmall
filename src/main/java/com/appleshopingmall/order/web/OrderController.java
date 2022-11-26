@@ -6,6 +6,7 @@ import com.appleshopingmall.order.OrderNumber.OrderNumberEntity;
 import com.appleshopingmall.SideBar;
 import com.appleshopingmall.order.OrderNumber.OrderNumberService;
 import com.appleshopingmall.order.OrderService;
+import com.appleshopingmall.order.dto.OrderViewDto;
 import com.appleshopingmall.order.web.form.OrderAddForm;
 import com.appleshopingmall.shop.cart.dto.CartDto;
 import com.appleshopingmall.util.SessionUtil;
@@ -93,14 +94,28 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public String findOrder(@PathVariable int orderId, Model model){
+    public String findOrder(@PathVariable int orderId, Model model, @SessionAttribute(SessionUtil.MEMBER_ID) Long memberId){
 
-        OrderEntity order = orderService.findByOrderId(orderId);
+        OrderViewDto dto = orderService.findByOrderId(orderId, memberId);
 
-        model.addAttribute("orderEntity", order);
+        model.addAttribute("dto", dto);
         model.addAttribute("productService", productService);
 
         return "/order/product_order";
+    }
+
+    @GetMapping("/{orderId}/delete")
+    public String orderDelete(@PathVariable int orderId, @SessionAttribute(SessionUtil.MEMBER_ID) Long memberId, RedirectAttributes redirectAttributes) throws Exception {
+
+        log.debug("orderDelete 메소드");
+
+        int orderCancelResult = orderService.updateOrderCancel(orderId, memberId);
+        if(orderCancelResult == 0){
+            throw new Exception("세션 또는 주문 일치 하지 않음.");
+        }
+
+        redirectAttributes.addAttribute("orderId", orderId);
+        return "redirect:/shop/order/{orderId}";
     }
 
     @GetMapping("/orders")

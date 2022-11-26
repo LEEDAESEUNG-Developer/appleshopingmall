@@ -310,6 +310,8 @@
     <select id="findByProductIdStockCount" resultType="int">
         select product_stock from product where product_id = #{productId}
     </select>
-    
-
+    <!-- 제품 아이디에 재고 수정-->
+    <update id="updateStock">
+        update product set product_stock = #{stock} where product_id = #{productId}
+    </update>
 </mapper>

@@ -42,6 +42,12 @@ select * from order_tbl;
 
 alter table order_tbl modify order_tbl_id int not null;
 
+alter table order_tbl add hidden boolean not null default false after address;
+
+alter table order_tbl change cancle cancel boolean not null default false;
+
+desc order_tbl;
+
 /* 주문 번호 테이블 */
 select * from order_number;
 alter table order_number add order_date DATETIME default now();

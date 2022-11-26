@@ -2,9 +2,10 @@ package com.appleshopingmall.order;
 
 import com.appleshopingmall.order.dto.OrderAddDto;
 import com.appleshopingmall.order.dto.OrderEntity;
-import com.appleshopingmall.order.web.form.OrderAddForm;
+import com.appleshopingmall.order.dto.OrderViewDto;
 import com.appleshopingmall.shop.cart.dto.CartDto;
 import com.appleshopingmall.shop.cart.CartService;
+import com.appleshopingmall.shop.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final CartService cartService;
+    private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
 
     @Override
@@ -50,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
                         .build();
                 long stock = cart.getProductStock() - cart.getProductCount();
                 // 4번 로직
-                orderRepository.updateStock(cart.getProductId(), stock);
+                productRepository.updateStock(cart.getProductId(), stock);
                 orderRepository.addOrder(dto);            // 주문 테이블에 값 추가
                 cartService.deleteCartID(cart.getCartId()); // 카트에 담긴 제품 삭제
                 return 1;
@@ -60,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderEntity> findByMemberId(Long memberId) {
+    public List<OrderViewDto> findByMemberId(Long memberId) {
         return orderRepository.findByMemberId(memberId);
     }
 
@@ -71,12 +73,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderEntity findByOrderId(int orderId) {
-        return orderRepository.findByOrderId(orderId);
+    public OrderViewDto findByOrderId(int orderId, Long memberId) {
+        return orderRepository.findByOrderId(orderId, memberId);
     }
 
     @Override
     public List<OrderEntity> findByMemberIdAndOrderNumber(Long memberId, Long orderTblId) {
         return orderRepository.findByMemberIdAndOrderNumber(memberId, orderTblId);
     }
+
+    @Override
+    public int updateOrderCancel(int orderId, Long memberId) {
+        OrderViewDto findOrder = orderRepository.findByOrderId(orderId, memberId);
+        Long productId = findOrder.getProductId();
+        int productStockCount = productRepository.findByProductIdStockCount(productId);
+
+        int stockSum = findOrder.getProductCount() + productStockCount;
+
+        productRepository.updateStock(productId, stockSum);
+
+        return orderRepository.updateOrderCancel(orderId, memberId);
+    }
+
 }

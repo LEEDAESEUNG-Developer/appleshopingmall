@@ -91,6 +91,19 @@ public interface ProductRepository {
     // 제품 색상 가져오기
     List<String> getProductColorByProductName(@Param("productName") String productName);
 
-    // 제품 번호를 조회해서 stock(수량)를 가져옴
+    /**
+     * 제품 번호를 조회해서 stock(수량)를 가져옴
+     * @param productId Long
+     * @return 상품 수량
+     */
     int findByProductIdStockCount(@Param("productId") Long productId);
+
+
+    /**
+     * 제품 아이디에 재고 수정
+     * @param productId 제품 아이디
+     * @param stock 제품 재고
+     * @return 성공시 1, 실패시 0
+     */
+    int updateStock(@Param("productId") Long productId, @Param("stock") long stock);
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.appleshopingmall.order.OrderMapper">
+
     <resultMap  id="orderEntity" type="com.appleshopingmall.order.dto.OrderEntity">
         <result property="orderId" column="order_id"/>
         <result property="orderTblId" column="order_tbl_id"/>
@@ -11,6 +12,19 @@
         <result property="checkStock" column="check_stock"/>
         <result property="checkShipment" column="check_shipment"/>
         <result property="address" column="address"/>
+    </resultMap>
+
+    <resultMap id="orderViewMap" type="com.appleshopingmall.order.dto.OrderViewDto">
+        <result property="orderId" column="order_id"/>
+        <result property="orderTblId" column="order_tbl_id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productCount" column="product_count"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="checkStock" column="check_stock"/>
+        <result property="checkShipment" column="check_shipment"/>
+        <result property="address" column="address"/>
+        <result property="cancel" column="cancel"/>
     </resultMap>
 
     <insert id="addNumberOrder">
@@ -24,7 +38,7 @@
                    #{dto.productId}, #{dto.memberId}, #{dto.productCount}, (select product_price from product where product_id = #{dto.productId}), #{dto.checkStock}, #{dto.checkShipment}, #{dto.address});
     </insert>
 
-    <select id="findByMemberId" resultMap="orderEntity">
+    <select id="findByMemberId" resultMap="orderViewMap">
         select * from order_tbl where member_id = #{memberId}
     </select>
     
@@ -32,16 +46,17 @@
         delete from order_tbl where member_id = #{memberId}
     </delete>
     
-    <select id="findByOrderId" resultMap="orderEntity">
-        select * from order_tbl where order_id = #{orderId}
+    <!-- 회원 아이디, 주문 아이디를 받아서 주문 취소 기능-->
+    <update id="updateOrderCancel">
+        update order_tbl set cancel = true where order_id = #{orderId} and member_id = #{memberId}
+    </update>
+
+    <!-- 주문 번호와 회원 아이디를 받아서 주문 테이블 조회-->
+    <select id="findByOrderId" resultMap="orderViewMap">
+        select * from order_tbl where order_id = #{orderId} and member_id = #{memberId}
     </select>
 
     <select id="findByMemberIdAndOrderNumber" resultMap="orderEntity">
         select * from order_tbl where member_id = #{memberId} and order_tbl_id = #{orderTblId}
     </select>
-
-    <!-- 제품 아이디에 재고 수정-->
-    <update id="updateStock">
-        update product set product_stock = #{stock} where product_id = #{productId}
-    </update>
 </mapper>

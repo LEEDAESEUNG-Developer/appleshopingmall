@@ -7,7 +7,11 @@
         <result property="orderDate" column="order_date"/>
     </resultMap>
 
+    <!-- cancle 컬럼이 true인 경우 안뜨게 하기 위해 join 사용-->
     <select id="findByMemberId" resultMap="orderEntity">
-        select * from order_create_number where member_id = #{memberId} order by order_date desc
+        select distinct(order_group_id),n.member_id, order_date
+            from order_create_number n inner join order_tbl t on n.order_group_id = t.order_tbl_id
+                where n.member_id = #{memberId}
+            order by order_date desc
     </select>
 </mapper>
