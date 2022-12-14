@@ -1,0 +1,17 @@
+services:
+  mysql:
+    container_name: appleShoppingMallDB
+    image: ubuntu/mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE_NAME: appleShopingMall
+
+    volumes:
+      - ubuntu-mysql-shopingmall:/var/lib/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+
+volumes:
+  ubuntu-mysql-shopingmall:
+    external: true
