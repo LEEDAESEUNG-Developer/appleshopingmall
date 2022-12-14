@@ -117,7 +117,7 @@
                      product_img01
               from product,
                    (SELECT @RWONUM := 0) A
-              ORDER BY product_id desc) result
+              ORDER BY product_category) result
         where rnum > (#{pageNum} - 1) * #{amount}
         limit #{amount}
         ]]>

@@ -18,50 +18,65 @@ values ('MAC'),
        ('Watch'),
        ('airPods');
 
+
 /* product table */
 desc product;
 
 select * from product;
 
-insert into product (product_name, product_price, product_data, product_category, product_ap, product_ram,
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
                      product_storage, product_img01)
-value('M1 MacBook Air', 1390000, '2020-11-10', 1, 'M1', '8GB', '256GB', 'm1.jpeg');
+value('M1 MacBook Air', 1390000, '2020-11-10', 1, 'silver', 'M1', '8GB', '256GB', '/MacBook/m1/MacBook-air-m1-silver.jpeg');
+
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
+                     product_operating_system, product_storage, product_img01)
+value('M1 MacBook Air', 1390000, '2020-11-10', 1, 'space-gray', 'M1', '8GB', '256GB', 'MacOs', '/MacBook/m1/MacBook-air-m1-space-gray.jpeg');
 
 insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
                      product_storage, product_img01)
-value('M1 MacBook Air', 1390000, '2020-11-10', 1, 'silver', 'M1', '8GB', '256GB', 'm1.jpeg');
+value('M1 MacBook Air', 1390000, '2020-11-10', 1, 'gold', 'M1', '8GB', '256GB', '/MacBook/m1/MacBook-air-m1-gold.jpeg');
 
 insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
                      product_storage, product_img01)
-value('M1 MacBook Air', 1390000, '2020-11-10', 1, 'gold', 'M1', '8GB', '256GB', 'm1.jpeg');
-
-insert into product (product_name, product_price, product_data, product_category, product_ap, product_ram,
-                     product_storage, product_img01)
-value('M1 MacBook PRO', 1690000, '2020-11-10', 1, 'M1', '8GB', '256GB', 'm1.jpeg');
+value('M1 MacBook PRO', 1690000, '2020-11-10', 1, 'silver' , 'M1', '8GB', '256GB', '/MacBook/m1/MacBook-pro-m1-silver.jpeg');
 
 insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
                      product_storage, product_img01)
-value('M1 MacBook PRO', 1690000, '2020-11-10', 1, 'silver' , 'M1', '8GB', '256GB', 'm1.jpeg');
+value('M1 MacBook PRO', 1690000, '2020-11-10', 1, 'space-gray' , 'M1', '8GB', '256GB', '/MacBook/m1/MacBook-pro-m1-space-gray.jpeg');
+
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
+                     product_operating_system, product_storage, product_img01)
+    value('M2 MacBook Air', 1690000, '2022-07-08', 1, 'space-gray', 'M2', '8GB', '256GB', 'MacOs', '/MacBook/m2/MacBook-air-m2-space-gray.jpeg');
+
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
+                     product_operating_system, product_storage, product_img01)
+    value('M2 MacBook Air', 1690000, '2022-07-08', 1, 'mid-night', 'M2', '8GB', '256GB', 'MacOs', '/MacBook/m2/MacBook-air-m2-mid-night.jpeg');
+
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
+                     product_operating_system, product_storage, product_img01)
+    value('M2 MacBook Air', 1690000, '2022-07-08', 1, 'silver', 'M2', '8GB', '256GB', 'MacOs', '/MacBook/m2/MacBook-air-m2-silver.jpeg');
+
+
+insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
+                     product_operating_system, product_storage, product_img01)
+    value('M2 MacBook Air', 1690000, '2022-07-08', 1, 'star-light', 'M2', '8GB', '256GB', 'MacOs', '/MacBook/m2/MacBook-air-m2-star-light.jpeg');
+
 
 insert into product (product_name, product_price, product_data, product_category, product_color, product_ap, product_ram,
                      product_storage, product_img01)
-    value('M2 MacBook PRO', 1690000, '2022-07-08', 1, 'mid-night' , 'M2', '8GB', '256GB', 'm1.jpeg');
+    value('M2 MacBook PRO', 1690000, '2022-07-08', 1, 'mid-night' , 'M2', '8GB', '256GB', '/MacBook/m2/MacBook-air-m2-mid-night.jpeg');
 
 insert into product (product_name, product_price, product_data, product_category, product_color, product_ap,
                      product_ram,
                      product_storage, product_img01)
-    value ('iPhone 13 Pro', 1342000, 20211008, 3, 'sierra-blue', 'A15', 6, 128,
-           '/iPhone/13_Pro/iPhone_13_pro_sierra_blue.jpg');
+    value ('iPhone 13 Pro', 1342000, 20211008, 3, 'sierra-blue', 'A15', '6GB', '128GB',
+           '/iPhone/13/Pro/iPhone_13_pro_sierra_blue.jpg');
 
 insert into product (product_name, product_price, product_data, product_category, product_color, product_ap,
                      product_ram,
                      product_storage, product_img01)
-    value ('iPad 6세대 Pro', 1729000, 20221026, 2, 'space-gray', 'm2', 8, 128,
+    value ('iPad 6세대 Pro', 1729000, 20221026, 2, 'space-gray', 'm2', '8GB', '128GB',
            '/iPad/6/ipad_6th_12.9inch_pro_space_gray.jpeg');
-
-
-
-
 
 
 select * from product;

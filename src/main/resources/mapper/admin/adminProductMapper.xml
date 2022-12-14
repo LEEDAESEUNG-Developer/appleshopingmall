@@ -18,7 +18,6 @@
         <result column="product_img02" property="productImg02"/>
         <result column="product_img03" property="productImg03"/>
         <result column="product_img04" property="productImg04"/>
-        <result column="product_img05" property="productImg05"/>
         <result column="product_Content_img01" property="productContentImg01"/>
     </resultMap>
 

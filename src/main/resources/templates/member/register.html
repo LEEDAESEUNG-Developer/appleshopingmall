@@ -283,7 +283,7 @@ $(document).ready(function() {
     }).done((data, textStatus, jqXHR) => { // 성공
       console.log("값은 => " + data);
       if (data) {
-        $("#reg_useremail").attr("disabled", true);
+        $("#reg_useremail").attr("readonly", true);
         $("#email_check").attr("disabled", true);
         emailCheck = true;
       }

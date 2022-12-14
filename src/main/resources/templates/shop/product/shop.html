@@ -101,10 +101,11 @@
                                 <a href="/shop-single.html" th:href="@{/shop/product/{productName}/{color}(productName = ${product.productName}, color = ${product.productColor})}" class="h3 text-decoration-none" th:text="${product.productName}">Oupidatat non</a>
                                 <br>
                                 <p>색상:
-                                    <span
+                                    <span th:text="${product.productColor}"></span>
+                                    <!--<span
                                         th:each="productList:${productListAll}"
                                         th:if="${productList.productName == product.productName}"
-                                        th:text="|${productList.productColor} |"/>
+                                        th:text="|${productList.productColor} |"/>-->
                                 </p>
                                 <p class="text-center mb-0" th:text="|${#numbers.formatInteger(product.productPrice, 3, 'COMMA')}₩|">$250.00</p>
                             </div>
