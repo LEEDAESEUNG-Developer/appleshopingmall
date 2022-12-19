@@ -1,7 +1,6 @@
 package com.appleshopingmall.util;
 
-import com.appleshopingmall.admin.repository.AdminProductRepository;
-import com.appleshopingmall.admin.web.form.ProductAddForm;
+import com.appleshopingmall.repository.AdminProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,9 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-
-import static com.appleshopingmall.util.FileCharacter.stringAdditionMinus;
-import static com.appleshopingmall.util.FileCharacter.stringAdditionSlash;
 
 @Slf4j
 @Component

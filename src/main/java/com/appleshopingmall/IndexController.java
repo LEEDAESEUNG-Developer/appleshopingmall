@@ -1,8 +1,8 @@
 package com.appleshopingmall;
 
-import com.appleshopingmall.shop.cart.CartService;
-import com.appleshopingmall.shop.product.ProductEntity;
-import com.appleshopingmall.shop.product.ProductService;
+import com.appleshopingmall.service.CartService;
+import com.appleshopingmall.entity.ProductEntity;
+import com.appleshopingmall.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

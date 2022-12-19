@@ -1,7 +1,7 @@
 package com.appleshopingmall;
 
 import com.appleshopingmall.util.SessionUtil;
-import com.appleshopingmall.shop.cart.CartService;
+import com.appleshopingmall.service.CartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 

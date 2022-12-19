@@ -1,8 +1,7 @@
 package com.appleshopingmall.util;
 
-import com.appleshopingmall.shop.cart.dto.CartDto;
-import com.appleshopingmall.shop.cart.CartService;
-import com.appleshopingmall.shop.product.ProductService;
+import com.appleshopingmall.dto.CartDto;
+import com.appleshopingmall.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;

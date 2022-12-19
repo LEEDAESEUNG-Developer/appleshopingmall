@@ -1,7 +1,8 @@
 package com.appleshopingmall.paging;
 
-import com.appleshopingmall.shop.product.ProductEntity;
-import com.appleshopingmall.shop.product.ProductMapper;
+import com.appleshopingmall.controller.web.Criteria;
+import com.appleshopingmall.entity.ProductEntity;
+import com.appleshopingmall.repository.ProductMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

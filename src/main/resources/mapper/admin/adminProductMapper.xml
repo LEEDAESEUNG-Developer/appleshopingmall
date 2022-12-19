@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.appleshopingmall.admin.repository.AdminProductRepositoryMapper">
+<mapper namespace="com.appleshopingmall.repository.AdminProductRepositoryMapper">
 
-    <resultMap id="adminProductMap" type="com.appleshopingmall.admin.entity.AdminProductEntity">
+    <resultMap id="adminProductMap" type="com.appleshopingmall.entity.AdminProductEntity">
         <result column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="product_price" property="productPrice"/>
@@ -21,7 +21,7 @@
         <result column="product_Content_img01" property="productContentImg01"/>
     </resultMap>
 
-    <insert id="addProduct" parameterType="com.appleshopingmall.admin.repository.dto.ProductAddDTO">
+    <insert id="addProduct" parameterType="com.appleshopingmall.dto.AdminProductAddDTO">
         insert into product (product_name, product_price, product_data, product_category, product_color, product_ap,
                              product_ram,
                              product_operating_system, product_storage, product_img01, product_stock,

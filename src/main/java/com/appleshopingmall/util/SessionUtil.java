@@ -1,6 +1,6 @@
 package com.appleshopingmall.util;
 
-import com.appleshopingmall.member.MemberEntity;
+import com.appleshopingmall.entity.MemberEntity;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
