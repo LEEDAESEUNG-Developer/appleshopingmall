@@ -1,7 +1,6 @@
 package com.appleshopingmall.interceptor;
 
-import com.appleshopingmall.error.exception.AdminSession;
-import com.appleshopingmall.error.exception.MemberSession;
+import com.appleshopingmall.error.exception.AdminSessionException;
 import com.appleshopingmall.util.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,11 +13,11 @@ import javax.servlet.http.HttpSession;
 public class AdminSessionInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         HttpSession session = request.getSession();
 
         if(SessionUtil.getSessionUtil().hasAdminSession(session)){
-            throw new AdminSession();
+            throw new AdminSessionException();
         }
 
         return true;

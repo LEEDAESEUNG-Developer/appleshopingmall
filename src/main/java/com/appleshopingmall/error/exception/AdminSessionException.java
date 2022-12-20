@@ -1,10 +1,10 @@
 package com.appleshopingmall.error.exception;
 
-public class AdminSession extends Exception {
+public class AdminSessionException extends RuntimeException {
 
     private static final String MESSAGE = "관리자 세션이 없는 접속자";
 
-    public AdminSession() {
+    public AdminSessionException() {
         super(MESSAGE);
     }
 

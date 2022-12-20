@@ -2,7 +2,7 @@ package com.appleshopingmall.controller.web;
 
 import com.appleshopingmall.SideBar;
 import com.appleshopingmall.controller.web.cartForm.CartForm;
-import com.appleshopingmall.error.exception.ProductStockError;
+import com.appleshopingmall.error.exception.ProductStockErrorException;
 import com.appleshopingmall.entity.CartEntity;
 import com.appleshopingmall.service.CartService;
 import com.appleshopingmall.dto.CartAddDto;
@@ -61,7 +61,7 @@ public class CartController {
      * 1. 세션의 값을 가지고 카트에 담기
      * */
     @PostMapping("add/{productName}/{productColor}")
-    public String addCart(@PathVariable String productName, @PathVariable String productColor, CartForm form, HttpSession httpSession, RedirectAttributes redirectAttributes) throws ProductStockError {
+    public String addCart(@PathVariable String productName, @PathVariable String productColor, CartForm form, HttpSession httpSession, RedirectAttributes redirectAttributes) throws ProductStockErrorException {
 
         if(!SessionUtil.getSessionUtil().hasSession(httpSession)) return "redirect:/member/login";
 

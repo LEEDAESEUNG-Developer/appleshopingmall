@@ -1,6 +1,6 @@
 package com.appleshopingmall.error.exception;
 
-public class EmailException extends Exception{
+public class EmailException extends RuntimeException{
 
     private static final String MESSAGE = "이메일 주소가 아닙니다.";
 

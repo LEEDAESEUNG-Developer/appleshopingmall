@@ -12,20 +12,20 @@ public class ControllerInterceptor implements HandlerInterceptor {
 
     // 컨트롤러 호출 전
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("handler => {}", handler);
         return true;
     }
 
     // 컨트롤러 호출 후
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         log.info("modelAndView => {}", modelAndView);
     }
 
     // 요청 완료 후
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         log.info("ex => {}", ex.getClass().getName());
     }
 }

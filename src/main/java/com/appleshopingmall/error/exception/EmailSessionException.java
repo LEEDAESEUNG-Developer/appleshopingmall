@@ -1,10 +1,10 @@
 package com.appleshopingmall.error.exception;
 
-public class EmailSessionExcepiton extends Exception {
+public class EmailSessionException extends RuntimeException {
 
     private static final String MESSAGE = "이메일을 다시 입력해주세요.";
 
-    public EmailSessionExcepiton() {
+    public EmailSessionException() {
         super(MESSAGE);
     }
 

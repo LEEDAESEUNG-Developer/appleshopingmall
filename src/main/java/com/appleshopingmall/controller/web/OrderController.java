@@ -1,7 +1,8 @@
 package com.appleshopingmall.controller.web;
 
 import com.appleshopingmall.controller.web.orderForm.OrderAddForm;
-import com.appleshopingmall.error.exception.ProductStockError;
+import com.appleshopingmall.error.exception.OrderException;
+import com.appleshopingmall.error.exception.ProductStockErrorException;
 import com.appleshopingmall.entity.OrderEntity;
 import com.appleshopingmall.entity.OrderNumberEntity;
 import com.appleshopingmall.SideBar;
@@ -37,7 +38,7 @@ public class OrderController {
 
     // Get 메소드 상품 결제 전 화면
     @GetMapping("/payment")
-    public String paymentForm(HttpSession httpSession, Model model, RedirectAttributes redirectAttributes) throws ProductStockError {
+    public String paymentForm(HttpSession httpSession, Model model, RedirectAttributes redirectAttributes) throws ProductStockErrorException {
 
         // 세션 검사
         boolean session = SessionUtil.getSessionUtil().hasSession(httpSession);
@@ -105,13 +106,13 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/delete")
-    public String orderDelete(@PathVariable int orderId, @SessionAttribute(SessionUtil.MEMBER_ID) Long memberId, RedirectAttributes redirectAttributes) throws Exception {
+    public String orderDelete(@PathVariable int orderId, @SessionAttribute(SessionUtil.MEMBER_ID) Long memberId, RedirectAttributes redirectAttributes) {
 
         log.debug("orderDelete 메소드");
 
         int orderCancelResult = orderService.updateOrderCancel(orderId, memberId);
         if(orderCancelResult == 0){
-            throw new Exception("세션 또는 주문 일치 하지 않음.");
+            throw new OrderException();
         }
 
         redirectAttributes.addAttribute("orderId", orderId);

@@ -1,10 +1,10 @@
 package com.appleshopingmall.error.exception;
 
-public class ProductStockError extends Exception {
+public class MemberSessionException extends RuntimeException {
 
-    private static final String MESSAGE = "현재 상품이 매진 되었습니다.";
+    private static final String MESSAGE = "비 로그인자 접속";
 
-    public ProductStockError(){
+    public MemberSessionException() {
         super(MESSAGE);
     }
 
