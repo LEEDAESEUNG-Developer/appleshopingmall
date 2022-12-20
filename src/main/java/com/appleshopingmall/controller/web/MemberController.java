@@ -37,9 +37,13 @@ public class MemberController {
      * 회원 가입
      * @return /member/login 이동
      */
-    @GetMapping("register")
+    /*@GetMapping("register")
     public String registerForm(Model model){
         model.addAttribute("form", new MemberAddForm());
+        return "/member/register";
+    }*/
+    @GetMapping("register")
+    public String registerForm(@ModelAttribute("form") MemberAddForm form){
         return "/member/register";
     }
 
@@ -79,19 +83,16 @@ public class MemberController {
      * @return 세션 없을시 /member/login, 있을시 메인 이동
      */
     @GetMapping("/login")
-    public String loginForm(HttpSession session, Model model, HttpServletRequest request) {
+    public String loginForm(HttpSession session, @ModelAttribute("loginForm") MemberLoginForm memberLoginForm, HttpServletRequest request) {
 
         // 세션이 없는 경우 /member/login 이동
         if (!SessionUtil.getSessionUtil().hasSession(session)){
-
-            MemberLoginForm memberLoginForm = new MemberLoginForm();
 
             // 쿠키 저장된 아이디 가져오기
             Cookie id = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("id")).findFirst().orElse(new Cookie("id", ""));
 
             memberLoginForm.setEmail(id.getValue());
 
-            model.addAttribute("loginForm", memberLoginForm);
             return "/member/login";
         }
 
@@ -141,7 +142,6 @@ public class MemberController {
     @PostMapping("/change")
     public String memberChange(HttpSession httpSession, @Validated @ModelAttribute("form") MemberUpdateForm form, BindingResult bindingResult) {
 
-
         if(bindingResult.hasErrors()) return "/member/member";
 
         Long memberId = SessionUtil.getSessionUtil().getMemberId(httpSession);
@@ -188,8 +188,7 @@ public class MemberController {
     }
 
     @GetMapping("password-reset")
-    public String passwordResetConfirmForm(Model model){
-        model.addAttribute("form", new PasswordReset());
+    public String passwordResetConfirmForm(@ModelAttribute("form") PasswordReset passwordReset){
         return "member/password-reset-email";
     }
 
@@ -219,11 +218,9 @@ public class MemberController {
     }
 
     @GetMapping("password-reset/{email}")
-    public String passwordResetForm(@PathVariable String email, @SessionAttribute(value = "email") String sessionEmail, Model model){
+    public String passwordResetForm(@PathVariable String email, @SessionAttribute(value = "email") String sessionEmail, @ModelAttribute("form") MemberPasswordResetForm memberPasswordResetForm){
         log.debug("email => {}", email);
         log.debug("sessionEmail => {}", sessionEmail);
-
-        model.addAttribute("form", new MemberPasswordResetForm());
 
         return "/member/password_reset";
     }
